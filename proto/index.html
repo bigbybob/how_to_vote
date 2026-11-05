@@ -64,7 +64,11 @@
   /* Sheet */
   .links { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; font-size: 14px; }
   .links a { color: var(--accent); text-decoration: none; }
-  .objet { font-size: 14px; color: var(--muted); }
+  .objet { font-size: 13px; color: var(--muted); margin-top: 10px; }
+  .resume { margin: 0 0 6px; }
+  ul.mesures { margin: 0; padding-left: 18px; font-size: 14px; }
+  ul.mesures li { margin-bottom: 4px; }
+  .src { font-size: 11px; color: var(--muted); margin-top: 6px; }
   .row { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; font-size: 14px; }
 
   /* Bilan */
@@ -117,6 +121,7 @@
     <div class="box" style="flex:1;display:flex;flex-direction:column;margin-bottom:12px">
       <div><span class="tag vote">🏛️ Scrutin public</span><span class="tag" id="v-axis"></span></div>
       <div class="law" id="v-title"></div>
+      <div id="v-resume"></div>
       <div class="objet" id="v-objet"></div>
       <div class="links" id="v-links"></div>
       <div class="why" id="v-why"></div>
@@ -354,6 +359,11 @@ function nextVote() {
   $("v-axis").textContent = AXES[current.s.ax].label;
   $("v-title").textContent = current.s.title;
   const s = current.s;
+  $("v-resume").innerHTML = s.resume ? `
+    <p class="resume">${s.resume}</p>
+    <details><summary class="linkbtn" style="cursor:pointer;font-size:14px">Voir le détail des ${s.mesures.length} mesures</summary>
+      <ul class="mesures" style="margin-top:6px">${s.mesures.map(m => `<li>${m}</li>`).join("")}</ul></details>
+    <p class="src">Résumé rédigé à partir du texte officiel (${s.version}), à relire. Le texte final peut différer s'il a été modifié en séance.</p>` : "";
   $("v-objet").textContent = `${s.objet} · ${new Date(s.date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}`;
   // Pas de résumé : l'open data n'en fournit pas de neutre. On renvoie vers le texte officiel complet.
   $("v-links").innerHTML = [

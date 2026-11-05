@@ -9,8 +9,8 @@ Sortie :
     proto/data.js        window.DATA = {...}, chargé par proto/index.html
                          (un .js plutôt qu'un .json : le proto est ouvert en file://, où fetch() est bloqué)
 
-Tout le contenu affiché vient des sources officielles : titre du dossier législatif, objet du vote,
-lien vers le texte complet. L'open data ne contient pas de résumé neutre des textes : on n'en affiche pas.
+Le titre, l'objet du vote et les liens viennent des sources officielles. L'open data ne contient pas de
+résumé : ceux de selection.json sont rédigés à partir du texte officiel (voir fetch_textes.py), sans arguments.
 
 Usage :
     python data/fetch_scrutins.py   # si data/raw/ est vide ou incomplet
@@ -148,6 +148,10 @@ def main() -> None:
                 "dir": sel["dir"],
                 "title": dossier["titre"] if dossier else libelle[0].upper() + libelle[1:],
                 "objet": "Vote sur " + libelle,
+                # résumé factuel rédigé à partir du texte officiel (data/raw/textes/), relu à la main
+                "resume": sel.get("resume"),
+                "mesures": sel.get("mesures", []),
+                "version": sel.get("version"),
                 "result": f"{'Adopté' if adopte else 'Rejeté'} ({dec['pour']} pour, {dec['contre']} contre, {dec['abstentions']} abstentions)",
                 "url": f"{AN}/dyn/17/scrutins/{sel['numero']}",
                 "dossierUrl": f"{AN}/dyn/17/dossiers/{dossier['chemin']}" if dossier else None,

@@ -44,7 +44,16 @@ Les groupes sont ceux du moment du vote. Le code `PO847173` (groupe UDR d'octobr
   - un **lien vers le texte complet** (`/dyn/opendata/{id}.html`) : le dernier texte de l'Assemblée déposé avant le vote, c'est-à-dire le texte de la commission, le texte adopté ou le texte déposé ;
   - un lien vers le **dossier législatif**.
 
-  L'open data ne fournit **pas de résumé neutre**. Le seul texte explicatif est l'exposé des motifs, rédigé par les auteurs, donc partisan. On n'affiche donc ni résumé, ni arguments, ni avis d'associations.
+  L'open data ne fournit **pas de résumé**. Le seul texte explicatif est l'exposé des motifs, rédigé par les auteurs, donc partisan.
+
+  Les champs `resume`, `mesures` et `version` de `selection.json` sont donc rédigés à partir du **dispositif** du texte officiel (ses articles), en suivant ces règles :
+  - langage courant ;
+  - faits uniquement : qui est concerné, quoi, seuils, dates ;
+  - aucun adjectif évaluatif, aucun argument.
+
+  `python data/fetch_textes.py` télécharge les textes dans `data/raw/textes/` pour les rédiger et les vérifier. Pas d'arguments pour ou contre, pas d'avis d'associations.
+
+  Les textes « fourre-tout » sont écartés, parce qu'on ne peut pas les résumer en une position : simplification de la vie économique, adaptation au droit européen, parties du budget.
 
   Le dossier est trouvé grâce aux références de vote contenues dans les dossiers. À défaut, il est trouvé par correspondance du titre.
 

@@ -2,94 +2,206 @@
   "_note": "Choix éditorial : quels scrutins, sur quel axe, et dans quel sens (dir = +1 si voter POUR pousse vers le pôle « pos » de l'axe). Le libellé n'est là que pour s'y retrouver ; tout ce qui est affiché vient des sources officielles.",
   "scrutins": [
     {
-      "numero": 438,
+      "numero": 4745,
       "axe": "eco",
       "dir": -1,
-      "libelle": "Budget 2025 : les recettes modifiées par l'Assemblée"
+      "libelle": "Rapports locatifs",
+      "version": "texte de la commission des affaires économiques, première lecture (n° 2197, 3 décembre 2025)",
+      "resume": "Le texte rend permanent l'encadrement des loyers (plafond de loyer fixé par rapport à un loyer de référence), qui était jusqu'ici une expérimentation limitée dans le temps, et permet à davantage de communes de l'appliquer. Il limite les suppléments de loyer, double les amendes pour les propriétaires qui ne respectent pas les règles et permet à un ancien locataire de vérifier qu'un congé pour vente ou reprise était réel.",
+      "mesures": [
+        "L'encadrement des loyers n'est plus une expérimentation de huit ans : il peut être mis en place durablement, sur tout ou partie de leur territoire, par les intercommunalités ou métropoles, et aussi par les communes elles-mêmes, dans les zones où le logement est rare ou là où l'offre de logements ne suffit pas à la demande.",
+        "Le « complément de loyer » (supplément au-dessus du plafond pour un logement aux caractéristiques particulières) ne peut pas dépasser 20 % du loyer de référence majoré, doit figurer dans les annonces, et le locataire n'est plus limité à trois mois après la signature du bail pour le contester.",
+        "Aucun complément de loyer ne peut être réclamé pour un logement de 14 m² ou moins, ou avec un vis-à-vis dans la pièce principale.",
+        "Les amendes pour non-respect de l'encadrement passent de 5 000 € à 10 000 € et de 15 000 € à 30 000 €, et leur montant est versé à la commune ou à l'intercommunalité à qui le préfet a délégué ce contrôle ; un locataire peut demander une baisse de loyer jusqu'à un an après la fin de son bail.",
+        "Entre trois et six mois après avoir quitté le logement, un ancien locataire qui a reçu un congé pour vente ou pour reprise peut demander au propriétaire des preuves de la vente ou de la reprise ; sans réponse sous trente jours, il peut saisir le juge."
+      ]
     },
     {
       "numero": 881,
       "axe": "eco",
       "dir": -1,
-      "libelle": "Impôt plancher de 2 % sur les ultra-riches"
+      "libelle": "Impôt plancher de 2 % sur les ultra-riches",
+      "version": "texte de la commission des finances, de l'économie générale et du contrôle budgétaire, première lecture (n° 930, 12 février 2025)",
+      "resume": "Le texte crée un « impôt plancher sur la fortune » pour les foyers dont le patrimoine dépasse 100 millions d'euros : ils devront payer au total au moins 2 % de leur patrimoine net par an en impôts. S'ils paient déjà moins que ce montant en autres impôts, ils versent la différence.",
+      "mesures": [
+        "Sont concernés les foyers (couples mariés ou pacsés, concubins, enfants mineurs) dont les biens dépassent 100 millions d'euros au 1er janvier : sur leurs biens dans le monde entier s'ils vivent fiscalement en France, ou seulement sur leurs biens en France s'ils n'y vivent pas ou s'ils y sont arrivés depuis moins de cinq ans.",
+        "L'impôt dû est égal à 2 % du patrimoine net imposable, moins les impôts déjà payés dans l'année (impôt sur le revenu, impôt sur la fortune immobilière, CSG, CRDS et contribution sur les hauts revenus) ; si le résultat est négatif, rien n'est dû.",
+        "Tous les biens sont comptés selon les règles des droits de succession, sans les exonérations prévues pour les successions, y compris l'assurance vie, les biens placés en fiducie ou dans un trust ; la résidence principale bénéficie d'une réduction de valeur d'un million d'euros.",
+        "Les redevables déclarent leur patrimoine et paient au plus tard le 23 septembre de chaque année ; en cas de difficulté de paiement, ils peuvent demander à étaler le paiement sur cinq ans au plus.",
+        "La loi entre en vigueur le 1er janvier 2026."
+      ]
     },
     {
       "numero": 7380,
       "axe": "eco",
       "dir": -1,
-      "libelle": "Nationaliser ArcelorMittal France"
-    },
-    {
-      "numero": 6184,
-      "axe": "eco",
-      "dir": 1,
-      "libelle": "Simplification de la vie économique"
+      "libelle": "Nationaliser ArcelorMittal France",
+      "version": "texte de la commission des finances, deuxième lecture",
+      "resume": "L'État rachète l'entreprise ArcelorMittal France (production d'acier), qui devient une entreprise publique.",
+      "mesures": [
+        "ArcelorMittal France est nationalisée : l'État en devient propriétaire.",
+        "Le prix de rachat est fixé par une commission de six membres issus d'institutions publiques (Cour des comptes, Banque de France, Conseil d'État, Cour de cassation, Commission des participations et des transferts, Conseil économique, social et environnemental).",
+        "Ce prix ne peut pas dépasser la valeur moyenne des actions de l'entreprise entre le 1er octobre 2024 et le 30 septembre 2025.",
+        "Pour compenser le coût pour l'État, le texte prévoit une taxe supplémentaire sur le tabac (mécanisme de financement habituel des propositions de loi)."
+      ]
     },
     {
       "numero": 8280,
       "axe": "soc",
       "dir": -1,
-      "libelle": "Droit à l'aide à mourir"
+      "libelle": "Droit à l'aide à mourir",
+      "version": "texte adopté par l'Assemblée nationale en nouvelle lecture (« petite loi », texte adopté n° 323, 30 juin 2026)",
+      "resume": "Le texte crée un droit à l'aide à mourir : un adulte atteint d'une maladie grave et incurable en phase avancée ou terminale, qui souffre et peut exprimer clairement sa volonté, pourra obtenir une substance mortelle et la prendre lui-même, ou se la faire administrer par un médecin ou un infirmier s'il ne peut pas physiquement. La demande est examinée par un médecin après avis d'une équipe de soignants.",
+      "mesures": [
+        "Pour y accéder, il faut avoir au moins 18 ans, être Français ou résider de façon stable et régulière en France, avoir une maladie grave et incurable qui menace la vie, en phase avancée ou terminale, une souffrance qui ne cède pas aux traitements ou jugée insupportable, et être capable d'exprimer une volonté libre et éclairée ; une souffrance uniquement psychologique ne suffit pas.",
+        "La demande est faite en personne à un médecin (pas en téléconsultation), qui consulte au moins un médecin spécialiste de la maladie et un soignant, puis rend une décision écrite et motivée dans les 15 jours ; la personne doit ensuite attendre au moins deux jours avant de confirmer.",
+        "La personne choisit la date et le lieu (domicile, hôpital, établissement médico-social…), peut renoncer à tout moment, et la procédure est arrêtée si des pressions sont constatées ; seule la personne (ou son tuteur ou curateur, dans un délai de deux jours) peut contester la décision devant le juge administratif.",
+        "Les médecins et infirmiers ne sont pas obligés d'y participer (clause de conscience) mais doivent indiquer des confrères qui acceptent, et les établissements de santé et médico-sociaux doivent laisser intervenir ces professionnels.",
+        "Les frais sont pris en charge à 100 % par l'Assurance maladie sans dépassement d'honoraires, l'assurance décès couvre ce décès, et une commission rattachée au ministre de la Santé contrôle chaque procédure après coup."
+      ]
     },
     {
       "numero": 7987,
       "axe": "soc",
       "dir": 1,
-      "libelle": "Présomption de légitime défense pour les forces de l'ordre"
+      "libelle": "Présomption de légitime défense pour les forces de l'ordre",
+      "version": "proposition de loi déposée (texte initial), n° 691, enregistrée le 3 décembre 2024, renvoyée à la commission des lois",
+      "resume": "Le texte prévoit qu'un policier national ou municipal ou un gendarme qui a utilisé son arme dans le cadre fixé par le code de la sécurité intérieure est considéré d'office comme ayant agi en légitime défense. C'est à l'enquête judiciaire de démontrer le contraire.",
+      "mesures": [
+        "Les policiers nationaux, les policiers municipaux et les gendarmes qui ont fait usage de leur arme dans les conditions prévues par le code de la sécurité intérieure (articles L. 435-1 et L. 511-5-1) sont présumés avoir agi en légitime défense (ils n'ont pas à prouver eux-mêmes qu'ils étaient en légitime défense).",
+        "Cette présomption tombe si l'enquête judiciaire montre que l'usage de l'arme était manifestement disproportionné ou contraire au principe de nécessité absolue prévu par la loi.",
+        "La règle est ajoutée au code pénal, dans un nouvel article 122-6-1."
+      ]
     },
     {
       "numero": 1624,
       "axe": "soc",
       "dir": 1,
-      "libelle": "Justice des mineurs plus ferme"
+      "libelle": "Justice des mineurs plus ferme",
+      "version": "texte élaboré par la commission mixte paritaire (Assemblée nationale n° 1367, Sénat n° 573, 6 mai 2025)",
+      "resume": "Le texte augmente les sanctions et les obligations des parents de mineurs délinquants et durcit la procédure pénale pour les mineurs : jugement immédiat possible dès 16 ans, réduction de peine liée à l'âge plus facile à écarter, et mesures de contrôle renforcées pour le terrorisme et la criminalité organisée.",
+      "mesures": [
+        "Un parent qui se soustrait à ses obligations légales envers son enfant encourt 3 ans de prison et 45 000 € d'amende quand cela a directement conduit l'enfant à commettre au moins un crime ou plusieurs délits ayant donné lieu à une condamnation définitive.",
+        "Les parents doivent se rendre aux convocations du juge des enfants, sous peine d'amende civile, et sont responsables de plein droit des dommages causés par leur enfant mineur même s'il ne vit pas avec eux (sauf s'il a été confié à un tiers par décision) ; l'assureur peut demander jusqu'à 7 500 € au parent condamné.",
+        "Un mineur d'au moins 16 ans déjà suivi par la justice depuis moins d'un an et qui risque au moins 3 ans de prison peut être jugé en une seule audience le jour même ou sous cinq jours ouvrables, s'il l'accepte, avec possibilité de détention provisoire en attendant.",
+        "L'atténuation de peine liée à l'âge (« excuse de minorité ») n'est plus réservée à titre exceptionnel pour être écartée, et elle ne s'applique plus, sauf décision motivée du tribunal, aux plus de 16 ans en récidive pour un crime ou un délit puni d'au moins 5 ans de prison.",
+        "Le juge ou le procureur peut interdire à un mineur de sortir sur la voie publique sans un parent pendant six mois au plus, et pour le terrorisme ou la criminalité en bande organisée, un mineur dès 13 ans peut être placé sous bracelet électronique et la détention provisoire peut être plus longue."
+      ]
     },
     {
       "numero": 2958,
       "axe": "soc",
       "dir": 1,
-      "libelle": "Rétention prolongée des étrangers condamnés"
+      "libelle": "Rétention prolongée des étrangers condamnés",
+      "version": "texte de la commission des lois de l'Assemblée nationale (n° 1640), première lecture, après adoption par le Sénat",
+      "resume": "Le texte permet de garder jusqu'à 210 jours en centre de rétention (lieu fermé où un étranger attend son renvoi du pays) des étrangers condamnés pour certains crimes ou délits graves, ou jugés très menaçants pour l'ordre public. Ce régime était jusqu'ici réservé aux faits liés au terrorisme.",
+      "mesures": [
+        "La rétention prolongée, prévue jusqu'ici pour les étrangers liés au terrorisme, est étendue aux étrangers interdits du territoire français, à ceux visés par une mesure d'éloignement et définitivement condamnés pour une liste d'infractions (meurtre, viol et agressions sexuelles, violences, trafic de stupéfiants, proxénétisme, vol avec violences, enlèvement, traite des êtres humains, association de malfaiteurs…) et à ceux dont le comportement est une menace d'une particulière gravité pour l'ordre public.",
+        "Pour ces personnes, un juge peut, à titre exceptionnel, prolonger la rétention de 30 jours supplémentaires au-delà de la durée maximale déjà prévue, sans dépasser 210 jours au total ; dans le cas général, la rétention ne peut pas dépasser 90 jours.",
+        "Si un étranger placé en rétention refuse de donner ses empreintes digitales et d'être photographié, la police peut le faire sans son accord, sur autorisation du procureur et en présence de son avocat, quand c'est le seul moyen de l'identifier avec certitude.",
+        "Un étranger resté plus de 90 jours en rétention sans avoir pu être renvoyé peut, s'il présente un risque particulier de trouble à l'ordre public, être obligé par un juge à porter un bracelet électronique pendant 3 mois, renouvelable une fois.",
+        "Un demandeur d'asile sans titre de séjour valable peut être placé en rétention si l'assignation à résidence (obligation de rester à une adresse) est jugée insuffisante, après un examen au cas par cas."
+      ]
     },
     {
       "numero": 1308,
       "axe": "soc",
       "dir": 1,
-      "libelle": "Droit du sol restreint à Mayotte"
+      "libelle": "Droit du sol restreint à Mayotte",
+      "version": "texte de la commission mixte paritaire (Assemblée et Sénat)",
+      "resume": "À Mayotte, un enfant né sur place ne pourra devenir français par le droit du sol que si ses deux parents y résidaient régulièrement depuis au moins un an à sa naissance, au lieu d'un seul parent depuis trois mois.",
+      "mesures": [
+        "Les deux parents, et non plus un seul, doivent résider régulièrement à Mayotte au moment de la naissance.",
+        "La durée de résidence exigée passe de trois mois à un an.",
+        "Si l'enfant n'a qu'un seul parent reconnu, la condition ne s'applique qu'à ce parent.",
+        "La résidence se prouve par un titre de séjour accompagné d'un passeport biométrique valide."
+      ]
     },
     {
       "numero": 3260,
       "axe": "soc",
       "dir": 1,
-      "libelle": "Dénoncer l'accord franco-algérien de 1968"
+      "libelle": "Dénoncer l'accord franco-algérien de 1968",
+      "version": "proposition de résolution déposée (texte initial, n° 1778, enregistrée le 9 septembre 2025)",
+      "resume": "Cette résolution n'a pas de valeur contraignante : elle exprime la position de l'Assemblée nationale et appelle les autorités compétentes à dénoncer, c'est-à-dire à mettre fin, à l'accord franco-algérien du 27 décembre 1968, qui fixe des règles particulières pour l'entrée et le séjour des Algériens en France.",
+      "mesures": [
+        "Elle demande aux autorités compétentes de dénoncer (mettre fin à) l'accord franco-algérien du 27 décembre 1968.",
+        "Cet accord fixe pour les ressortissants algériens des règles d'entrée et de séjour en France propres à eux, distinctes du droit commun des étrangers.",
+        "La résolution ne précise pas quelles règles s'appliqueraient ensuite, ni dans quel délai."
+      ]
     },
     {
       "numero": 2957,
       "axe": "env",
       "dir": 1,
-      "libelle": "Lever les contraintes sur le métier d'agriculteur"
+      "libelle": "Lever les contraintes sur le métier d'agriculteur",
+      "version": "texte élaboré par la commission mixte paritaire (n° 1652 rect. à l'Assemblée nationale, n° 800 rect. au Sénat)",
+      "resume": "Le texte modifie plusieurs règles qui encadrent le travail des agriculteurs : il permet au gouvernement d'autoriser exceptionnellement, par décret, l'usage de certains insecticides interdits, change l'organisation du conseil sur l'usage des pesticides, allège la consultation du public pour certains projets d'élevage et facilite les projets de stockage d'eau à usage agricole. Il équipe aussi les inspecteurs de l'environnement de caméras portées sur eux et augmente certaines amendes.",
+      "mesures": [
+        "Un décret peut, à titre exceptionnel et pour un usage précis, autoriser des produits interdits de la famille des néonicotinoïdes (une famille d'insecticides) et les semences traitées avec eux, en cas de menace grave pour la production agricole, sans alternative suffisante et avec un plan de recherche ; un conseil de surveillance rend un avis public après 3 ans puis chaque année, et le décret est abrogé si une condition n'est plus remplie.",
+        "Le conseil aux agriculteurs sur l'usage des pesticides ne peut plus être donné par les fabricants de ces produits (sauf produits de biocontrôle, à faible risque ou autorisés en bio), doit être écrit et facturé à part, et le conseil stratégique sur ces produits devient facultatif (« peut être délivré »).",
+        "Pour les projets d'élevage de bovins, de porcs ou de volailles, les réunions publiques d'ouverture et de clôture de la consultation du public sont remplacées par des permanences (sauf si le porteur du projet demande une réunion), et les seuils de taille à partir desquels ces élevages sont soumis à des règles environnementales peuvent être relevés.",
+        "Les réserves d'eau et les prélèvements d'eau à usage principalement agricole sont présumés d'intérêt général majeur dans les zones manquant durablement d'eau, s'ils résultent d'une concertation locale sur le partage de l'eau et s'accompagnent de pratiques économes en eau.",
+        "Les inspecteurs de l'environnement peuvent filmer leurs interventions avec des caméras portées sur eux (enregistrements effacés après 30 jours sauf procédure), et deux plafonds d'amendes passent de 15 000 € à 50 000 € (règles sur les pesticides) et de 15 000 € à 150 000 € (protection des végétaux)."
+      ]
     },
     {
       "numero": 852,
       "axe": "env",
       "dir": -1,
-      "libelle": "Protéger la population des PFAS"
+      "libelle": "Protéger la population des PFAS",
+      "version": "texte de la commission du développement durable et de l'aménagement du territoire (n° 929), deuxième lecture",
+      "resume": "Le texte interdit progressivement la fabrication et la vente de produits contenant des PFAS (substances chimiques per- et polyfluoroalkylées) : cosmétiques, farts et vêtements grand public dès 2026, puis la plupart des textiles en 2030. Il crée aussi une taxe sur les rejets industriels de PFAS dans l'eau et renforce le contrôle et l'information sur leur présence dans l'eau potable.",
+      "mesures": [
+        "À partir du 1er janvier 2026, il est interdit de fabriquer, importer, exporter, vendre ou donner des cosmétiques, des farts (produits de glisse pour skis) et des vêtements, chaussures et produits imperméabilisants destinés aux consommateurs qui contiennent des PFAS, sauf les vêtements et chaussures de protection et de sécurité (par exemple pour la défense ou la sécurité civile).",
+        "À partir du 1er janvier 2030, l'interdiction s'étend à tous les textiles contenant des PFAS, sauf les usages essentiels, les textiles liés à la souveraineté nationale sans solution de remplacement et les textiles techniques industriels (liste fixée par décret) ; les produits contenant des PFAS sous un seuil très faible fixé par décret ne sont pas concernés.",
+        "Les installations industrielles soumises à autorisation qui rejettent des PFAS dans l'eau paient une redevance (taxe) de 100 € par tranche de 100 grammes rejetés par an, à partir de 100 grammes.",
+        "La France doit fixer par décret une trajectoire de baisse des rejets de PFAS dans l'eau par les industries, avec l'objectif de tendre vers la fin de ces rejets dans les 5 ans suivant la loi.",
+        "L'eau du robinet doit être contrôlée pour les PFAS, une carte publique des sites qui émettent ou ont émis des PFAS est mise à jour au moins chaque année, les analyses sont rendues publiques par les agences régionales de santé et le gouvernement doit présenter sous un an un plan de financement de la dépollution de l'eau potable."
+      ]
     },
     {
       "numero": 7303,
       "axe": "env",
       "dir": -1,
-      "libelle": "Contamination de l'alimentation au cadmium"
+      "libelle": "Contamination de l'alimentation au cadmium",
+      "version": "texte de la commission des affaires économiques, première lecture",
+      "resume": "Les engrais phosphatés trop chargés en cadmium, un métal toxique qui passe dans les aliments, sont interdits en France, avec un seuil abaissé en 2030.",
+      "mesures": [
+        "À partir du 1er janvier 2027 : interdiction d'importer, vendre, distribuer ou utiliser des engrais phosphatés contenant plus de 40 mg de cadmium par kg de phosphate.",
+        "À partir du 1er janvier 2030 : ce seuil passe à 20 mg par kg.",
+        "Les modalités d'application sont fixées par décret."
+      ]
     },
     {
       "numero": 988,
       "axe": "eur",
       "dir": -1,
-      "libelle": "Renforcer le soutien européen à l'Ukraine"
+      "libelle": "Renforcer le soutien européen à l'Ukraine",
+      "version": "texte de la commission des affaires étrangères (n° 1001) — proposition de résolution européenne",
+      "resume": "Cette résolution européenne n'a pas de valeur contraignante : elle exprime la position de l'Assemblée nationale sur la guerre en Ukraine, condamne l'action de la Russie et invite le gouvernement, l'Union européenne et les pays alliés à renforcer leur soutien politique, économique et militaire à l'Ukraine et les sanctions contre la Russie.",
+      "mesures": [
+        "Elle condamne la guerre menée par la Russie contre l'Ukraine depuis le 24 février 2022, l'annexion de la Crimée et de quatre régions ukrainiennes, les crimes de guerre, les attaques contre les civils et les transferts d'enfants ukrainiens vers la Russie, et demande à la Russie d'arrêter les combats et de retirer ses troupes.",
+        "Elle invite l'Union européenne, ses États membres et l'OTAN à augmenter leur aide à l'Ukraine : fourniture de systèmes de défense aérienne, production d'armes et de munitions, formation de soldats ukrainiens, aide à la réparation des installations énergétiques, et accélération de l'adhésion de l'Ukraine à l'Union européenne dans le respect des critères existants.",
+        "Elle demande de renforcer les sanctions contre la Russie, d'arrêter au plus vite les importations d'énergies fossiles russes et d'utiliser les avoirs russes gelés en Europe, et leurs intérêts, pour l'Ukraine et sa reconstruction.",
+        "Elle demande que l'Union européenne participe à toute négociation sur l'avenir de l'Ukraine, que l'Ukraine reçoive des garanties de sécurité sans attendre une éventuelle entrée dans l'OTAN, et que la France prenne l'initiative d'une conférence internationale pour la paix sous l'égide de l'ONU.",
+        "Elle appelle à exécuter les mandats d'arrêt de la Cour pénale internationale contre Vladimir Poutine et Maria Lvova-Belova, et invite l'Union européenne et la France à accueillir et protéger les Russes persécutés pour leur opposition à la guerre (déserteurs, journalistes, militants…)."
+      ]
     },
     {
-      "numero": 1203,
+      "numero": 8611,
       "axe": "eur",
-      "dir": -1,
-      "libelle": "Adapter le droit français au droit européen"
+      "dir": 1,
+      "libelle": "Schengen : double frontière nationale et européenne",
+      "version": "proposition de résolution déposée (texte initial, n° 3119, enregistrée le 10 septembre 2026)",
+      "resume": "Cette résolution n'a pas de valeur contraignante : elle invite le gouvernement à défendre, au sein de l'Union européenne, une modification des règles de l'espace Schengen (zone européenne où l'on passe les frontières entre pays sans contrôle) pour que les personnes qui ne sont pas citoyennes de l'Union puissent être contrôlées quand elles passent d'un pays européen à un autre.",
+      "mesures": [
+        "Elle invite le gouvernement à soutenir, au Conseil de l'Union européenne, une révision du code frontières Schengen (le règlement européen qui fixe les règles de passage des frontières).",
+        "Cette révision doit reposer sur une « double frontière » : une frontière extérieure de l'Union tenue avec plus de moyens, et une frontière nationale dont chaque pays reste le premier responsable.",
+        "Elle souhaite que les ressortissants de pays hors Union européenne soient vérifiés lorsqu'ils passent les frontières entre pays de l'espace Schengen, notamment au moyen d'une déclaration d'entrée sur le territoire.",
+        "Elle affirme que cette demande ne remet pas en cause le droit des citoyens de l'Union européenne de circuler et de s'installer librement dans les autres pays de l'Union.",
+        "Elle affirme que chaque pays décide seul de sa politique migratoire et que les autres pays ne doivent pas en supporter les conséquences sans y avoir consenti."
+      ]
     }
   ]
 }
