@@ -113,6 +113,7 @@
     <div class="box"><b>Partis proches de vos convictions</b><div id="trend-top" style="margin-top:8px"></div></div>
     <p class="muted small">Ce n'est qu'une hypothèse. On va la confronter à des textes votés à l'Assemblée : la moitié départage les partis ci-dessus en tête (🎯), l'autre moitié est choisie sans tenir compte de vos réponses (🧭), pour que tous les partis gardent leur chance.</p>
     <button class="btn" style="margin-top:auto" onclick="startVotes()">Voter comme un député →</button>
+    <button class="linkbtn" style="margin-top:8px" onclick="lifeIdx = STATEMENTS.length - 1; setProg(lifeIdx); show('s-life'); renderLife()">← Modifier mes réponses</button>
   </section>
 
   <!-- Étape 2 -->
@@ -127,11 +128,12 @@
       <div class="why" id="v-why"></div>
     </div>
     <div class="votebar">
-      <button class="btn pour" onclick="vote('pour')">Pour</button>
-      <button class="btn abst" onclick="vote('abst')">Abstention</button>
-      <button class="btn contre" onclick="vote('contre')">Contre</button>
+      <button class="btn pour" data-v="pour" onclick="vote('pour')">Pour</button>
+      <button class="btn abst" data-v="abst" onclick="vote('abst')">Abstention</button>
+      <button class="btn contre" data-v="contre" onclick="vote('contre')">Contre</button>
     </div>
-    <button class="linkbtn muted" style="text-align:center;margin-top:8px" onclick="vote(null)">Je ne comprends pas assez ce texte, passer</button>
+    <div class="nav"><button class="linkbtn" onclick="voteBack()">← Précédente</button>
+      <button class="linkbtn muted" onclick="vote(null)">Je ne comprends pas assez ce texte, passer</button></div>
   </section>
 
   <!-- Bilan -->
@@ -363,17 +365,29 @@ function nextVote() {
     <p class="resume">${s.resume}</p>
     <details><summary class="linkbtn" style="cursor:pointer;font-size:14px">Voir le détail des ${s.mesures.length} mesures</summary>
       <ul class="mesures" style="margin-top:6px">${s.mesures.map(m => `<li>${m}</li>`).join("")}</ul></details>
-    <p class="src">Résumé rédigé à partir du texte officiel (${s.version}), à relire. Le texte final peut différer s'il a été modifié en séance.</p>` : "";
+    <p class="src">🤖 Résumé rédigé par IA à partir du texte officiel.</p>` : "";
   $("v-objet").textContent = `${s.objet} · ${new Date(s.date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}`;
-  // Pas de résumé : l'open data n'en fournit pas de neutre. On renvoie vers le texte officiel complet.
+  // L'open data ne fournit pas de résumé : celui affiché est généré par IA, d'où le lien vers le texte officiel complet.
   $("v-links").innerHTML = [
     s.texte && `<a href="${s.texte.url}" target="_blank" rel="noopener">📄 Lire le texte complet ↗<br><span class="muted small">${s.texte.label}</span></a>`,
     s.dossierUrl && `<a href="${s.dossierUrl}" target="_blank" rel="noopener">📁 Dossier législatif ↗</a>`,
   ].filter(Boolean).join("");
   $("v-why").textContent = current.why;
+  // Réponse déjà donnée si l'on revient en arrière
+  document.querySelectorAll(".votebar .btn").forEach(b => b.style.outline = b.dataset.v === current.prev ? "3px solid var(--ink)" : "");
+  window.scrollTo(0, 0);
 }
 function vote(v) {
   votes.push({ s: current.s, v, kind: current.kind });
+  delete current.prev;
+  setProg(STATEMENTS.length + votes.length);
+  nextVote();
+}
+// Revenir à la question précédente : au premier texte, on retourne à l'écran de tendance
+function voteBack() {
+  if (!votes.length) return show("s-trend");
+  const last = votes.pop();
+  plan[votes.length].prev = last.v;
   setProg(STATEMENTS.length + votes.length);
   nextVote();
 }
