@@ -91,7 +91,7 @@
   <!-- Intro -->
   <section class="screen on" id="s-intro">
     <h1>Pour qui voter&nbsp;?</h1>
-    <div class="box"><b>1. Vos convictions</b><p class="muted" style="margin:4px 0 0">Une dizaine d'affirmations, pour dessiner votre tendance politique de départ.</p></div>
+    <div class="box"><b>1. Vos convictions</b><p class="muted" style="margin:4px 0 0">Une douzaine d'affirmations, tirées au hasard parmi 32, pour dessiner votre tendance politique de départ.</p></div>
     <div class="box"><b>2. Votez comme un député</b><p class="muted" style="margin:4px 0 0">Des textes réellement examinés à l'Assemblée. Vous votez pour, contre ou abstention, et on compare avec ce que vous pensiez.</p></div>
     <div class="box"><b>3. Le bilan</b><p class="muted" style="margin:4px 0 0">Les partis les plus proches de vous, dans leurs programmes et dans leurs votes.</p></div>
     <p class="muted small">🔒 Tout reste sur votre téléphone. Rien n'est envoyé.</p>
@@ -165,19 +165,20 @@ const AXES = {
 // ax = position PROVISOIRE sur les axes d'après les programmes (data/groupes.json), à établir proprement.
 const PARTIES = DATA.groups;
 
-// Étape 1 : affirmations. dir = +1 si être d'accord pousse vers le pôle "pos" de l'axe
-const STATEMENTS = [
-  { q: "Il faudrait taxer davantage les très gros patrimoines pour financer les services publics.", ax: "eco", dir: -1 },
-  { q: "Les entreprises créeraient plus d'emplois avec moins de normes et de charges.", ax: "eco", dir: 1 },
-  { q: "L'énergie, le rail et l'hôpital devraient rester entièrement publics.", ax: "eco", dir: -1 },
-  { q: "La police devrait avoir plus de moyens d'action, quitte à restreindre certaines libertés.", ax: "soc", dir: 1 },
-  { q: "La consommation de cannabis devrait être légalisée et encadrée par l'État.", ax: "soc", dir: -1 },
-  { q: "Les conditions d'entrée et de séjour des étrangers devraient être durcies.", ax: "soc", dir: 1 },
-  { q: "Il faut accepter moins de croissance économique si c'est nécessaire pour le climat.", ax: "env", dir: -1 },
-  { q: "Les normes environnementales freinent trop l'agriculture et l'industrie.", ax: "env", dir: 1 },
-  { q: "Davantage de grandes décisions devraient se prendre au niveau européen.", ax: "eur", dir: -1 },
-  { q: "La France devrait pouvoir ignorer une règle européenne si elle va contre ses intérêts.", ax: "eur", dir: 1 },
-];
+// Étape 1 : banque d'affirmations (data/affirmations.json, 8 par axe, 4 dans chaque sens).
+// Chaque session en tire DATA.tirage_par_axe par axe, en gardant au moins une affirmation de chaque sens,
+// puis les mélange : deux personnes n'ont pas toutes les mêmes questions, mais toujours un tirage équilibré.
+function shuffle(xs) { for (let i = xs.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [xs[i], xs[j]] = [xs[j], xs[i]]; } return xs; }
+function drawStatements() {
+  const out = [];
+  for (const ax of ["eco", "soc", "env", "eur"]) {
+    const neg = shuffle(DATA.affirmations.filter(s => s.ax === ax && s.dir < 0));
+    const pos = shuffle(DATA.affirmations.filter(s => s.ax === ax && s.dir > 0));
+    out.push(neg.pop(), pos.pop(), ...shuffle([...neg, ...pos]).slice(0, DATA.tirage_par_axe - 2));
+  }
+  return shuffle(out);
+}
+const STATEMENTS = drawStatements();
 const SCALE = [
   ["Tout à fait d'accord", 2, "#2f9e44"],
   ["Plutôt d'accord", 1, "#8ce99a"],
@@ -191,7 +192,7 @@ const SCALE = [
 const SCRUTINS = DATA.scrutins;
 // Étape 2 : X textes qui départagent les partis proches de vos convictions + Y textes de contrôle,
 // choisis sans tenir compte de vos réponses (pour éviter l'effet entonnoir)
-const N_TARGET = 4, N_OPEN = 4, N_VOTES = N_TARGET + N_OPEN;
+const N_TARGET = 5, N_OPEN = 5, N_VOTES = N_TARGET + N_OPEN;
 
 // ================= État =================
 const lifeAns = new Array(STATEMENTS.length).fill(undefined); // -2..2

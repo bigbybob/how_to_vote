@@ -1,0 +1,41 @@
+{
+  "_note": "Banque d'affirmations de l'étape 1. dir = +1 si être d'accord pousse vers le pôle « pos » de l'axe (eco : marché, soc : ordre et autorité, env : croissance, eur : souveraineté nationale). Chaque axe compte 8 affirmations, 4 dans chaque sens, pour qu'un tirage ne penche pas d'un côté. Ce ne sont pas des données sourcées : ce sont des formulations éditoriales, à faire relire par des personnes de sensibilités différentes.",
+  "tirage_par_axe": 3,
+  "affirmations": [
+    { "id": "eco1", "ax": "eco", "dir": -1, "q": "Il faudrait taxer davantage les très gros patrimoines pour financer les services publics." },
+    { "id": "eco2", "ax": "eco", "dir": 1,  "q": "Les entreprises créeraient plus d'emplois avec moins de normes et de charges." },
+    { "id": "eco3", "ax": "eco", "dir": -1, "q": "L'énergie, le rail et l'hôpital devraient rester entièrement publics." },
+    { "id": "eco4", "ax": "eco", "dir": -1, "q": "Le salaire minimum devrait augmenter plus vite que les prix, même si cela coûte plus cher aux entreprises." },
+    { "id": "eco5", "ax": "eco", "dir": 1,  "q": "Les aides sociales devraient être davantage conditionnées à une activité ou à une recherche d'emploi." },
+    { "id": "eco6", "ax": "eco", "dir": 1,  "q": "L'âge de départ à la retraite doit pouvoir reculer si c'est nécessaire pour équilibrer le système." },
+    { "id": "eco7", "ax": "eco", "dir": -1, "q": "Les loyers devraient être plafonnés dans les villes où se loger coûte cher." },
+    { "id": "eco8", "ax": "eco", "dir": 1,  "q": "Il faudrait baisser les dépenses publiques, quitte à réduire certains services." },
+
+    { "id": "soc1", "ax": "soc", "dir": 1,  "q": "La police devrait avoir plus de moyens d'action, quitte à restreindre certaines libertés." },
+    { "id": "soc2", "ax": "soc", "dir": -1, "q": "La consommation de cannabis devrait être légalisée et encadrée par l'État." },
+    { "id": "soc3", "ax": "soc", "dir": 1,  "q": "Les conditions d'entrée et de séjour des étrangers devraient être durcies." },
+    { "id": "soc4", "ax": "soc", "dir": -1, "q": "Une personne majeure atteinte d'une maladie incurable devrait pouvoir demander une aide à mourir." },
+    { "id": "soc5", "ax": "soc", "dir": 1,  "q": "Les peines de prison devraient être plus systématiques, y compris pour les délits de gravité moyenne." },
+    { "id": "soc6", "ax": "soc", "dir": 1,  "q": "Les mineurs délinquants de 16 ans et plus devraient être jugés presque comme des adultes." },
+    { "id": "soc7", "ax": "soc", "dir": -1, "q": "Les étrangers en situation régulière depuis longtemps devraient obtenir plus facilement des titres de séjour durables." },
+    { "id": "soc8", "ax": "soc", "dir": -1, "q": "La vidéosurveillance dans l'espace public porte trop atteinte à la vie privée." },
+
+    { "id": "env1", "ax": "env", "dir": -1, "q": "Il faut accepter moins de croissance économique si c'est nécessaire pour le climat." },
+    { "id": "env2", "ax": "env", "dir": 1,  "q": "Les normes environnementales freinent trop l'agriculture et l'industrie." },
+    { "id": "env3", "ax": "env", "dir": 1,  "q": "Certains pesticides interdits devraient pouvoir être réautorisés quand les agriculteurs n'ont pas d'autre solution." },
+    { "id": "env4", "ax": "env", "dir": -1, "q": "Les produits contenant des substances chimiques persistantes devraient être interdits, même si cela coûte cher aux industriels." },
+    { "id": "env5", "ax": "env", "dir": -1, "q": "Il faudrait taxer davantage les transports les plus polluants, comme l'avion." },
+    { "id": "env6", "ax": "env", "dir": 1,  "q": "Le prix de l'énergie et du carburant compte plus que les objectifs climatiques." },
+    { "id": "env7", "ax": "env", "dir": -1, "q": "Il faudrait limiter fortement la construction sur les terres agricoles et naturelles." },
+    { "id": "env8", "ax": "env", "dir": 1,  "q": "La France ne devrait pas aller plus vite que ses voisins européens sur les normes écologiques." },
+
+    { "id": "eur1", "ax": "eur", "dir": -1, "q": "Davantage de grandes décisions devraient se prendre au niveau européen." },
+    { "id": "eur2", "ax": "eur", "dir": 1,  "q": "La France devrait pouvoir ignorer une règle européenne si elle va contre ses intérêts." },
+    { "id": "eur3", "ax": "eur", "dir": 1,  "q": "Les contrôles aux frontières entre pays européens devraient être rétablis." },
+    { "id": "eur4", "ax": "eur", "dir": -1, "q": "L'Union européenne devrait avoir une défense commune." },
+    { "id": "eur5", "ax": "eur", "dir": 1,  "q": "Les marchés publics français devraient favoriser les entreprises qui produisent en France, même si les règles européennes l'interdisent." },
+    { "id": "eur6", "ax": "eur", "dir": -1, "q": "L'Union européenne devrait pouvoir sanctionner un pays membre qui ne respecte pas l'État de droit." },
+    { "id": "eur7", "ax": "eur", "dir": -1, "q": "La France devrait soutenir l'entrée de nouveaux pays dans l'Union européenne, comme l'Ukraine ou la Moldavie." },
+    { "id": "eur8", "ax": "eur", "dir": 1,  "q": "La France devrait réduire sa contribution au budget de l'Union européenne." }
+  ]
+}

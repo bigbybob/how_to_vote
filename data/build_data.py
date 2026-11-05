@@ -14,7 +14,9 @@ résumé : ceux de selection.json sont rédigés à partir du texte officiel (vo
 
 Usage :
     python data/fetch_scrutins.py   # si data/raw/ est vide ou incomplet
-    python data/build_data.py
+    python data/build_data.py               # seulement les scrutins dont le résumé est vérifié
+    python data/build_data.py --brouillon   # tous, pour travailler
+    python data/verify_data.py              # contrôle de toutes les données (voir VERIFICATION.md)
 """
 
 import json
@@ -120,6 +122,10 @@ def main() -> None:
     scrutins, sieges = [], {}
     with zipfile.ZipFile(RAW / "Scrutins.json.zip") as z:
         for sel in selection:
+            # Seules les données vérifiées entrent dans l'appli (sauf --brouillon pour travailler)
+            if (sel.get("verification") or {}).get("statut") != "ok" and "--brouillon" not in sys.argv:
+                print(f"  {sel['numero']:>5} ignoré : résumé non vérifié")
+                continue
             s = json.loads(z.read(f"json/VTANR5L17V{sel['numero']}.json"))["scrutin"]
             votes = {}
             for g in as_list(s["ventilationVotes"]["organe"]["groupes"]["groupe"]):
@@ -134,7 +140,8 @@ def main() -> None:
                     continue  # le groupe n'a pas pris part au vote
                 pos = max((("pour", p), ("contre", c), ("abst", a)), key=lambda t: t[1])[0]
                 # parts de chaque position parmi les votants du groupe, pour tenir compte des groupes divisés
-                votes[code] = {"pos": pos, "p": round(p / n, 3), "c": round(c / n, 3), "a": round(a / n, 3), "n": n}
+                votes[code] = {"pos": pos, "p": round(p / n, 3), "c": round(c / n, 3), "a": round(a / n, 3), "n": n,
+                                "voix": [p, c, a]}  # décompte brut, contrôlé par verify_data.py
 
             libelle = " ".join(s["objet"]["libelle"].split()).rstrip(".")
             d_uid = find_dossier(s["uid"], libelle, dossiers, by_vote)
@@ -152,6 +159,8 @@ def main() -> None:
                 "resume": sel.get("resume"),
                 "mesures": sel.get("mesures", []),
                 "version": sel.get("version"),
+                "articles": sel.get("articles", []),
+                "verification": sel.get("verification"),
                 "result": f"{'Adopté' if adopte else 'Rejeté'} ({dec['pour']} pour, {dec['contre']} contre, {dec['abstentions']} abstentions)",
                 "url": f"{AN}/dyn/17/scrutins/{sel['numero']}",
                 "dossierUrl": f"{AN}/dyn/17/dossiers/{dossier['chemin']}" if dossier else None,
@@ -169,8 +178,10 @@ def main() -> None:
         }
         for code in ORDRE_GROUPES if code in config
     }
+    affirmations = json.loads((ROOT / "affirmations.json").read_text(encoding="utf-8"))
     data = {"generated": date.today().isoformat(), "source": "data.assemblee-nationale.fr (17e législature)",
-            "groups": groups, "scrutins": scrutins}
+            "groups": groups, "scrutins": scrutins,
+            "affirmations": affirmations["affirmations"], "tirage_par_axe": affirmations["tirage_par_axe"]}
     OUT.write_text("// Généré par data/build_data.py, ne pas modifier à la main.\nwindow.DATA = "
                    + json.dumps(data, ensure_ascii=False, indent=1) + ";\n", encoding="utf-8")
 

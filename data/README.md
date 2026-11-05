@@ -59,11 +59,30 @@ Les groupes sont ceux du moment du vote. Le code `PO847173` (groupe UDR d'octobr
 
   Limite : pour un vote sur le texte de la commission mixte paritaire (CMP), le lien pointe vers la dernière version de l'Assemblée (souvent le texte de sa commission) et non vers le texte de la CMP.
 - `groupes.json` contient la couleur de chaque groupe et sa position **provisoire** sur les axes, censée refléter son programme. Ces positions sont à établir proprement et ne doivent pas être déduites des votes.
-- Pour régénérer `proto/data.js` à partir de ces deux fichiers et des votes officiels :
+- `affirmations.json` contient la banque d'affirmations de l'étape 1 : 32 en tout, 8 par axe, dont 4 dans chaque sens. Chaque session en tire 3 par axe, avec au moins une de chaque sens.
+- Pour régénérer `proto/data.js` à partir de ces fichiers et des votes officiels :
 
 ```bash
-python data/build_data.py
+python data/build_data.py        # n'inclut que les scrutins dont le résumé a été vérifié
+python data/verify_data.py       # contrôle tout et écrit VERIFICATION.md
 ```
+
+## Vérification des données
+
+Seules les données vérifiées entrent dans l'appli : `build_data.py` ignore tout scrutin dont `verification.statut` n'est pas `ok`.
+
+| Donnée | Comment elle est vérifiée | Rejouable |
+|---|---|---|
+| Votes des groupes | Recalculés depuis l'open data, puis comparés un à un à la page officielle du scrutin sur assemblee-nationale.fr, qui est une source indépendante | Oui : `verify_data.py` |
+| Résultat (adopté / rejeté) | Comparé à la même page | Oui |
+| Liens vers le texte et le dossier | Ils doivent répondre | Oui |
+| Texte qui a servi au résumé | Son empreinte SHA-256 (`source_sha256`) est comparée au texte officiel en ligne ; si elle diffère, le résumé est à refaire | Oui |
+| Résumés | Rédigés par IA à partir des articles du texte, avec une référence d'article par mesure (`articles`). Une IA indépendante les relit ensuite mesure par mesure contre le texte, et les corrections passent par une seconde relecture indépendante. Le résultat est enregistré dans `verification` | Le texte source, les références et le verdict sont conservés : un humain peut tout recontrôler |
+| Positions des groupes sur les axes | **Non vérifiées** : estimations provisoires, à sourcer à partir des programmes | Non |
+| Choix des textes, de l'axe et du sens | Choix éditoriaux, documentés dans `selection.json` | Non |
+| Affirmations | Formulations éditoriales ; l'équilibre (4 dans chaque sens par axe) est contrôlé | En partie |
+
+Le dernier rapport se trouve dans [`VERIFICATION.md`](VERIFICATION.md).
 
 Pour chaque groupe, `data.js` contient la répartition de ses votes (pour, contre, abstention) et pas seulement sa position majoritaire. Un groupe divisé compte donc au prorata dans les scores.
 
