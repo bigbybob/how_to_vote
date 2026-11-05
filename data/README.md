@@ -34,13 +34,21 @@ Les groupes sont ceux du moment du vote. Le code `PO847173` (groupe UDR d'octobr
 
 ## Sélection et construction des données du proto
 
-- `selection.json` contient les scrutins retenus à la main, un seul vote par texte. Pour chacun :
+- `selection.json` contient les scrutins retenus à la main, un seul vote par texte. C'est le seul choix éditorial. Pour chacun :
   - l'axe (`eco`, `soc`, `env`, `eur`) ;
-  - le sens du « pour » (`dir` = +1 si voter pour pousse vers le pôle « pos » de l'axe) ;
-  - un titre et une description en langage simple ;
-  - les arguments pour et contre, et les avis d'associations.
+  - le sens du « pour » (`dir` = +1 si voter pour pousse vers le pôle « pos » de l'axe).
 
-  Les résumés sont marqués `relu: false` tant qu'ils n'ont pas été relus et sourcés.
+  Tout ce qui est affiché dans l'appli vient des sources officielles :
+  - le **titre du dossier législatif** ;
+  - l'**objet du vote** ;
+  - un **lien vers le texte complet** (`/dyn/opendata/{id}.html`) : le dernier texte de l'Assemblée déposé avant le vote, c'est-à-dire le texte de la commission, le texte adopté ou le texte déposé ;
+  - un lien vers le **dossier législatif**.
+
+  L'open data ne fournit **pas de résumé neutre**. Le seul texte explicatif est l'exposé des motifs, rédigé par les auteurs, donc partisan. On n'affiche donc ni résumé, ni arguments, ni avis d'associations.
+
+  Le dossier est trouvé grâce aux références de vote contenues dans les dossiers. À défaut, il est trouvé par correspondance du titre.
+
+  Limite : pour un vote sur le texte de la commission mixte paritaire (CMP), le lien pointe vers la dernière version de l'Assemblée (souvent le texte de sa commission) et non vers le texte de la CMP.
 - `groupes.json` contient la couleur de chaque groupe et sa position **provisoire** sur les axes, censée refléter son programme. Ces positions sont à établir proprement et ne doivent pas être déduites des votes.
 - Pour régénérer `proto/data.js` à partir de ces deux fichiers et des votes officiels :
 

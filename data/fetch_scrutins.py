@@ -25,6 +25,8 @@ BASE = "https://data.assemblee-nationale.fr/static/openData/repository/17"
 SOURCES = {
     "Scrutins.json.zip": f"{BASE}/loi/scrutins/Scrutins.json.zip",
     "AMO10.json.zip": f"{BASE}/amo/deputes_actifs_mandats_actifs_organes/AMO10_deputes_actifs_mandats_actifs_organes.json.zip",
+    # dossiers législatifs et documents : titres officiels et liens vers les textes complets (utilisé par build_data.py)
+    "Dossiers.json.zip": f"{BASE}/loi/dossiers_legislatifs/Dossiers_Legislatifs.json.zip",
 }
 
 # Groupes absents du fichier des organes "actifs" (groupes renommés ou recréés en cours de législature).

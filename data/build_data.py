@@ -1,7 +1,7 @@
 """Construit proto/data.js à partir de la sélection manuelle et des fichiers open data.
 
 Entrées :
-    data/selection.json  scrutins retenus, avec axe, sens, résumé, arguments (rédigés à la main)
+    data/selection.json  scrutins retenus, avec leur axe et le sens du « pour » (choix éditorial)
     data/groupes.json    position des groupes sur les axes (programmes) et couleurs
     data/raw/*.zip       fichiers téléchargés par fetch_scrutins.py
 
@@ -9,13 +9,18 @@ Sortie :
     proto/data.js        window.DATA = {...}, chargé par proto/index.html
                          (un .js plutôt qu'un .json : le proto est ouvert en file://, où fetch() est bloqué)
 
+Tout le contenu affiché vient des sources officielles : titre du dossier législatif, objet du vote,
+lien vers le texte complet. L'open data ne contient pas de résumé neutre des textes : on n'en affiche pas.
+
 Usage :
-    python data/fetch_scrutins.py   # si data/raw/ est vide
+    python data/fetch_scrutins.py   # si data/raw/ est vide ou incomplet
     python data/build_data.py
 """
 
 import json
+import re
 import sys
+import unicodedata
 import zipfile
 from datetime import date
 from pathlib import Path
@@ -25,6 +30,14 @@ sys.path.insert(0, str(ROOT))
 from fetch_scrutins import GROUPES_HISTORIQUES, ORDRE_GROUPES, RAW, as_list  # noqa: E402
 
 OUT = ROOT.parent / "proto" / "data.js"
+AN = "https://www.assemblee-nationale.fr"
+# Types de documents qui sont des textes soumis au vote (et non des rapports, avis, etc.)
+TEXTES = ("PION", "PRJL", "PNRE", "RION")
+
+
+def norm(s: str) -> str:
+    s = unicodedata.normalize("NFD", s.lower().replace("’", "'"))
+    return "".join(c for c in s if unicodedata.category(c) != "Mn")
 
 
 def group_names() -> dict:
@@ -39,11 +52,70 @@ def group_names() -> dict:
     return names
 
 
+def load_dossiers():
+    """Retourne (dossiers, vote -> dossier, documents)."""
+    dossiers, by_vote, documents = {}, {}, {}
+    with zipfile.ZipFile(RAW / "Dossiers.json.zip") as z:
+        for name in z.namelist():
+            raw = z.read(name).decode("utf-8")
+            if "/dossierParlementaire/" in name:
+                d = json.loads(raw)["dossierParlementaire"]
+                dossiers[d["uid"]] = {
+                    "titre": d["titreDossier"]["titre"],
+                    "chemin": d["titreDossier"]["titreChemin"],
+                    "docs": sorted(set(re.findall(r'"texte(?:Associe|Adopte)": "(\w+)"', raw))),
+                }
+                for vote in re.findall(r'"(VTANR5L17V\d+)"', raw):
+                    by_vote[vote] = d["uid"]
+            elif "/document/" in name:
+                doc = json.loads(raw)["document"]
+                chrono = (doc.get("cycleDeVie") or {}).get("chrono") or {}  # métadonnées parfois incomplètes
+                depot = chrono.get("dateDepot") or chrono.get("dateCreation")
+                if not depot:
+                    continue
+                documents[doc["uid"]] = {
+                    "date": depot[:10],
+                    "nom": doc.get("denominationStructurelle") or "Texte",
+                    "num": (doc.get("notice") or {}).get("numNotice"),
+                }
+    return dossiers, by_vote, documents
+
+
+def find_dossier(uid: str, libelle: str, dossiers: dict, by_vote: dict):
+    """Dossier lié au scrutin : par référence directe, sinon par correspondance du titre."""
+    if uid in by_vote:
+        return by_vote[uid]
+    lib = set(re.findall(r"\w{4,}", norm(libelle)))
+    best, score = None, 0.0
+    for d_uid, d in dossiers.items():
+        words = set(re.findall(r"\w{4,}", norm(d["titre"])))
+        if len(words) >= 3:
+            s = len(words & lib) / len(words)
+            if s > score:
+                best, score = d_uid, s
+    return best if score >= 0.7 else None
+
+
+def voted_text(dossier: dict, documents: dict, vote_date: str):
+    """Dernier texte de l'Assemblée déposé dans le dossier avant le vote : c'est le texte mis aux voix."""
+    candidates = [u for u in dossier["docs"]
+                  if u.startswith(TEXTES) and "ANR5" in u and u in documents and documents[u]["date"] <= vote_date]
+    if not candidates:
+        return None
+    uid = max(candidates, key=lambda u: (documents[u]["date"], u))
+    doc = documents[uid]
+    # BTC = texte adopté en commission, BTA = texte adopté en séance, sinon texte déposé
+    version = " (texte de la commission)" if "BTC" in uid else " (texte adopté)" if "BTA" in uid else ""
+    label = doc["nom"] + (f" n° {doc['num']}" if doc["num"] else "") + version
+    return {"label": label, "url": f"{AN}/dyn/opendata/{uid}.html"}
+
+
 def main() -> None:
     selection = json.loads((ROOT / "selection.json").read_text(encoding="utf-8"))["scrutins"]
     config = json.loads((ROOT / "groupes.json").read_text(encoding="utf-8"))["groupes"]
     names = group_names()
     libelles = {code: lib for code, lib in names.values()}
+    dossiers, by_vote, documents = load_dossiers()
 
     scrutins, sieges = [], {}
     with zipfile.ZipFile(RAW / "Scrutins.json.zip") as z:
@@ -64,6 +136,9 @@ def main() -> None:
                 # parts de chaque position parmi les votants du groupe, pour tenir compte des groupes divisés
                 votes[code] = {"pos": pos, "p": round(p / n, 3), "c": round(c / n, 3), "a": round(a / n, 3), "n": n}
 
+            libelle = " ".join(s["objet"]["libelle"].split()).rstrip(".")
+            d_uid = find_dossier(s["uid"], libelle, dossiers, by_vote)
+            dossier = dossiers.get(d_uid)
             dec = s["syntheseVote"]["decompte"]
             adopte = s["sort"]["code"].startswith("adopt")
             scrutins.append({
@@ -71,15 +146,12 @@ def main() -> None:
                 "date": s["dateScrutin"],
                 "ax": sel["axe"],
                 "dir": sel["dir"],
-                "title": sel["titre"],
-                "desc": sel["desc"],
-                "pour": sel["pour"],
-                "contre": sel["contre"],
-                "assos": sel["assos"],
-                "relu": sel["relu"],
-                "officiel": " ".join(s["titre"].split()).rstrip("."),
+                "title": dossier["titre"] if dossier else libelle[0].upper() + libelle[1:],
+                "objet": "Vote sur " + libelle,
                 "result": f"{'Adopté' if adopte else 'Rejeté'} ({dec['pour']} pour, {dec['contre']} contre, {dec['abstentions']} abstentions)",
-                "url": f"https://www.assemblee-nationale.fr/dyn/17/scrutins/{sel['numero']}",
+                "url": f"{AN}/dyn/17/scrutins/{sel['numero']}",
+                "dossierUrl": f"{AN}/dyn/17/dossiers/{dossier['chemin']}" if dossier else None,
+                "texte": voted_text(dossier, documents, s["dateScrutin"]) if dossier else None,
                 "votes": votes,
             })
 
@@ -100,8 +172,9 @@ def main() -> None:
 
     print(f"{len(scrutins)} scrutins, {len(groups)} groupes -> {OUT.relative_to(ROOT.parent)}")
     for s in scrutins:
-        line = " ".join(f"{k}:{v['pos'][0].upper()}" for k, v in s["votes"].items())
-        print(f"  {s['numero']:>5} {s['ax']} {s['dir']:+d}  {s['title'][:45]:45}  {line}")
+        texte = s["texte"]["label"] if s["texte"] else "PAS DE TEXTE"
+        print(f"  {s['numero']:>5} {s['ax']} {s['dir']:+d}  {s['title'][:55]:55}  {texte}"
+              + ("" if s["dossierUrl"] else "  PAS DE DOSSIER"))
 
 
 if __name__ == "__main__":

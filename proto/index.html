@@ -62,13 +62,10 @@
   .votebar .pour { background: var(--pour); } .votebar .contre { background: var(--contre); } .votebar .abst { background: var(--abst); }
 
   /* Sheet */
-  .sheet-bg { position: fixed; inset: 0; background: rgba(0,0,0,.35); display: none; align-items: flex-end; justify-content: center; z-index: 10; }
-  .sheet-bg.on { display: flex; }
-  .sheet { background: var(--card); width: 100%; max-width: 420px; max-height: 80vh; overflow: auto; border-radius: 20px 20px 0 0; padding: 20px; }
-  .sheet h3 { margin: 0 0 6px; font-size: 16px; }
-  .sec { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 10px; }
+  .links { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; font-size: 14px; }
+  .links a { color: var(--accent); text-decoration: none; }
+  .objet { font-size: 14px; color: var(--muted); }
   .row { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; font-size: 14px; }
-  ul.args { margin: 4px 0; padding-left: 18px; font-size: 14px; }
 
   /* Bilan */
   .bar { height: 10px; border-radius: 6px; background: var(--line); overflow: hidden; margin: 4px 0 2px; }
@@ -84,7 +81,7 @@
 </head>
 <body>
 <div class="phone">
-  <header><b>🧭 Boussole</b><span class="badge">Proto · votes réels, résumés provisoires</span></header>
+  <header><b>🧭 Boussole</b><span class="badge">Proto · votes réels de l’Assemblée</span></header>
   <div class="progress"><div id="prog"></div></div>
 
   <!-- Intro -->
@@ -120,8 +117,8 @@
     <div class="box" style="flex:1;display:flex;flex-direction:column;margin-bottom:12px">
       <div><span class="tag vote">🏛️ Scrutin public</span><span class="tag" id="v-axis"></span></div>
       <div class="law" id="v-title"></div>
-      <div id="v-desc"></div>
-      <button class="linkbtn" style="margin-top:8px" onclick="openSheet()">ⓘ Arguments, associations, résultat du vote</button>
+      <div class="objet" id="v-objet"></div>
+      <div class="links" id="v-links"></div>
       <div class="why" id="v-why"></div>
     </div>
     <div class="votebar">
@@ -146,7 +143,6 @@
   </section>
 </div>
 
-<div class="sheet-bg" id="sheet-bg" onclick="if(event.target===this)closeSheet()"><div class="sheet" id="sheet"></div></div>
 
 <script src="data.js"></script>
 <script>
@@ -357,7 +353,13 @@ function nextVote() {
   renderLive();
   $("v-axis").textContent = AXES[current.s.ax].label;
   $("v-title").textContent = current.s.title;
-  $("v-desc").innerHTML = current.s.desc + (current.s.relu ? "" : `<br><span class="muted small">Résumé provisoire, à relire</span>`);
+  const s = current.s;
+  $("v-objet").textContent = `${s.objet} · ${new Date(s.date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}`;
+  // Pas de résumé : l'open data n'en fournit pas de neutre. On renvoie vers le texte officiel complet.
+  $("v-links").innerHTML = [
+    s.texte && `<a href="${s.texte.url}" target="_blank" rel="noopener">📄 Lire le texte complet ↗<br><span class="muted small">${s.texte.label}</span></a>`,
+    s.dossierUrl && `<a href="${s.dossierUrl}" target="_blank" rel="noopener">📁 Dossier législatif ↗</a>`,
+  ].filter(Boolean).join("");
   $("v-why").textContent = current.why;
 }
 function vote(v) {
@@ -365,22 +367,6 @@ function vote(v) {
   setProg(STATEMENTS.length + votes.length);
   nextVote();
 }
-function openSheet() {
-  const s = current.s;
-  const col = v => v === "pour" ? "var(--pour)" : "var(--contre)";
-  $("sheet").innerHTML = `
-    <h3>🏛️ ${s.title}</h3><p class="muted" style="margin:0">${s.desc}</p>
-    <div class="sec"><b style="color:var(--pour)">Arguments pour</b><ul class="args">${s.pour.map(x => `<li>${x}</li>`).join("")}</ul>
-      <b style="color:var(--contre)">Arguments contre</b><ul class="args">${s.contre.map(x => `<li>${x}</li>`).join("")}</ul></div>
-    <div class="sec"><b>Avis des associations</b>
-      ${s.assos.length ? s.assos.map(([n, v]) => `<div class="row"><span>${n}</span><b style="color:${col(v)}">${v}</b></div>`).join("") : `<p class="muted small" style="margin:4px 0">Pas encore renseigné.</p>`}</div>
-    <div class="sec"><b>Le scrutin</b><p class="small" style="margin:4px 0">${s.date} · Vote sur ${s.officiel}</p>
-      <p style="margin:4px 0">${s.result}</p><p class="small" style="margin:4px 0"><a href="${s.url}" target="_blank" rel="noopener">Voir sur le site de l'Assemblée ↗</a></p>
-      <p class="muted small" style="margin:0">Le vote de chaque parti s'affiche dans le bilan, pour ne pas orienter votre choix.</p></div>
-    <button class="btn" style="width:100%;margin-top:16px" onclick="closeSheet()">Fermer</button>`;
-  $("sheet-bg").classList.add("on");
-}
-function closeSheet() { $("sheet-bg").classList.remove("on"); }
 
 // ================= Bilan =================
 function showResults() {
@@ -440,7 +426,6 @@ function showResults() {
 
   requestAnimationFrame(() => document.querySelectorAll(".bar > div").forEach(b => b.style.width = b.dataset.w + "%"));
 }
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeSheet(); });
 </script>
 </body>
 </html>

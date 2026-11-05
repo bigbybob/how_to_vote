@@ -142,21 +142,15 @@ window.DATA = {
    "date": "2024-11-12",
    "ax": "eco",
    "dir": -1,
-   "title": "Budget 2025 : les recettes modifiées par l'Assemblée",
-   "desc": "Vote sur la partie « recettes » du budget 2025, telle qu'amendée en séance, avec de nombreuses hausses d'impôts sur les entreprises et les plus aisés.",
-   "pour": [
-    "Fait contribuer davantage les grandes entreprises et les plus riches",
-    "Finance les services publics sans couper dans les dépenses"
-   ],
-   "contre": [
-    "Hausse d'impôts jugée excessive pour l'économie",
-    "Texte très éloigné du projet initial du gouvernement"
-   ],
-   "assos": [],
-   "relu": false,
-   "officiel": "la première partie du projet de loi de finances pour 2025 (première lecture)",
+   "title": "Projet de loi de finances pour 2025",
+   "objet": "Vote sur la première partie du projet de loi de finances pour 2025 (première lecture)",
    "result": "Rejeté (192 pour, 362 contre, 19 abstentions)",
    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/438",
+   "dossierUrl": "https://www.assemblee-nationale.fr/dyn/17/dossiers/PLF2025",
+   "texte": {
+    "label": "Projet de loi n° 324",
+    "url": "https://www.assemblee-nationale.fr/dyn/opendata/PRJLANR5L17B0324.html"
+   },
    "votes": {
     "RN": {
      "pos": "contre",
@@ -242,21 +236,15 @@ window.DATA = {
    "date": "2025-02-20",
    "ax": "eco",
    "dir": -1,
-   "title": "Impôt plancher de 2 % sur les ultra-riches",
-   "desc": "Proposition de loi créant un impôt minimal de 2 % par an sur les patrimoines de plus de 100 millions d'euros.",
-   "pour": [
-    "Les plus grandes fortunes paient proportionnellement peu d'impôt",
-    "Rapporterait plusieurs milliards d'euros par an"
-   ],
-   "contre": [
-    "Risque d'exil fiscal",
-    "Pénaliserait les entreprises familiales et l'investissement"
-   ],
-   "assos": [],
-   "relu": false,
-   "officiel": "l'ensemble de la proposition de loi instaurant un impôt plancher de 2 % sur le patrimoine des ultra riches (première lecture)",
+   "title": "Impôt plancher de 2 % sur le patrimoine des ultra riches",
+   "objet": "Vote sur l'ensemble de la proposition de loi instaurant un impôt plancher de 2 % sur le patrimoine des ultra riches (première lecture)",
    "result": "Adopté (116 pour, 39 contre, 31 abstentions)",
    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/881",
+   "dossierUrl": "https://www.assemblee-nationale.fr/dyn/17/dossiers/impot_plancher_2_pour_cent_patrimoine_ultra_riches",
+   "texte": {
+    "label": "Proposition de loi n° 930 (texte de la commission)",
+    "url": "https://www.assemblee-nationale.fr/dyn/opendata/PIONANR5L17BTC0930.html"
+   },
    "votes": {
     "RN": {
      "pos": "abst",
@@ -335,21 +323,15 @@ window.DATA = {
    "date": "2026-06-11",
    "ax": "eco",
    "dir": -1,
-   "title": "Nationaliser ArcelorMittal France",
-   "desc": "Proposition de loi visant à nationaliser ArcelorMittal France pour préserver la production d'acier et l'emploi.",
-   "pour": [
-    "Préserve une industrie stratégique et des milliers d'emplois",
-    "Évite les fermetures de sites décidées à l'étranger"
-   ],
-   "contre": [
-    "Coût élevé pour l'État",
-    "L'État n'est pas forcément bon gestionnaire d'une aciérie"
-   ],
-   "assos": [],
-   "relu": false,
-   "officiel": "l'ensemble de la proposition de loi visant à la nationalisation d'ArcelorMittal France afin de préserver la souveraineté industrielle de la France (deuxième lecture)",
+   "title": "Nationalisation d'ArcelorMittal France",
+   "objet": "Vote sur l'ensemble de la proposition de loi visant à la nationalisation d'ArcelorMittal France afin de préserver la souveraineté industrielle de la France (deuxième lecture)",
    "result": "Adopté (106 pour, 49 contre, 47 abstentions)",
    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/7380",
+   "dossierUrl": "https://www.assemblee-nationale.fr/dyn/17/dossiers/nationalisation_arcelormittal_2025",
+   "texte": {
+    "label": "Proposition de loi n° 2872 (texte de la commission)",
+    "url": "https://www.assemblee-nationale.fr/dyn/opendata/PIONANR5L17BTC2872.html"
+   },
    "votes": {
     "RN": {
      "pos": "abst",
@@ -435,21 +417,15 @@ window.DATA = {
    "date": "2026-04-14",
    "ax": "eco",
    "dir": 1,
-   "title": "Simplification de la vie économique",
-   "desc": "Projet de loi allégeant des démarches et des normes pour les entreprises (version finale issue de la commission mixte paritaire).",
-   "pour": [
-    "Moins de paperasse pour les entreprises",
-    "Accélère les projets économiques"
-   ],
-   "contre": [
-    "Recul de certaines protections environnementales ou sociales",
-    "Texte fourre-tout"
-   ],
-   "assos": [],
-   "relu": false,
-   "officiel": "l'ensemble du projet de loi de simplification de la vie économique (texte de la commission mixte paritaire)",
+   "title": "Projet de loi de simplification de la vie économique",
+   "objet": "Vote sur l'ensemble du projet de loi de simplification de la vie économique (texte de la commission mixte paritaire)",
    "result": "Adopté (275 pour, 225 contre, 30 abstentions)",
    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/6184",
+   "dossierUrl": "https://www.assemblee-nationale.fr/dyn/17/dossiers/DLR5L16N49868",
+   "texte": {
+    "label": "Projet de loi n° 2357 (texte de la commission)",
+    "url": "https://www.assemblee-nationale.fr/dyn/opendata/PRJLANR5L17BTC2357.html"
+   },
    "votes": {
     "RN": {
      "pos": "pour",
@@ -535,21 +511,15 @@ window.DATA = {
    "date": "2026-07-15",
    "ax": "soc",
    "dir": -1,
-   "title": "Droit à l'aide à mourir",
-   "desc": "Proposition de loi ouvrant, sous conditions strictes, un droit à l'aide à mourir pour les personnes atteintes d'une maladie grave et incurable (lecture définitive).",
-   "pour": [
-    "Liberté de choisir sa fin de vie",
-    "Encadre une pratique qui existe déjà à l'étranger"
-   ],
-   "contre": [
-    "Risque de pression sur les personnes vulnérables",
-    "Priorité au développement des soins palliatifs"
-   ],
-   "assos": [],
-   "relu": false,
-   "officiel": "l'ensemble de la proposition de loi relative au droit à l'aide à mourir (lecture définitive)",
+   "title": "Fin de vie",
+   "objet": "Vote sur l'ensemble de la proposition de loi relative au droit à l'aide à mourir (lecture définitive)",
    "result": "Adopté (291 pour, 241 contre, 29 abstentions)",
    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/8280",
+   "dossierUrl": "https://www.assemblee-nationale.fr/dyn/17/dossiers/fin_de_vie_17e",
+   "texte": {
+    "label": "Proposition de loi n° 323 (texte adopté)",
+    "url": "https://www.assemblee-nationale.fr/dyn/opendata/PIONANR5L17BTA0323.html"
+   },
    "votes": {
     "RN": {
      "pos": "contre",
@@ -635,21 +605,15 @@ window.DATA = {
    "date": "2026-07-07",
    "ax": "soc",
    "dir": 1,
-   "title": "Présomption de légitime défense pour les forces de l'ordre",
-   "desc": "Proposition de loi créant une présomption de légitime défense pour les policiers et gendarmes dans l'exercice de leurs fonctions.",
-   "pour": [
-    "Protège juridiquement les forces de l'ordre",
-    "Elles interviennent dans des situations dangereuses"
-   ],
-   "contre": [
-    "Rend plus difficile le contrôle de l'usage de la force",
-    "Les règles actuelles suffisent déjà"
-   ],
-   "assos": [],
-   "relu": false,
-   "officiel": "l'ensemble de la proposition de loi visant à reconnaître une présomption de légitime défense pour les forces de l'ordre, dans l'exercice de leurs fonctions (première lecture)",
+   "title": "Reconnaître une présomption de légitime défense pour les forces de l'ordre, dans l'exercice de leurs fonctions",
+   "objet": "Vote sur l'ensemble de la proposition de loi visant à reconnaître une présomption de légitime défense pour les forces de l'ordre, dans l'exercice de leurs fonctions (première lecture)",
    "result": "Adopté (313 pour, 199 contre, 5 abstentions)",
    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/7987",
+   "dossierUrl": "https://www.assemblee-nationale.fr/dyn/17/dossiers/presomption_legitime_defense_forces_ordre",
+   "texte": {
+    "label": "Proposition de loi n° 691",
+    "url": "https://www.assemblee-nationale.fr/dyn/opendata/PIONANR5L17B0691.html"
+   },
    "votes": {
     "RN": {
      "pos": "pour",
@@ -735,21 +699,15 @@ window.DATA = {
    "date": "2025-05-13",
    "ax": "soc",
    "dir": 1,
-   "title": "Justice des mineurs plus ferme",
-   "desc": "Proposition de loi renforçant l'autorité de la justice envers les mineurs délinquants et la responsabilité de leurs parents.",
-   "pour": [
-    "Réponse plus rapide et plus ferme à la délinquance des mineurs",
-    "Responsabilise les parents"
-   ],
-   "contre": [
-    "Recul du principe d'éducation avant la sanction",
-    "Risque d'aggraver la récidive"
-   ],
-   "assos": [],
-   "relu": false,
-   "officiel": "l'ensemble de la proposition de loi visant à renforcer l'autorité de la justice à l'égard des mineurs délinquants et de leurs parents (texte de la commission mixte paritaire)",
+   "title": "Restaurer l'autorité de la justice à l'égard des mineurs délinquants et de leurs parents",
+   "objet": "Vote sur l'ensemble de la proposition de loi visant à renforcer l'autorité de la justice à l'égard des mineurs délinquants et de leurs parents (texte de la commission mixte paritaire)",
    "result": "Adopté (341 pour, 187 contre, 8 abstentions)",
    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/1624",
+   "dossierUrl": "https://www.assemblee-nationale.fr/dyn/17/dossiers/restaurer_autorite_justice_mineurs_delinquants_et_parents",
+   "texte": {
+    "label": "Proposition de loi n° 1367 (texte de la commission)",
+    "url": "https://www.assemblee-nationale.fr/dyn/opendata/PIONANR5L17BTC1367.html"
+   },
    "votes": {
     "RN": {
      "pos": "pour",
@@ -835,21 +793,15 @@ window.DATA = {
    "date": "2025-07-08",
    "ax": "soc",
    "dir": 1,
-   "title": "Rétention prolongée des étrangers condamnés",
-   "desc": "Proposition de loi permettant de maintenir plus longtemps en centre de rétention les étrangers condamnés pour des faits graves, dans l'attente de leur expulsion.",
-   "pour": [
-    "Protège la population en attendant l'expulsion",
-    "Laisse plus de temps pour obtenir les laissez-passer"
-   ],
-   "contre": [
-    "Atteinte disproportionnée à la liberté",
-    "La durée ne change pas la coopération des pays d'origine"
-   ],
-   "assos": [],
-   "relu": false,
-   "officiel": "l'ensemble de la proposition de loi visant à faciliter le maintien en rétention des personnes condamnées pour des faits d’une particulière gravité et présentant de forts risques de récidive (première lecture)",
+   "title": "Proposition de loi visant à faciliter le maintien en rétention des personnes condamnées pour des faits d’une particulière gravité et présentant de forts risques de récidive",
+   "objet": "Vote sur l'ensemble de la proposition de loi visant à faciliter le maintien en rétention des personnes condamnées pour des faits d’une particulière gravité et présentant de forts risques de récidive (première lecture)",
    "result": "Adopté (303 pour, 168 contre, 1 abstentions)",
    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/2958",
+   "dossierUrl": "https://www.assemblee-nationale.fr/dyn/17/dossiers/DLR5L17N51429",
+   "texte": {
+    "label": "Proposition de loi n° 1640 (texte de la commission)",
+    "url": "https://www.assemblee-nationale.fr/dyn/opendata/PIONANR5L17BTC1640.html"
+   },
    "votes": {
     "RN": {
      "pos": "pour",
@@ -935,21 +887,15 @@ window.DATA = {
    "date": "2025-04-08",
    "ax": "soc",
    "dir": 1,
-   "title": "Droit du sol restreint à Mayotte",
-   "desc": "Proposition de loi durcissant les conditions d'accès à la nationalité française par le droit du sol à Mayotte.",
-   "pour": [
-    "Répond à une pression migratoire exceptionnelle à Mayotte",
-    "Limite l'attrait de la nationalité française"
-   ],
-   "contre": [
-    "Rupture d'égalité entre territoires de la République",
-    "Effet incertain sur l'immigration"
-   ],
-   "assos": [],
-   "relu": false,
-   "officiel": "l'ensemble de la proposition de loi visant à renforcer les conditions d'accès à la nationalité française à Mayotte (texte de la commission mixte paritaire)",
+   "title": "Renforcer les conditions d'accès à la nationalité française à Mayotte",
+   "objet": "Vote sur l'ensemble de la proposition de loi visant à renforcer les conditions d'accès à la nationalité française à Mayotte (texte de la commission mixte paritaire)",
    "result": "Adopté (339 pour, 174 contre, 11 abstentions)",
    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/1308",
+   "dossierUrl": "https://www.assemblee-nationale.fr/dyn/17/dossiers/renforcer_conditions_acces_nationalite_francaise_mayotte",
+   "texte": {
+    "label": "Proposition de loi n° 1199 (texte de la commission)",
+    "url": "https://www.assemblee-nationale.fr/dyn/opendata/PIONANR5L17BTC1199.html"
+   },
    "votes": {
     "RN": {
      "pos": "pour",
@@ -1035,21 +981,15 @@ window.DATA = {
    "date": "2025-10-30",
    "ax": "soc",
    "dir": 1,
-   "title": "Dénoncer l'accord franco-algérien de 1968",
-   "desc": "Résolution invitant le gouvernement à dénoncer l'accord de 1968, qui fixe des règles particulières d'entrée et de séjour pour les Algériens en France.",
-   "pour": [
-    "Aligner les Algériens sur le droit commun des étrangers",
-    "Moyen de pression diplomatique"
-   ],
-   "contre": [
-    "Risque de crise diplomatique",
-    "Mesure symbolique, la résolution n'oblige pas le gouvernement"
-   ],
-   "assos": [],
-   "relu": false,
-   "officiel": "la proposition de résolution visant à dénoncer les accords franco-algériens du 27 décembre 1968 (article 34-1 de la Constitution)",
+   "title": "Dénoncer les accords franco-algériens du 27 décembre 1968",
+   "objet": "Vote sur la proposition de résolution visant à dénoncer les accords franco-algériens du 27 décembre 1968 (article 34-1 de la Constitution)",
    "result": "Adopté (185 pour, 184 contre, 5 abstentions)",
    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/3260",
+   "dossierUrl": "https://www.assemblee-nationale.fr/dyn/17/dossiers/denoncer_accords_franco_algeriens_27_decembre_1968",
+   "texte": {
+    "label": "Proposition de résolution n° 1778",
+    "url": "https://www.assemblee-nationale.fr/dyn/opendata/PNREANR5L17B1778.html"
+   },
    "votes": {
     "RN": {
      "pos": "pour",
@@ -1135,21 +1075,15 @@ window.DATA = {
    "date": "2025-07-08",
    "ax": "env",
    "dir": 1,
-   "title": "Lever les contraintes sur le métier d'agriculteur",
-   "desc": "Proposition de loi assouplissant plusieurs règles pour les agriculteurs, dont la réautorisation encadrée d'un insecticide de la famille des néonicotinoïdes (version finale).",
-   "pour": [
-    "Les agriculteurs subissent une concurrence déloyale de pays moins exigeants",
-    "Certaines cultures n'ont pas d'alternative"
-   ],
-   "contre": [
-    "Risques pour la santé et la biodiversité, notamment les abeilles",
-    "Recul environnemental"
-   ],
-   "assos": [],
-   "relu": false,
-   "officiel": "l'ensemble de la proposition de loi visant à lever les contraintes à l'exercice du métier d'agriculteur (texte de la commission mixte paritaire)",
+   "title": "Proposition de loi visant à lever les contraintes à l’exercice du métier d’agriculteur",
+   "objet": "Vote sur l'ensemble de la proposition de loi visant à lever les contraintes à l'exercice du métier d'agriculteur (texte de la commission mixte paritaire)",
    "result": "Adopté (316 pour, 223 contre, 25 abstentions)",
    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/2957",
+   "dossierUrl": "https://www.assemblee-nationale.fr/dyn/17/dossiers/DLR5L17N50819",
+   "texte": {
+    "label": "Proposition de loi n° 1652 (texte de la commission)",
+    "url": "https://www.assemblee-nationale.fr/dyn/opendata/PIONANR5L17BTC1652.html"
+   },
    "votes": {
     "RN": {
      "pos": "pour",
@@ -1235,21 +1169,15 @@ window.DATA = {
    "date": "2025-02-20",
    "ax": "env",
    "dir": -1,
-   "title": "Protéger la population des PFAS",
-   "desc": "Proposition de loi limitant l'usage des « polluants éternels » (PFAS) dans certains produits de consommation et taxant leurs rejets industriels.",
-   "pour": [
-    "Ces substances s'accumulent dans l'eau et le corps humain",
-    "Principe pollueur-payeur"
-   ],
-   "contre": [
-    "Coûts et risques pour l'emploi industriel",
-    "Mieux vaut agir au niveau européen"
-   ],
-   "assos": [],
-   "relu": false,
-   "officiel": "l'ensemble de la proposition de loi visant à protéger la population des risques liés aux substances perfluoroalkylées et polyfluoroalkylées (deuxième lecture)",
+   "title": "Protéger la population des risques liés aux substances per- et polyfluoroalkylées (PFAS)",
+   "objet": "Vote sur l'ensemble de la proposition de loi visant à protéger la population des risques liés aux substances perfluoroalkylées et polyfluoroalkylées (deuxième lecture)",
    "result": "Adopté (231 pour, 51 contre, 7 abstentions)",
    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/852",
+   "dossierUrl": "https://www.assemblee-nationale.fr/dyn/17/dossiers/proteger_population_risques_pfas",
+   "texte": {
+    "label": "Proposition de loi n° 929 (texte de la commission)",
+    "url": "https://www.assemblee-nationale.fr/dyn/opendata/PIONANR5L17BTC0929.html"
+   },
    "votes": {
     "RN": {
      "pos": "contre",
@@ -1335,21 +1263,15 @@ window.DATA = {
    "date": "2026-06-03",
    "ax": "env",
    "dir": -1,
-   "title": "Contamination de l'alimentation au cadmium",
-   "desc": "Proposition de loi visant à protéger l'alimentation des contaminations au cadmium, un métal lourd présent notamment dans certains engrais.",
-   "pour": [
-    "Enjeu de santé publique",
-    "Protège les consommateurs"
-   ],
-   "contre": [
-    "Contraintes supplémentaires pour les agriculteurs",
-    "Risque de hausse des coûts des engrais"
-   ],
-   "assos": [],
-   "relu": false,
-   "officiel": "l'ensemble de la proposition de loi visant à protéger l'alimentation des Français et des Françaises des contaminations au cadmium (première lecture)",
+   "title": "Réduire les risques sanitaires liés aux contaminations au cadmium dans l’alimentation",
+   "objet": "Vote sur l'ensemble de la proposition de loi visant à protéger l'alimentation des Français et des Françaises des contaminations au cadmium (première lecture)",
    "result": "Adopté (144 pour, 22 contre, 4 abstentions)",
    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/7303",
+   "dossierUrl": "https://www.assemblee-nationale.fr/dyn/17/dossiers/_reduire_risques_sanitaires_lies_aux_contaminations_au_cadmium_dans_alimentation_17e",
+   "texte": {
+    "label": "Proposition de loi n° 2839 (texte de la commission)",
+    "url": "https://www.assemblee-nationale.fr/dyn/opendata/PIONANR5L17BTC2839.html"
+   },
    "votes": {
     "RN": {
      "pos": "contre",
@@ -1435,21 +1357,15 @@ window.DATA = {
    "date": "2025-03-12",
    "ax": "eur",
    "dir": -1,
-   "title": "Renforcer le soutien européen à l'Ukraine",
-   "desc": "Résolution européenne appelant à renforcer le soutien de l'Union européenne à l'Ukraine.",
-   "pour": [
-    "Soutien à un pays agressé, à la frontière de l'Union",
-    "Sécurité collective européenne"
-   ],
-   "contre": [
-    "Risque d'escalade",
-    "Coût et priorité aux besoins nationaux"
-   ],
-   "assos": [],
-   "relu": false,
-   "officiel": "l'article unique de la proposition de résolution européenne appelant au renforcement du soutien à l'Ukraine",
+   "title": "Renforcement du soutien à l'Ukraine",
+   "objet": "Vote sur l'article unique de la proposition de résolution européenne appelant au renforcement du soutien à l'Ukraine",
    "result": "Adopté (288 pour, 54 contre, 132 abstentions)",
    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/988",
+   "dossierUrl": "https://www.assemblee-nationale.fr/dyn/17/dossiers/renforcement_soutien_ukraine",
+   "texte": {
+    "label": "Proposition de résolution n° 1001 (texte de la commission)",
+    "url": "https://www.assemblee-nationale.fr/dyn/opendata/PNREANR5L17BTC1001.html"
+   },
    "votes": {
     "RN": {
      "pos": "abst",
@@ -1535,21 +1451,15 @@ window.DATA = {
    "date": "2025-04-02",
    "ax": "eur",
    "dir": -1,
-   "title": "Adapter le droit français au droit européen",
-   "desc": "Projet de loi transposant en droit français diverses règles européennes (économie, environnement, énergie, transports, santé, circulation des personnes).",
-   "pour": [
-    "La France doit respecter ses engagements européens",
-    "Évite des sanctions pour retard de transposition"
-   ],
-   "contre": [
-    "Texte fourre-tout adopté sans vrai débat",
-    "Contraintes européennes imposées au droit national"
-   ],
-   "assos": [],
-   "relu": false,
-   "officiel": "l'ensemble du projet de loi portant diverses dispositions d'adaptation au droit de l'Union européenne en matière économique, financière, environnementale, énergétique, de transport, de santé et de circulation des personnes (texte de la commission mixte paritaire)",
+   "title": "Diverses dispositions d’adaptation au droit de l’Union européenne en matière économique, financière, environnementale, énergétique, de transport, de santé et de circulation des personnes",
+   "objet": "Vote sur l'ensemble du projet de loi portant diverses dispositions d'adaptation au droit de l'Union européenne en matière économique, financière, environnementale, énergétique, de transport, de santé et de circulation des personnes (texte de la commission mixte paritaire)",
    "result": "Adopté (63 pour, 42 contre, 54 abstentions)",
    "url": "https://www.assemblee-nationale.fr/dyn/17/scrutins/1203",
+   "dossierUrl": "https://www.assemblee-nationale.fr/dyn/17/dossiers/diverses_dispositions_adaptation_due_2024_eco_finances_environnement",
+   "texte": {
+    "label": "Projet de loi n° 1198 (texte de la commission)",
+    "url": "https://www.assemblee-nationale.fr/dyn/opendata/PRJLANR5L17BTC1198.html"
+   },
    "votes": {
     "RN": {
      "pos": "abst",
