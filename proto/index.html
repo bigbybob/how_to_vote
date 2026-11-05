@@ -84,7 +84,7 @@
 </head>
 <body>
 <div class="phone">
-  <header><b>🧭 Boussole</b><span class="badge">Prototype – données fictives</span></header>
+  <header><b>🧭 Boussole</b><span class="badge">Proto · votes réels, résumés provisoires</span></header>
   <div class="progress"><div id="prog"></div></div>
 
   <!-- Intro -->
@@ -138,18 +138,19 @@
     <div class="box" id="res-best"></div>
     <div class="box"><b>Vos convictions face à vos votes</b><p class="small muted" style="margin:2px 0 0">Pointillés : ce que vous pensez (étape 1) · plein : ce que disent vos votes (étape 2)</p>
       <div id="res-axes"></div><div class="legend" id="res-legend"></div><div id="res-gaps" style="margin-top:10px"></div></div>
-    <div class="box"><b>Les partis : programme face aux votes</b><p class="small muted" style="margin:2px 0 8px">Sur les textes que vous avez votés</p><div id="res-pgaps"></div></div>
+    <div class="box"><b>Les partis : programme face aux votes</b><p class="small muted" style="margin:2px 0 8px">Sur les textes que vous avez votés, axes avec au moins 2 textes</p><div id="res-pgaps"></div></div>
     <div class="box"><b>Affinités</b><p class="small muted" style="margin:2px 0 10px">📋 convictions vs programmes · 🏛️ vos votes vs leurs votes</p><div id="res-global"></div></div>
     <div class="box"><b>Vous auriez voté comme…</b><div id="res-detail" style="margin-top:8px"></div></div>
-    <p class="muted small">Méthode : 📋 compare vos réponses graduées aux positions des programmes (les réponses « sans importance » ne comptent pas, les réponses fortes comptent double). 🏛️ compte 1 point par vote identique, ½ si l'un des deux s'est abstenu, 0 si opposé. Le score global est la moyenne des deux. Textes : la moitié ciblés sur les 3 partis les plus proches de vos convictions, l'autre moitié de contrôle, choisis sans regarder vos réponses ; le tirage est fait une fois, avant le premier vote.</p>
+    <p class="muted small">Méthode : 📋 compare vos réponses graduées aux positions des programmes (les réponses « sans importance » ne comptent pas, les réponses fortes comptent double). 🏛️ compte 1 point par vote identique, ½ si l'un des deux s'est abstenu, 0 si opposé. Les positions des groupes sur les axes sont provisoires, en attendant un vrai travail sur les programmes. Un groupe divisé compte au prorata de ses votes. Le score global est la moyenne des deux. Textes : la moitié ciblés sur les 3 partis les plus proches de vos convictions, l'autre moitié de contrôle, choisis sans regarder vos réponses ; le tirage est fait une fois, avant le premier vote.</p>
     <button class="btn ghost" onclick="location.reload()">Recommencer</button>
   </section>
 </div>
 
 <div class="sheet-bg" id="sheet-bg" onclick="if(event.target===this)closeSheet()"><div class="sheet" id="sheet"></div></div>
 
+<script src="data.js"></script>
 <script>
-// ================= Données fictives =================
+// ================= Données =================
 // Axes : valeur de -1 (pôle "neg") à +1 (pôle "pos")
 const AXES = {
   eco: { label: "Économie",      neg: "Redistribution, services publics", pos: "Marché, liberté d'entreprendre" },
@@ -157,14 +158,9 @@ const AXES = {
   env: { label: "Environnement", neg: "Priorité au climat",               pos: "Priorité à la croissance" },
   eur: { label: "Europe",        neg: "Coopération européenne",           pos: "Souveraineté nationale" },
 };
-// Position des partis sur les axes, d'après leurs programmes
-const PARTIES = {
-  az: { name: "Parti Azur",   color: "var(--az)", ax: { eco: -0.8, soc: -0.6, env: -0.8, eur: -0.3 } },
-  co: { name: "Parti Corail", color: "var(--co)", ax: { eco:  0.6, soc:  0.2, env:  0.3, eur: -0.8 } },
-  sa: { name: "Parti Sauge",  color: "var(--sa)", ax: { eco: -0.3, soc: -0.3, env: -0.6, eur: -0.7 } },
-  am: { name: "Parti Ambre",  color: "var(--am)", ax: { eco: -0.4, soc:  0.8, env:  0.4, eur:  0.8 } },
-  li: { name: "Parti Lilas",  color: "var(--li)", ax: { eco:  0.7, soc:  0.6, env:  0.6, eur:  0.3 } },
-};
+// Groupes parlementaires réels (proto/data.js, généré par data/build_data.py).
+// ax = position PROVISOIRE sur les axes d'après les programmes (data/groupes.json), à établir proprement.
+const PARTIES = DATA.groups;
 
 // Étape 1 : affirmations. dir = +1 si être d'accord pousse vers le pôle "pos" de l'axe
 const STATEMENTS = [
@@ -187,69 +183,9 @@ const SCALE = [
   ["Pas du tout d'accord", -2, "#e03131"],
 ];
 
-// Étape 2 : scrutins (fictifs). dir = +1 si voter POUR pousse vers le pôle "pos" de l'axe
-const SCRUTINS = [
-  { ax: "eco", dir: -1, title: "Contribution sur les très hauts patrimoines",
-    desc: "Amendement au budget créant une contribution annuelle de 2 % sur les patrimoines de plus de 100 millions d'euros.",
-    pour: ["Rapporterait plusieurs milliards par an", "Réduirait les inégalités"], contre: ["Risque de départ des contribuables concernés", "Pénaliserait l'investissement"],
-    assos: [["ONG pour la justice fiscale (fictive)", "pour"], ["Organisation patronale (fictive)", "contre"]], result: "Rejeté (230 pour, 285 contre)",
-    votes: { az: "pour", co: "contre", sa: "pour", am: "pour", li: "contre" } },
-  { ax: "eco", dir: 1, title: "Assouplir le travail du dimanche",
-    desc: "Article autorisant les commerces de plus de 400 m² à ouvrir tous les dimanches, sur la base du volontariat.",
-    pour: ["Plus de chiffre d'affaires et d'emplois", "Les salariés volontaires gagnent plus"], contre: ["Le volontariat est difficile à garantir", "Pénalise les petits commerces"],
-    assos: [["Fédération du commerce (fictive)", "pour"], ["Confédération syndicale (fictive)", "contre"]], result: "Adopté (290 pour, 220 contre)",
-    votes: { az: "contre", co: "pour", sa: "abst", am: "contre", li: "pour" } },
-  { ax: "eco", dir: -1, title: "Indexer les salaires sur l'inflation",
-    desc: "Proposition de loi augmentant automatiquement les salaires au même rythme que les prix.",
-    pour: ["Protège le pouvoir d'achat", "Évite les pertes de salaire réel"], contre: ["Peut alimenter l'inflation", "Coût élevé pour les petites entreprises"],
-    assos: [["Confédération syndicale (fictive)", "pour"], ["Confédération des PME (fictive)", "contre"]], result: "Rejeté (190 pour, 320 contre)",
-    votes: { az: "pour", co: "contre", sa: "contre", am: "pour", li: "contre" } },
-  { ax: "soc", dir: 1, title: "Vidéosurveillance algorithmique",
-    desc: "Article autorisant l'analyse automatique des images de vidéosurveillance dans l'espace public pour détecter des comportements suspects.",
-    pour: ["Aide à prévenir les attentats et les agressions", "Soulage les forces de l'ordre"], contre: ["Atteinte à la vie privée", "Risque d'erreurs et de dérives"],
-    assos: [["Association de défense des libertés numériques (fictive)", "contre"], ["Syndicat de policiers (fictif)", "pour"]], result: "Adopté (340 pour, 170 contre)",
-    votes: { az: "contre", co: "pour", sa: "pour", am: "pour", li: "pour" } },
-  { ax: "soc", dir: -1, title: "Légaliser le cannabis",
-    desc: "Proposition de loi autorisant la vente encadrée de cannabis aux majeurs, par un monopole d'État.",
-    pour: ["Assèche le trafic", "Permet la prévention et le contrôle sanitaire"], contre: ["Banalise un produit nocif", "Risque pour les jeunes"],
-    assos: [["Fédération d'addictologie (fictive)", "pour"], ["Association de parents (fictive)", "contre"]], result: "Rejeté (150 pour, 360 contre)",
-    votes: { az: "pour", co: "contre", sa: "abst", am: "contre", li: "contre" } },
-  { ax: "soc", dir: 1, title: "Durcir le regroupement familial",
-    desc: "Article allongeant de 18 à 24 mois le délai de séjour exigé avant de pouvoir faire venir sa famille.",
-    pour: ["Mieux maîtriser l'immigration", "Favoriser l'intégration préalable"], contre: ["Atteinte au droit de vivre en famille", "Effet limité sur les flux"],
-    assos: [["Association d'aide aux migrants (fictive)", "contre"], ["Collectif pour la maîtrise de l'immigration (fictif)", "pour"]], result: "Adopté (280 pour, 240 contre)",
-    votes: { az: "contre", co: "pour", sa: "contre", am: "pour", li: "pour" } },
-  { ax: "env", dir: -1, title: "Interdire un pesticide controversé",
-    desc: "Amendement interdisant d'ici 3 ans un herbicide suspecté d'effets sur la santé.",
-    pour: ["Protège la santé et la biodiversité", "Des alternatives existent déjà en partie"], contre: ["Pas d'alternative pour certaines cultures", "Concurrence déloyale avec les pays voisins"],
-    assos: [["Association de protection de la nature (fictive)", "pour"], ["Syndicat agricole (fictif)", "contre"], ["Union des consommateurs (fictive)", "pour"]], result: "Rejeté (200 pour, 300 contre)",
-    votes: { az: "pour", co: "contre", sa: "contre", am: "contre", li: "contre" } },
-  { ax: "env", dir: -1, title: "Moratoire sur les nouvelles autoroutes",
-    desc: "Amendement suspendant pendant 5 ans tout nouveau projet d'autoroute.",
-    pour: ["Limite l'artificialisation des sols", "Réoriente l'argent vers le train"], contre: ["Pénalise les territoires enclavés", "Bloque des projets attendus"],
-    assos: [["Association d'usagers du rail (fictive)", "pour"], ["Fédération des travaux publics (fictive)", "contre"]], result: "Rejeté (180 pour, 330 contre)",
-    votes: { az: "pour", co: "contre", sa: "pour", am: "contre", li: "contre" } },
-  { ax: "env", dir: 1, title: "Repousser l'objectif « zéro artificialisation »",
-    desc: "Article reportant de 10 ans l'objectif de ne plus bétonner de nouveaux sols naturels.",
-    pour: ["Laisse aux communes rurales le temps de se développer", "Facilite la construction de logements"], contre: ["Recul sur la protection des sols", "Aggrave les risques d'inondation"],
-    assos: [["Association des maires ruraux (fictive)", "pour"], ["Association de protection de la nature (fictive)", "contre"]], result: "Adopté (300 pour, 200 contre)",
-    votes: { az: "contre", co: "pour", sa: "abst", am: "pour", li: "pour" } },
-  { ax: "eur", dir: -1, title: "Accord de libre-échange UE – Océanie",
-    desc: "Projet de loi ratifiant un accord commercial entre l'Union européenne et un pays d'Océanie (fictif).",
-    pour: ["Nouveaux débouchés pour les exportateurs", "Renforce le poids de l'UE"], contre: ["Concurrence pour les éleveurs", "Normes environnementales moins exigeantes"],
-    assos: [["Fédération des exportateurs (fictive)", "pour"], ["Syndicat agricole (fictif)", "contre"], ["ONG environnementale (fictive)", "contre"]], result: "Adopté (270 pour, 230 contre)",
-    votes: { az: "contre", co: "pour", sa: "pour", am: "contre", li: "abst" } },
-  { ax: "eur", dir: 1, title: "Primauté du droit national",
-    desc: "Proposition de loi constitutionnelle permettant d'écarter une règle européenne contraire à « l'intérêt national ».",
-    pour: ["Rend la décision aux électeurs français", "Protège des règles inadaptées"], contre: ["Remet en cause les traités signés", "Risque de sanctions et d'isolement"],
-    assos: [["Collectif souverainiste (fictif)", "pour"], ["Mouvement européen (fictif)", "contre"]], result: "Rejeté (140 pour, 370 contre)",
-    votes: { az: "contre", co: "contre", sa: "contre", am: "pour", li: "pour" } },
-  { ax: "eur", dir: -1, title: "Défense européenne commune",
-    desc: "Résolution soutenant un budget européen commun pour l'achat d'armement.",
-    pour: ["Plus de poids face aux grandes puissances", "Économies d'échelle"], contre: ["Perte de contrôle national sur la défense", "Dépenses militaires en hausse"],
-    assos: [["Mouvement européen (fictif)", "pour"], ["Collectif pacifiste (fictif)", "contre"]], result: "Adopté (310 pour, 180 contre)",
-    votes: { az: "abst", co: "pour", sa: "pour", am: "contre", li: "contre" } },
-];
+// Étape 2 : scrutins réels sélectionnés (data/selection.json). dir = +1 si voter POUR pousse vers le pôle "pos".
+// votes[groupe] = { pos: position majoritaire, p/c/a: part des votants du groupe pour/contre/abstention }
+const SCRUTINS = DATA.scrutins;
 // Étape 2 : X textes qui départagent les partis proches de vos convictions + Y textes de contrôle,
 // choisis sans tenir compte de vos réponses (pour éviter l'effet entonnoir)
 const N_TARGET = 4, N_OPEN = 4, N_VOTES = N_TARGET + N_OPEN;
@@ -294,9 +230,16 @@ function progScore(p) {
   });
   return den ? num / den : null;
 }
-const match = (a, b) => a === b ? 1 : (a === "abst" || b === "abst") ? 0.5 : 0;
+// Accord entre votre vote et un groupe, pondéré par la répartition des votes du groupe
+// (un groupe divisé à 60/40 ne compte pas comme un vote unanime) :
+// même position = 1, l'un des deux abstenu = 1/2, opposé = 0.
+function match(u, g) {
+  if (u === "pour") return g.p + g.a / 2;
+  if (u === "contre") return g.c + g.a / 2;
+  return g.a + (g.p + g.c) / 2;
+}
 function voteScore(p) {
-  const vs = votes.filter(x => x.v);
+  const vs = votes.filter(x => x.v && x.s.votes[p]);   // groupe absent du vote : ignoré
   return vs.length ? vs.reduce((t, x) => t + match(x.v, x.s.votes[p]), 0) / vs.length : null;
 }
 function globalScore(p) {
@@ -331,7 +274,7 @@ function axesHTML(prof, start) {
       <div class="ends"><span>${AXES[a].neg}</span><span>${AXES[a].pos}</span></div></div>`).join("");
 }
 const legendHTML = () => `<span><span class="dot" style="background:var(--ink)"></span>Vous</span>` +
-  P.map(p => `<span><span class="dot" style="background:${PARTIES[p].color}"></span>${PARTIES[p].name}</span>`).join("");
+  P.map(p => `<span title="${PARTIES[p].name}"><span class="dot" style="background:${PARTIES[p].color}"></span>${PARTIES[p].short}</span>`).join("");
 
 // ================= Étape 1 =================
 function startLife() { show("s-life"); renderLife(); }
@@ -373,7 +316,7 @@ function showTrend() {
 // Les deux séries sont mélangées, pour qu'un parti mal classé au départ puisse remonter.
 const disagreement = (s, ps) => {
   let d = 0;
-  for (let i = 0; i < ps.length; i++) for (let j = i + 1; j < ps.length; j++) d += s.votes[ps[i]] !== s.votes[ps[j]];
+  for (let i = 0; i < ps.length; i++) for (let j = i + 1; j < ps.length; j++) d += s.votes[ps[i]]?.pos !== s.votes[ps[j]]?.pos;
   return d;
 };
 function pickBest(pool, scoreFn) {
@@ -387,12 +330,12 @@ function planVotes() {
   const axCount = (list, a) => list.filter(s => s.ax === a).length;
 
   for (let k = 0; k < N_TARGET; k++) targeted.push(pickBest(pool, s => disagreement(s, base) * 2 - axCount(targeted, s.ax) * 1.5));
-  for (let k = 0; k < N_OPEN; k++) open.push(pickBest(pool, s => disagreement(s, P) / 5 - axCount(open, s.ax) * 1.5));
+  for (let k = 0; k < N_OPEN; k++) open.push(pickBest(pool, s => disagreement(s, P) / (P.length * (P.length - 1) / 2) * 2 - axCount(open, s.ax) * 1.5));
 
   const whyTarget = s => {
     for (let i = 0; i < base.length; i++) for (let j = i + 1; j < base.length; j++) {
-      const a = s.votes[base[i]], b = s.votes[base[j]];
-      if (a !== b && a !== "abst" && b !== "abst") return `${PARTIES[base[i]].name} et ${PARTIES[base[j]].name}, proches de vos convictions, ont voté différemment sur ce texte.`;
+      const a = s.votes[base[i]]?.pos, b = s.votes[base[j]]?.pos;
+      if (a !== b && a !== "abst" && b !== "abst") return `${PARTIES[base[i]].short} et ${PARTIES[base[j]].short}, proches de vos convictions, ont voté différemment sur ce texte.`;
     }
     return "Les partis proches de vos convictions ne se sont pas positionnés de la même façon sur ce texte.";
   };
@@ -405,7 +348,7 @@ function planVotes() {
 }
 function renderLive() {
   $("live").innerHTML = `<span class="muted">Tendance actuelle :</span>` + ranked().slice(0, 3).map(p =>
-    `<span class="chip"><span class="dot" style="background:${PARTIES[p].color}"></span>${PARTIES[p].name.replace("Parti ", "")} ${pct(globalScore(p))}</span>`).join("");
+    `<span class="chip"><span class="dot" style="background:${PARTIES[p].color}"></span>${PARTIES[p].short} ${pct(globalScore(p))}</span>`).join("");
 }
 function startVotes() { plan = planVotes(); show("s-vote"); nextVote(); }
 function nextVote() {
@@ -414,7 +357,7 @@ function nextVote() {
   renderLive();
   $("v-axis").textContent = AXES[current.s.ax].label;
   $("v-title").textContent = current.s.title;
-  $("v-desc").textContent = current.s.desc;
+  $("v-desc").innerHTML = current.s.desc + (current.s.relu ? "" : `<br><span class="muted small">Résumé provisoire, à relire</span>`);
   $("v-why").textContent = current.why;
 }
 function vote(v) {
@@ -430,8 +373,9 @@ function openSheet() {
     <div class="sec"><b style="color:var(--pour)">Arguments pour</b><ul class="args">${s.pour.map(x => `<li>${x}</li>`).join("")}</ul>
       <b style="color:var(--contre)">Arguments contre</b><ul class="args">${s.contre.map(x => `<li>${x}</li>`).join("")}</ul></div>
     <div class="sec"><b>Avis des associations</b>
-      ${s.assos.map(([n, v]) => `<div class="row"><span>${n}</span><b style="color:${col(v)}">${v}</b></div>`).join("")}</div>
-    <div class="sec"><b>Résultat</b><p style="margin:4px 0">${s.result}</p>
+      ${s.assos.length ? s.assos.map(([n, v]) => `<div class="row"><span>${n}</span><b style="color:${col(v)}">${v}</b></div>`).join("") : `<p class="muted small" style="margin:4px 0">Pas encore renseigné.</p>`}</div>
+    <div class="sec"><b>Le scrutin</b><p class="small" style="margin:4px 0">${s.date} · Vote sur ${s.officiel}</p>
+      <p style="margin:4px 0">${s.result}</p><p class="small" style="margin:4px 0"><a href="${s.url}" target="_blank" rel="noopener">Voir sur le site de l'Assemblée ↗</a></p>
       <p class="muted small" style="margin:0">Le vote de chaque parti s'affiche dans le bilan, pour ne pas orienter votre choix.</p></div>
     <button class="btn" style="width:100%;margin-top:16px" onclick="closeSheet()">Fermer</button>`;
   $("sheet-bg").classList.add("on");
@@ -443,7 +387,7 @@ function showResults() {
   show("s-result"); setProg(TOTAL);
   const order = ranked(), best = order[0];
 
-  $("res-best").innerHTML = `<p class="muted small" style="margin:0">Le parti le plus proche de vous</p>
+  $("res-best").innerHTML = `<p class="muted small" style="margin:0">Le groupe le plus proche de vous</p>
     <p style="font-size:22px;font-weight:700;margin:2px 0"><span class="dot" style="background:${PARTIES[best].color};width:14px;height:14px"></span>${PARTIES[best].name} · ${pct(globalScore(best))}</p>`;
 
   // Vous : convictions vs votes, axe par axe
@@ -452,16 +396,17 @@ function showResults() {
   $("res-legend").innerHTML = legendHTML();
   $("res-gaps").innerHTML = Object.keys(AXES).map(a => {
     if (byVotes[a] == null) return `<p class="small muted" style="margin:4px 0">${AXES[a].label} : aucun vote sur ce sujet.</p>`;
-    if (!differs(conv[a], byVotes[a])) return `<p class="small" style="margin:4px 0">✅ <b>${AXES[a].label}</b> : vos votes confirment vos convictions (${side(a, conv[a])}).</p>`;
-    return `<p class="small" style="margin:4px 0;color:#c92a2a">⚠️ <b>${AXES[a].label}</b> : vous vous situez ${side(a, conv[a])}, mais face aux textes concrets vous avez voté ${side(a, byVotes[a])}.</p>`;
+    const nb = votes.filter(x => x.s.ax === a && x.v).length, src = `<span class="muted"> · ${nb} texte${nb > 1 ? "s" : ""}</span>`;
+    if (!differs(conv[a], byVotes[a])) return `<p class="small" style="margin:4px 0">✅ <b>${AXES[a].label}</b> : vos votes confirment vos convictions (${side(a, conv[a])}).${src}</p>`;
+    return `<p class="small" style="margin:4px 0;color:#c92a2a">⚠️ <b>${AXES[a].label}</b> : vous vous situez ${side(a, conv[a])}, mais face aux textes concrets vous avez voté ${side(a, byVotes[a])}.${src}</p>`;
   }).join("");
 
   // Les partis : programme vs votes réels, sur les textes votés par l'utilisateur
   const pgaps = P.map(p => {
     const res = Object.keys(AXES).map(a => {
-      const vs = votes.filter(x => x.s.ax === a);
-      if (!vs.length) return null;
-      const real = vs.reduce((t, x) => t + (x.s.votes[p] === "pour" ? x.s.dir : x.s.votes[p] === "contre" ? -x.s.dir : 0), 0) / vs.length;
+      const vs = votes.filter(x => x.s.ax === a && x.s.votes[p]);
+      if (vs.length < 2) return null;   // un seul texte ne suffit pas à juger un groupe sur un axe
+      const real = vs.reduce((t, x) => t + (x.s.votes[p] ? x.s.dir * (x.s.votes[p].p - x.s.votes[p].c) : 0), 0) / vs.length;
       return differs(PARTIES[p].ax[a], real) ?`${AXES[a].label.toLowerCase()} (programme ${side(a, PARTIES[p].ax[a])}, votes ${side(a, real)})` : null;
     }).filter(Boolean);
     return res.length ? `<p class="small" style="margin:4px 0"><span class="dot" style="background:${PARTIES[p].color}"></span><b>${PARTIES[p].name}</b> : écart sur ${res.join(" ; ")}.</p>` : null;
@@ -475,16 +420,23 @@ function showResults() {
       <div class="top"><span><span class="dot" style="background:${PARTIES[p].color}"></span>${PARTIES[p].name}</span><span>${pct(globalScore(p))}</span></div>
       <div class="bar"><div style="background:${PARTIES[p].color}" data-w="${Math.round(100 * (globalScore(p) ?? 0))}"></div></div>
       <div class="split"><span>📋 Programme : ${pct(pr)}</span><span>🏛️ Votes : ${pct(vo)}</span></div>
-      ${gap ? `<div class="gap-warn">⚠️ Ce parti vous ressemble plus dans ${pr > vo ? "son programme que dans ses votes" : "ses votes que dans son programme"}</div>` : ""}
+      ${gap ? `<div class="gap-warn">⚠️ Ce groupe vous ressemble plus dans ${pr > vo ? "son programme que dans ses votes" : "ses votes que dans son programme"}</div>` : ""}
     </div>`;
   }).join("");
 
   const lbl = { pour: "P", contre: "C", abst: "A" };
-  const pill = (pv, uv) => `<span class="pill" style="background:${!uv ? "#adb5bd" : pv === uv ? "var(--pour)" : (pv === "abst" || uv === "abst") ? "#fab005" : "var(--contre)"}">${lbl[pv]}</span>`;
+  // Tableau limité aux 6 groupes les plus proches, pour rester lisible sur téléphone
+  const cols = order.slice(0, 6);
+  const pill = (g, uv) => {
+    if (!g) return `<span class="pill" style="background:#dee2e6;color:#666">–</span>`;
+    const share = Math.max(g.p, g.c, g.a);
+    const bg = !uv ? "#adb5bd" : g.pos === uv ? "var(--pour)" : (g.pos === "abst" || uv === "abst") ? "#fab005" : "var(--contre)";
+    return `<span class="pill" title="${Math.round(100 * share)} % du groupe" style="background:${bg}">${lbl[g.pos]}${share < 0.75 ? "*" : ""}</span>`;
+  };
   $("res-detail").innerHTML = `<table>
-    <tr><th>Texte</th><th>Vous</th>${P.map(p => `<th><span class="dot" style="background:${PARTIES[p].color};margin:0"></span></th>`).join("")}</tr>
-    ${votes.map(x => `<tr><td>${x.kind === "cible" ? "🎯" : "🧭"} ${x.s.title}</td><td><b>${x.v ? lbl[x.v] : "–"}</b></td>${P.map(p => `<td>${pill(x.s.votes[p], x.v)}</td>`).join("")}</tr>`).join("")}
-  </table><p class="muted small" style="margin:6px 0 0">🎯 texte ciblé · 🧭 texte de contrôle<br>P pour · C contre · A abstention — vert : comme vous · jaune : à moitié · rouge : opposé</p>`;
+    <tr><th>Texte</th><th>Vous</th>${cols.map(p => `<th style="font-size:10px">${PARTIES[p].short}</th>`).join("")}</tr>
+    ${votes.map(x => `<tr><td>${x.kind === "cible" ? "🎯" : "🧭"} <a href="${x.s.url}" target="_blank" rel="noopener" style="color:inherit">${x.s.title}</a></td><td><b>${x.v ? lbl[x.v] : "–"}</b></td>${cols.map(p => `<td>${pill(x.s.votes[p], x.v)}</td>`).join("")}</tr>`).join("")}
+  </table><p class="muted small" style="margin:6px 0 0">Les 6 groupes les plus proches de vous · 🎯 texte ciblé · 🧭 texte de contrôle<br>P pour · C contre · A abstention · * groupe divisé (moins de 75 % sur la même position) — vert : comme vous · jaune : à moitié · rouge : opposé</p>`;
 
   requestAnimationFrame(() => document.querySelectorAll(".bar > div").forEach(b => b.style.width = b.dataset.w + "%"));
 }

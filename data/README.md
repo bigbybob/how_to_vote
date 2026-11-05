@@ -32,11 +32,22 @@ Pour une **motion de censure**, seuls les votes « pour » sont recueillis. Un g
 
 Les groupes sont ceux du moment du vote. Le code `PO847173` (groupe UDR d'octobre 2024 à juillet 2025) n'est plus dans le fichier des organes actifs : il est remis à la main dans `GROUPES_HISTORIQUES`.
 
-## Étape suivante
+## Sélection et construction des données du proto
 
-Choisir à la main 20 à 30 scrutins dans `candidats.csv`, de préférence parmi les votes sur l'ensemble d'un texte. Pour chacun :
+- `selection.json` contient les scrutins retenus à la main, un seul vote par texte. Pour chacun :
+  - l'axe (`eco`, `soc`, `env`, `eur`) ;
+  - le sens du « pour » (`dir` = +1 si voter pour pousse vers le pôle « pos » de l'axe) ;
+  - un titre et une description en langage simple ;
+  - les arguments pour et contre, et les avis d'associations.
 
-- associer un axe et le sens du « pour » ;
-- écrire un titre et une description en langage simple ;
-- rédiger les arguments pour et contre ;
-- noter l'avis des associations.
+  Les résumés sont marqués `relu: false` tant qu'ils n'ont pas été relus et sourcés.
+- `groupes.json` contient la couleur de chaque groupe et sa position **provisoire** sur les axes, censée refléter son programme. Ces positions sont à établir proprement et ne doivent pas être déduites des votes.
+- Pour régénérer `proto/data.js` à partir de ces deux fichiers et des votes officiels :
+
+```bash
+python data/build_data.py
+```
+
+Pour chaque groupe, `data.js` contient la répartition de ses votes (pour, contre, abstention) et pas seulement sa position majoritaire. Un groupe divisé compte donc au prorata dans les scores.
+
+Écarté volontairement : les votes tactiques. Exemple : la proposition RN d'abrogation de la réforme des retraites (scrutin n° 217), contre laquelle la gauche a voté alors qu'elle défend l'abrogation sur le fond.

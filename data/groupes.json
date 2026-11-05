@@ -1,0 +1,22 @@
+{
+  "_avertissement": "Positions PROVISOIRES des groupes sur les 4 axes (-1 = pôle « neg », +1 = pôle « pos »), estimées à la main pour tester le proto. Elles devront être établies à partir des programmes, de façon sourcée et relue. Ne pas les déduire des votes, sinon l'écart programme / votes disparaît.",
+  "axes": {
+    "eco": "Redistribution (-1) ↔ Marché (+1)",
+    "soc": "Libertés individuelles (-1) ↔ Ordre et autorité (+1)",
+    "env": "Priorité au climat (-1) ↔ Priorité à la croissance (+1)",
+    "eur": "Coopération européenne (-1) ↔ Souveraineté nationale (+1)"
+  },
+  "groupes": {
+    "LFI-NFP": { "couleur": "#c9184a", "ax": { "eco": -0.9, "soc": -0.7, "env": -0.8, "eur":  0.2 } },
+    "GDR":     { "couleur": "#7f0000", "ax": { "eco": -0.8, "soc": -0.5, "env": -0.4, "eur":  0.2 } },
+    "EcoS":    { "couleur": "#2b9348", "ax": { "eco": -0.6, "soc": -0.7, "env": -0.9, "eur": -0.6 } },
+    "SOC":     { "couleur": "#e85d9a", "ax": { "eco": -0.5, "soc": -0.4, "env": -0.6, "eur": -0.8 } },
+    "LIOT":    { "couleur": "#f4a261", "ax": { "eco": -0.1, "soc":  0.0, "env": -0.1, "eur": -0.3 } },
+    "Dem":     { "couleur": "#ff9f1c", "ax": { "eco":  0.1, "soc": -0.1, "env": -0.3, "eur": -0.9 } },
+    "EPR":     { "couleur": "#e9c46a", "ax": { "eco":  0.4, "soc":  0.1, "env": -0.1, "eur": -0.9 } },
+    "HOR":     { "couleur": "#48cae4", "ax": { "eco":  0.5, "soc":  0.3, "env":  0.1, "eur": -0.8 } },
+    "DR":      { "couleur": "#1d6fb8", "ax": { "eco":  0.6, "soc":  0.6, "env":  0.4, "eur": -0.3 } },
+    "UDR":     { "couleur": "#5a4fcf", "ax": { "eco":  0.6, "soc":  0.8, "env":  0.6, "eur":  0.6 } },
+    "RN":      { "couleur": "#0b1f4b", "ax": { "eco": -0.1, "soc":  0.8, "env":  0.5, "eur":  0.7 } }
+  }
+}

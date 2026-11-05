@@ -1,0 +1,125 @@
+{
+  "_avertissement": "Première sélection pour tester le proto. Les résumés et arguments sont provisoires (relu: false) et doivent être relus et sourcés. Les avis d'associations ne sont pas encore renseignés.",
+  "scrutins": [
+    {
+      "numero": 438, "axe": "eco", "dir": -1,
+      "titre": "Budget 2025 : les recettes modifiées par l'Assemblée",
+      "desc": "Vote sur la partie « recettes » du budget 2025, telle qu'amendée en séance, avec de nombreuses hausses d'impôts sur les entreprises et les plus aisés.",
+      "pour": ["Fait contribuer davantage les grandes entreprises et les plus riches", "Finance les services publics sans couper dans les dépenses"],
+      "contre": ["Hausse d'impôts jugée excessive pour l'économie", "Texte très éloigné du projet initial du gouvernement"],
+      "assos": [], "relu": false
+    },
+    {
+      "numero": 881, "axe": "eco", "dir": -1,
+      "titre": "Impôt plancher de 2 % sur les ultra-riches",
+      "desc": "Proposition de loi créant un impôt minimal de 2 % par an sur les patrimoines de plus de 100 millions d'euros.",
+      "pour": ["Les plus grandes fortunes paient proportionnellement peu d'impôt", "Rapporterait plusieurs milliards d'euros par an"],
+      "contre": ["Risque d'exil fiscal", "Pénaliserait les entreprises familiales et l'investissement"],
+      "assos": [], "relu": false
+    },
+    {
+      "numero": 7380, "axe": "eco", "dir": -1,
+      "titre": "Nationaliser ArcelorMittal France",
+      "desc": "Proposition de loi visant à nationaliser ArcelorMittal France pour préserver la production d'acier et l'emploi.",
+      "pour": ["Préserve une industrie stratégique et des milliers d'emplois", "Évite les fermetures de sites décidées à l'étranger"],
+      "contre": ["Coût élevé pour l'État", "L'État n'est pas forcément bon gestionnaire d'une aciérie"],
+      "assos": [], "relu": false
+    },
+    {
+      "numero": 6184, "axe": "eco", "dir": 1,
+      "titre": "Simplification de la vie économique",
+      "desc": "Projet de loi allégeant des démarches et des normes pour les entreprises (version finale issue de la commission mixte paritaire).",
+      "pour": ["Moins de paperasse pour les entreprises", "Accélère les projets économiques"],
+      "contre": ["Recul de certaines protections environnementales ou sociales", "Texte fourre-tout"],
+      "assos": [], "relu": false
+    },
+    {
+      "numero": 8280, "axe": "soc", "dir": -1,
+      "titre": "Droit à l'aide à mourir",
+      "desc": "Proposition de loi ouvrant, sous conditions strictes, un droit à l'aide à mourir pour les personnes atteintes d'une maladie grave et incurable (lecture définitive).",
+      "pour": ["Liberté de choisir sa fin de vie", "Encadre une pratique qui existe déjà à l'étranger"],
+      "contre": ["Risque de pression sur les personnes vulnérables", "Priorité au développement des soins palliatifs"],
+      "assos": [], "relu": false
+    },
+    {
+      "numero": 7987, "axe": "soc", "dir": 1,
+      "titre": "Présomption de légitime défense pour les forces de l'ordre",
+      "desc": "Proposition de loi créant une présomption de légitime défense pour les policiers et gendarmes dans l'exercice de leurs fonctions.",
+      "pour": ["Protège juridiquement les forces de l'ordre", "Elles interviennent dans des situations dangereuses"],
+      "contre": ["Rend plus difficile le contrôle de l'usage de la force", "Les règles actuelles suffisent déjà"],
+      "assos": [], "relu": false
+    },
+    {
+      "numero": 1624, "axe": "soc", "dir": 1,
+      "titre": "Justice des mineurs plus ferme",
+      "desc": "Proposition de loi renforçant l'autorité de la justice envers les mineurs délinquants et la responsabilité de leurs parents.",
+      "pour": ["Réponse plus rapide et plus ferme à la délinquance des mineurs", "Responsabilise les parents"],
+      "contre": ["Recul du principe d'éducation avant la sanction", "Risque d'aggraver la récidive"],
+      "assos": [], "relu": false
+    },
+    {
+      "numero": 2958, "axe": "soc", "dir": 1,
+      "titre": "Rétention prolongée des étrangers condamnés",
+      "desc": "Proposition de loi permettant de maintenir plus longtemps en centre de rétention les étrangers condamnés pour des faits graves, dans l'attente de leur expulsion.",
+      "pour": ["Protège la population en attendant l'expulsion", "Laisse plus de temps pour obtenir les laissez-passer"],
+      "contre": ["Atteinte disproportionnée à la liberté", "La durée ne change pas la coopération des pays d'origine"],
+      "assos": [], "relu": false
+    },
+    {
+      "numero": 1308, "axe": "soc", "dir": 1,
+      "titre": "Droit du sol restreint à Mayotte",
+      "desc": "Proposition de loi durcissant les conditions d'accès à la nationalité française par le droit du sol à Mayotte.",
+      "pour": ["Répond à une pression migratoire exceptionnelle à Mayotte", "Limite l'attrait de la nationalité française"],
+      "contre": ["Rupture d'égalité entre territoires de la République", "Effet incertain sur l'immigration"],
+      "assos": [], "relu": false
+    },
+    {
+      "numero": 3260, "axe": "soc", "dir": 1,
+      "titre": "Dénoncer l'accord franco-algérien de 1968",
+      "desc": "Résolution invitant le gouvernement à dénoncer l'accord de 1968, qui fixe des règles particulières d'entrée et de séjour pour les Algériens en France.",
+      "pour": ["Aligner les Algériens sur le droit commun des étrangers", "Moyen de pression diplomatique"],
+      "contre": ["Risque de crise diplomatique", "Mesure symbolique, la résolution n'oblige pas le gouvernement"],
+      "assos": [], "relu": false
+    },
+    {
+      "numero": 2957, "axe": "env", "dir": 1,
+      "titre": "Lever les contraintes sur le métier d'agriculteur",
+      "desc": "Proposition de loi assouplissant plusieurs règles pour les agriculteurs, dont la réautorisation encadrée d'un insecticide de la famille des néonicotinoïdes (version finale).",
+      "pour": ["Les agriculteurs subissent une concurrence déloyale de pays moins exigeants", "Certaines cultures n'ont pas d'alternative"],
+      "contre": ["Risques pour la santé et la biodiversité, notamment les abeilles", "Recul environnemental"],
+      "assos": [], "relu": false
+    },
+    {
+      "numero": 852, "axe": "env", "dir": -1,
+      "titre": "Protéger la population des PFAS",
+      "desc": "Proposition de loi limitant l'usage des « polluants éternels » (PFAS) dans certains produits de consommation et taxant leurs rejets industriels.",
+      "pour": ["Ces substances s'accumulent dans l'eau et le corps humain", "Principe pollueur-payeur"],
+      "contre": ["Coûts et risques pour l'emploi industriel", "Mieux vaut agir au niveau européen"],
+      "assos": [], "relu": false
+    },
+    {
+      "numero": 7303, "axe": "env", "dir": -1,
+      "titre": "Contamination de l'alimentation au cadmium",
+      "desc": "Proposition de loi visant à protéger l'alimentation des contaminations au cadmium, un métal lourd présent notamment dans certains engrais.",
+      "pour": ["Enjeu de santé publique", "Protège les consommateurs"],
+      "contre": ["Contraintes supplémentaires pour les agriculteurs", "Risque de hausse des coûts des engrais"],
+      "assos": [], "relu": false
+    },
+    {
+      "numero": 988, "axe": "eur", "dir": -1,
+      "titre": "Renforcer le soutien européen à l'Ukraine",
+      "desc": "Résolution européenne appelant à renforcer le soutien de l'Union européenne à l'Ukraine.",
+      "pour": ["Soutien à un pays agressé, à la frontière de l'Union", "Sécurité collective européenne"],
+      "contre": ["Risque d'escalade", "Coût et priorité aux besoins nationaux"],
+      "assos": [], "relu": false
+    },
+    {
+      "numero": 1203, "axe": "eur", "dir": -1,
+      "titre": "Adapter le droit français au droit européen",
+      "desc": "Projet de loi transposant en droit français diverses règles européennes (économie, environnement, énergie, transports, santé, circulation des personnes).",
+      "pour": ["La France doit respecter ses engagements européens", "Évite des sanctions pour retard de transposition"],
+      "contre": ["Texte fourre-tout adopté sans vrai débat", "Contraintes européennes imposées au droit national"],
+      "assos": [], "relu": false
+    }
+  ]
+}
