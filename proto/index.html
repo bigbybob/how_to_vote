@@ -7,7 +7,7 @@
 <style>
   :root {
     --bg: #f3f1ec; --card: #ffffff; --ink: #1d1d1f; --muted: #6b6b70; --line: #e3e0d8;
-    --accent: #3b5bdb; --left: #e8590c; --right: #2f9e44;
+    --accent: #3b5bdb; --pour: #2f9e44; --contre: #e03131; --abst: #868e96;
     --az: #1c7ed6; --co: #f76707; --sa: #37b24d; --am: #f59f00; --li: #9c36b5;
   }
   * { box-sizing: border-box; }
@@ -16,64 +16,70 @@
   header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
   header b { font-size: 17px; }
   .badge { font-size: 11px; background: #fff3bf; color: #7a5c00; padding: 2px 8px; border-radius: 99px; }
-  .progress { height: 4px; background: var(--line); border-radius: 4px; overflow: hidden; margin-bottom: 16px; }
+  .progress { height: 4px; background: var(--line); border-radius: 4px; overflow: hidden; margin-bottom: 14px; }
   .progress > div { height: 100%; background: var(--accent); width: 0; transition: width .3s; }
   .screen { display: none; flex: 1; flex-direction: column; }
   .screen.on { display: flex; }
   h1 { font-size: 24px; margin: 8px 0; }
-  h2 { font-size: 19px; margin: 4px 0 12px; }
-  p.muted, .muted { color: var(--muted); }
-  .btn { border: 0; border-radius: 12px; padding: 14px 16px; font: inherit; font-weight: 600; cursor: pointer; background: var(--accent); color: #fff; }
+  h2 { font-size: 19px; margin: 4px 0 10px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 12px; }
+  .btn { border: 0; border-radius: 12px; padding: 13px 16px; font: inherit; font-weight: 600; cursor: pointer; background: var(--accent); color: #fff; }
   .btn.ghost { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
   .btn:active { transform: scale(.98); }
-  .stack { display: flex; flex-direction: column; gap: 10px; }
+  .linkbtn { background: none; border: 0; color: var(--accent); font: inherit; cursor: pointer; padding: 4px 0; text-align: left; }
+  .stack { display: flex; flex-direction: column; gap: 8px; }
+  .box { background: var(--card); border-radius: 16px; padding: 16px; box-shadow: 0 2px 10px rgba(0,0,0,.05); margin-bottom: 12px; }
   .tag { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 99px; background: #edf2ff; color: var(--accent); margin-right: 4px; }
   .tag.vote { background: #fff4e6; color: #d9480f; }
 
-  /* Q vie courante */
-  .qcard { background: var(--card); border-radius: 18px; padding: 22px; box-shadow: 0 2px 10px rgba(0,0,0,.05); margin-bottom: 16px; }
-  .qcard .emoji { font-size: 40px; }
-  .qcard .q { font-size: 19px; font-weight: 600; margin: 8px 0 0; }
+  /* Étape 1 : échelle graduée */
+  .stmt { font-size: 19px; font-weight: 600; margin: 6px 0 0; }
+  .scale button { display: flex; align-items: center; gap: 10px; text-align: left; font-weight: 500; }
+  .scale button i { width: 14px; height: 14px; border-radius: 50%; flex: none; }
+  .scale button.sel { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .nav { display: flex; justify-content: space-between; margin-top: 10px; }
 
-  /* Swipe */
-  .deck { position: relative; flex: 1; min-height: 430px; }
-  .card { position: absolute; inset: 0; background: var(--card); border-radius: 20px; padding: 18px; box-shadow: 0 6px 24px rgba(0,0,0,.08);
-          display: flex; flex-direction: column; touch-action: none; user-select: none; cursor: grab; transition: transform .25s ease; }
-  .card.dragging { transition: none; cursor: grabbing; }
-  .card .subject { font-size: 17px; font-weight: 700; margin: 8px 0 12px; }
-  .prop { border: 2px solid var(--line); border-radius: 14px; padding: 12px; margin-bottom: 10px; transition: border-color .1s, background .1s; }
-  .prop small { display: block; font-weight: 700; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 2px; }
-  .prop.l small { color: var(--left); } .prop.r small { color: var(--right); }
-  .prop.l.hot { border-color: var(--left); background: #fff4e6; }
-  .prop.r.hot { border-color: var(--right); background: #ebfbee; }
-  .card .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-  .linkbtn { background: none; border: 0; color: var(--accent); font: inherit; cursor: pointer; padding: 4px 0; }
-  .star { background: none; border: 1px solid var(--line); border-radius: 99px; padding: 4px 10px; font: inherit; font-size: 13px; cursor: pointer; }
-  .star.on { background: #fff9db; border-color: #fcc419; }
-  .controls { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; margin-top: 14px; }
-  .controls .btn.l { background: var(--left); } .controls .btn.r { background: var(--right); }
-  .hint { text-align: center; font-size: 12px; margin-top: 8px; }
+  /* Axes */
+  .axis { margin: 14px 0 6px; }
+  .axis .lbl { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  .track { position: relative; height: 30px; margin: 4px 8px 0; }
+  .track::before { content: ""; position: absolute; left: 0; right: 0; top: 14px; height: 2px; background: var(--line); }
+  .track::after { content: ""; position: absolute; left: 50%; top: 9px; height: 12px; width: 1px; background: #ccc; }
+  .pdot { position: absolute; top: 8px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; border: 2px solid #fff; opacity: .85; }
+  .udot { position: absolute; top: 3px; width: 24px; height: 24px; margin-left: -12px; border-radius: 50%; background: var(--ink); border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.3); z-index: 2; transition: left .6s ease; }
+  .udot.start { background: #fff; border: 3px dashed var(--ink); box-shadow: none; z-index: 1; }
+  .ends { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); }
+  .legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; margin-top: 8px; }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; }
 
-  /* Sheet détails */
+  /* Étape 2 : votes */
+  .live { display: flex; gap: 6px; align-items: center; font-size: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .chip { background: var(--card); border: 1px solid var(--line); border-radius: 99px; padding: 2px 8px; transition: all .3s; }
+  .law { font-size: 18px; font-weight: 700; margin: 8px 0 6px; }
+  .why { font-size: 12px; color: #5f3dc4; background: #f3f0ff; border-radius: 8px; padding: 6px 8px; margin-top: 10px; }
+  .votebar { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: auto; }
+  .votebar .pour { background: var(--pour); } .votebar .contre { background: var(--contre); } .votebar .abst { background: var(--abst); }
+
+  /* Sheet */
   .sheet-bg { position: fixed; inset: 0; background: rgba(0,0,0,.35); display: none; align-items: flex-end; justify-content: center; z-index: 10; }
   .sheet-bg.on { display: flex; }
   .sheet { background: var(--card); width: 100%; max-width: 420px; max-height: 80vh; overflow: auto; border-radius: 20px 20px 0 0; padding: 20px; }
   .sheet h3 { margin: 0 0 6px; font-size: 16px; }
-  .sheet .sec { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 10px; }
-  .row { display: flex; justify-content: space-between; padding: 3px 0; font-size: 14px; }
+  .sec { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 10px; }
+  .row { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; font-size: 14px; }
+  ul.args { margin: 4px 0; padding-left: 18px; font-size: 14px; }
 
-  /* Résultats */
-  .res { background: var(--card); border-radius: 16px; padding: 14px; margin-bottom: 12px; }
+  /* Bilan */
   .bar { height: 10px; border-radius: 6px; background: var(--line); overflow: hidden; margin: 4px 0 2px; }
   .bar > div { height: 100%; border-radius: 6px; transition: width .8s ease; width: 0; }
   .party { margin-bottom: 12px; }
   .party .top { display: flex; justify-content: space-between; font-weight: 600; }
-  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
   .split { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; color: var(--muted); }
   .gap-warn { font-size: 12px; color: #c92a2a; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  td, th { padding: 6px 4px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
-  .pill { display: inline-block; min-width: 18px; text-align: center; border-radius: 4px; font-size: 11px; font-weight: 700; padding: 1px 4px; color: #fff; }
+  td, th { padding: 6px 3px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+  .pill { display: inline-block; min-width: 22px; text-align: center; border-radius: 4px; font-size: 11px; font-weight: 700; padding: 1px 3px; color: #fff; }
 </style>
 </head>
 <body>
@@ -84,40 +90,56 @@
   <!-- Intro -->
   <section class="screen on" id="s-intro">
     <h1>Pour qui voter&nbsp;?</h1>
-    <p>Deux étapes, environ 3 minutes :</p>
-    <div class="stack">
-      <div class="qcard"><b>1. Votre quotidien</b><p class="muted" style="margin:4px 0 0">Quelques questions sur votre vie pour savoir quels sujets comptent le plus pour vous.</p></div>
-      <div class="qcard"><b>2. Choisissez entre deux propositions</b><p class="muted" style="margin:4px 0 0">Swipez à gauche ou à droite. Les partis restent cachés jusqu'au résultat, pour ne pas vous influencer.</p></div>
-    </div>
-    <p class="muted" style="font-size:13px">🔒 Tout reste sur votre téléphone. Rien n'est envoyé.</p>
-    <div style="margin-top:auto" class="stack"><button class="btn" onclick="startLife()">Commencer</button></div>
+    <div class="box"><b>1. Vos convictions</b><p class="muted" style="margin:4px 0 0">Une dizaine d'affirmations, pour dessiner votre tendance politique de départ.</p></div>
+    <div class="box"><b>2. Votez comme un député</b><p class="muted" style="margin:4px 0 0">Des textes réellement examinés à l'Assemblée, choisis selon votre profil. Vous votez pour, contre ou abstention, et votre tendance s'affine.</p></div>
+    <div class="box"><b>3. Le bilan</b><p class="muted" style="margin:4px 0 0">Les partis les plus proches de vous, dans leurs programmes et dans leurs votes.</p></div>
+    <p class="muted small">🔒 Tout reste sur votre téléphone. Rien n'est envoyé.</p>
+    <button class="btn" style="margin-top:auto" onclick="startLife()">Commencer</button>
   </section>
 
-  <!-- Vie courante -->
+  <!-- Étape 1 -->
   <section class="screen" id="s-life">
-    <p class="muted" id="life-count"></p>
-    <div class="qcard"><div class="emoji" id="life-emoji"></div><p class="q" id="life-q"></p></div>
-    <div class="stack" id="life-answers"></div>
+    <p class="muted small" id="life-count" style="margin:0"></p>
+    <div class="box"><span class="tag" id="life-axis"></span><p class="stmt" id="life-q"></p></div>
+    <div class="stack scale" id="life-answers"></div>
+    <div class="nav"><button class="linkbtn" id="life-back" onclick="lifeBack()">← Précédente</button></div>
   </section>
 
-  <!-- Swipe -->
-  <section class="screen" id="s-swipe">
-    <div class="deck" id="deck"></div>
-    <div class="controls">
-      <button class="btn l" onclick="decide('A')">← Prop. 1</button>
-      <button class="btn ghost" onclick="decide(null)" title="Je ne sais pas / sans avis">Passer</button>
-      <button class="btn r" onclick="decide('B')">Prop. 2 →</button>
+  <!-- Tendance de départ -->
+  <section class="screen" id="s-trend">
+    <h2>Votre tendance de départ</h2>
+    <div class="box"><p style="margin:0" id="trend-text"></p><div id="trend-axes"></div><div class="legend" id="trend-legend"></div></div>
+    <div class="box"><b>Partis proches de vos convictions</b><div id="trend-top" style="margin-top:8px"></div></div>
+    <p class="muted small">Ce n'est qu'une hypothèse : on va maintenant la confronter à des textes votés à l'Assemblée, en priorité ceux qui départagent les partis proches de vous.</p>
+    <button class="btn" style="margin-top:auto" onclick="startVotes()">Voter comme un député →</button>
+  </section>
+
+  <!-- Étape 2 -->
+  <section class="screen" id="s-vote">
+    <div class="live" id="live"></div>
+    <div class="box" style="flex:1;display:flex;flex-direction:column;margin-bottom:12px">
+      <div><span class="tag vote">🏛️ Scrutin public</span><span class="tag" id="v-axis"></span></div>
+      <div class="law" id="v-title"></div>
+      <div id="v-desc"></div>
+      <button class="linkbtn" style="margin-top:8px" onclick="openSheet()">ⓘ Arguments, associations, résultat du vote</button>
+      <div class="why" id="v-why"></div>
     </div>
-    <p class="hint muted">Glissez la carte, ou utilisez les flèches ← → du clavier</p>
+    <div class="votebar">
+      <button class="btn pour" onclick="vote('pour')">Pour</button>
+      <button class="btn abst" onclick="vote('abst')">Abstention</button>
+      <button class="btn contre" onclick="vote('contre')">Contre</button>
+    </div>
+    <button class="linkbtn muted" style="text-align:center;margin-top:8px" onclick="vote(null)">Je ne comprends pas assez ce texte, passer</button>
   </section>
 
-  <!-- Résultats -->
+  <!-- Bilan -->
   <section class="screen" id="s-result">
-    <h2>Vos affinités</h2>
-    <div class="res" id="res-global"></div>
-    <div class="res"><b>Par thème</b><p class="muted" style="font-size:12px;margin:2px 0 8px">Parti le plus proche de vous sur chaque sujet</p><div id="res-themes"></div></div>
-    <div class="res"><b>Vos choix, carte par carte</b><div id="res-detail" style="margin-top:8px"></div></div>
-    <p class="muted" style="font-size:12px">Méthode : pour chaque carte, un parti gagne 1 point s'il défend la proposition choisie, ½ s'il s'est abstenu ou n'a pas de position, 0 sinon. Chaque carte est pondérée par l'importance du thème (étape 1) et doublée si ⭐.</p>
+    <h2>Votre bilan</h2>
+    <div class="box" id="res-best"></div>
+    <div class="box"><b>Votre tendance</b><p class="small muted" style="margin:2px 0 0">Pointillés : au départ · plein : après vos votes</p><p style="margin:8px 0 0" id="res-text"></p><div id="res-axes"></div><div class="legend" id="res-legend"></div></div>
+    <div class="box"><b>Affinités</b><p class="small muted" style="margin:2px 0 10px">📋 convictions vs programmes · 🏛️ vos votes vs leurs votes</p><div id="res-global"></div></div>
+    <div class="box"><b>Vous auriez voté comme…</b><div id="res-detail" style="margin-top:8px"></div></div>
+    <p class="muted small">Méthode : 📋 compare vos réponses graduées aux positions des programmes (les réponses « sans importance » ne comptent pas, les réponses fortes comptent double). 🏛️ compte 1 point par vote identique, ½ si l'un des deux s'est abstenu, 0 si opposé. Le score global est la moyenne des deux.</p>
     <button class="btn ghost" onclick="location.reload()">Recommencer</button>
   </section>
 </div>
@@ -125,252 +147,310 @@
 <div class="sheet-bg" id="sheet-bg" onclick="if(event.target===this)closeSheet()"><div class="sheet" id="sheet"></div></div>
 
 <script>
-// ---------- Données fictives ----------
+// ================= Données fictives =================
+// Axes : valeur de -1 (pôle "neg") à +1 (pôle "pos")
+const AXES = {
+  eco: { label: "Économie",      neg: "Redistribution, services publics", pos: "Marché, liberté d'entreprendre" },
+  soc: { label: "Société",       neg: "Libertés individuelles",           pos: "Ordre et autorité" },
+  env: { label: "Environnement", neg: "Priorité au climat",               pos: "Priorité à la croissance" },
+  eur: { label: "Europe",        neg: "Coopération européenne",           pos: "Souveraineté nationale" },
+};
+// Position des partis sur les axes, d'après leurs programmes
 const PARTIES = {
-  az: { name: "Parti Azur",  color: "var(--az)" },
-  co: { name: "Parti Corail", color: "var(--co)" },
-  sa: { name: "Parti Sauge", color: "var(--sa)" },
-  am: { name: "Parti Ambre", color: "var(--am)" },
-  li: { name: "Parti Lilas", color: "var(--li)" },
-};
-const THEMES = {
-  transport: "🚆 Transports", pa: "💶 Pouvoir d'achat", sante: "🏥 Santé",
-  secu: "🛡️ Sécurité", edu: "🎓 Éducation", eco: "🌱 Environnement",
+  az: { name: "Parti Azur",   color: "var(--az)", ax: { eco: -0.8, soc: -0.6, env: -0.8, eur: -0.3 } },
+  co: { name: "Parti Corail", color: "var(--co)", ax: { eco:  0.6, soc:  0.2, env:  0.3, eur: -0.8 } },
+  sa: { name: "Parti Sauge",  color: "var(--sa)", ax: { eco: -0.3, soc: -0.3, env: -0.6, eur: -0.7 } },
+  am: { name: "Parti Ambre",  color: "var(--am)", ax: { eco: -0.4, soc:  0.8, env:  0.4, eur:  0.8 } },
+  li: { name: "Parti Lilas",  color: "var(--li)", ax: { eco:  0.7, soc:  0.6, env:  0.6, eur:  0.3 } },
 };
 
-// Étape 1 : questions de vie courante -> importance des thèmes
-const LIFE = [
-  { e: "🚗", q: "Vous dépendez de la voiture pour vos trajets du quotidien ?", t: "transport" },
-  { e: "🧾", q: "Les fins de mois sont parfois compliquées chez vous ?", t: "pa" },
-  { e: "🩺", q: "Avez-vous eu du mal à obtenir un rendez-vous médical cette année ?", t: "sante" },
-  { e: "🌙", q: "Il vous arrive de ne pas vous sentir en sécurité dans votre quartier ?", t: "secu" },
-  { e: "🎒", q: "Vous avez des enfants scolarisés, ou en aurez bientôt ?", t: "edu" },
-  { e: "🌡️", q: "Les canicules ou les inondations vous inquiètent pour l'avenir ?", t: "eco" },
+// Étape 1 : affirmations. dir = +1 si être d'accord pousse vers le pôle "pos" de l'axe
+const STATEMENTS = [
+  { q: "Il faudrait taxer davantage les très gros patrimoines pour financer les services publics.", ax: "eco", dir: -1 },
+  { q: "Les entreprises créeraient plus d'emplois avec moins de normes et de charges.", ax: "eco", dir: 1 },
+  { q: "L'énergie, le rail et l'hôpital devraient rester entièrement publics.", ax: "eco", dir: -1 },
+  { q: "La police devrait avoir plus de moyens d'action, quitte à restreindre certaines libertés.", ax: "soc", dir: 1 },
+  { q: "La consommation de cannabis devrait être légalisée et encadrée par l'État.", ax: "soc", dir: -1 },
+  { q: "Les conditions d'entrée et de séjour des étrangers devraient être durcies.", ax: "soc", dir: 1 },
+  { q: "Il faut accepter moins de croissance économique si c'est nécessaire pour le climat.", ax: "env", dir: -1 },
+  { q: "Les normes environnementales freinent trop l'agriculture et l'industrie.", ax: "env", dir: 1 },
+  { q: "Davantage de grandes décisions devraient se prendre au niveau européen.", ax: "eur", dir: -1 },
+  { q: "La France devrait pouvoir ignorer une règle européenne si elle va contre ses intérêts.", ax: "eur", dir: 1 },
 ];
-const LIFE_ANSWERS = [["Oui, souvent", 2], ["Parfois", 1], ["Non, pas vraiment", 0]];
-
-// Étape 2 : duels de propositions. pos = position de chaque parti : "A", "B", "abst" (abstention) ou null (aucune position connue)
-const DUELS = [
-  { t: "transport", src: "prog", subject: "Réduire la pollution en ville",
-    A: "Rendre les transports en commun gratuits, financés par une taxe sur les entreprises",
-    B: "Aider à l'achat de véhicules propres, sans contraindre l'usage de la voiture",
-    pos: { az: "A", co: "B", sa: "A", am: "B", li: null } },
-  { t: "transport", src: "vote", subject: "L'avenir des petites lignes de train",
-    A: "Maintenir les petites lignes ferroviaires, même déficitaires",
-    B: "Fermer les lignes peu fréquentées et les remplacer par des cars",
-    pos: { az: "A", co: "abst", sa: "A", am: "B", li: "B" },
-    law: "Projet de loi n°123 sur les mobilités du quotidien (fictif)", amdt: "Amendement n°45 – maintien des lignes de desserte fine", result: "Rejeté (212 pour / 287 contre)",
-    assos: [{ n: "Association des usagers du rail (fictive)", a: "A" }, { n: "Fédération du transport routier (fictive)", a: "B" }] },
-  { t: "pa", src: "prog", subject: "Augmenter ce qui reste à la fin du mois",
-    A: "Augmenter le salaire minimum de 10 %",
-    B: "Baisser les cotisations salariales pour augmenter le salaire net",
-    pos: { az: "A", co: "B", sa: "A", am: "B", li: "B" } },
-  { t: "pa", src: "vote", subject: "Face à la hausse des prix de l'énergie",
-    A: "Bloquer temporairement le prix de l'électricité",
-    B: "Laisser le marché fixer les prix et verser un chèque énergie aux plus modestes",
-    pos: { az: "A", co: "B", sa: "abst", am: "A", li: "B" },
-    law: "Proposition de loi n°456 sur les prix de l'énergie (fictive)", amdt: "Article 1 – blocage des tarifs", result: "Adopté (301 pour / 198 contre)",
-    assos: [{ n: "Union des consommateurs (fictive)", a: "A" }, { n: "Confédération des PME (fictive)", a: "B" }] },
-  { t: "sante", src: "prog", subject: "Lutter contre les déserts médicaux",
-    A: "Obliger les jeunes médecins à exercer quelques années en zone sous-dotée",
-    B: "Inciter avec des primes à l'installation, sans obligation",
-    pos: { az: "A", co: "B", sa: "A", am: "A", li: "B" } },
-  { t: "sante", src: "vote", subject: "Le remboursement des lunettes et du dentaire",
-    A: "Rembourser intégralement par la Sécurité sociale",
-    B: "Garder le système actuel avec les mutuelles",
-    pos: { az: "A", co: "B", sa: "A", am: "abst", li: "B" },
-    law: "PLFSS 2026 (fictif)", amdt: "Amendement n°1789 – prise en charge intégrale optique et dentaire", result: "Rejeté (178 pour / 320 contre)",
-    assos: [{ n: "Collectif santé pour tous (fictif)", a: "A" }, { n: "Fédération des mutuelles (fictive)", a: "B" }] },
-  { t: "secu", src: "prog", subject: "Rendre les quartiers plus sûrs",
-    A: "Plus de policiers de proximité, présents à pied dans les rues",
-    B: "Plus de vidéoprotection et de moyens technologiques",
-    pos: { az: "A", co: "B", sa: "A", am: "B", li: "A" } },
-  { t: "secu", src: "vote", subject: "Sanctionner la récidive",
-    A: "Laisser le juge libre d'adapter la peine à chaque situation",
-    B: "Instaurer des peines minimales automatiques pour les récidivistes",
-    pos: { az: "A", co: "B", sa: "A", am: "B", li: "B" },
-    law: "Projet de loi n°789 sur l'exécution des peines (fictif)", amdt: "Article 3 – peines planchers", result: "Adopté (276 pour / 241 contre)",
-    assos: [{ n: "Syndicat de magistrats (fictif)", a: "A" }, { n: "Association d'aide aux victimes (fictive)", a: "B" }] },
-  { t: "edu", src: "prog", subject: "Améliorer l'école",
-    A: "Limiter les classes à 20 élèves maximum",
-    B: "Donner plus d'autonomie aux établissements pour s'organiser",
-    pos: { az: "A", co: "B", sa: "A", am: "A", li: "B" } },
-  { t: "edu", src: "vote", subject: "La tenue à l'école",
-    A: "Ne pas imposer de tenue particulière",
-    B: "Généraliser l'uniforme à l'école primaire",
-    pos: { az: "A", co: "B", sa: "A", am: "B", li: "abst" },
-    law: "Proposition de loi n°321 sur la tenue scolaire (fictive)", amdt: "Article unique", result: "Rejeté (240 pour / 262 contre)",
-    assos: [{ n: "Fédération de parents d'élèves (fictive)", a: "A" }] },
-  { t: "eco", src: "vote", subject: "Un pesticide controversé",
-    A: "L'interdire d'ici 3 ans",
-    B: "Repousser l'interdiction tant qu'il n'existe pas d'alternative",
-    pos: { az: "A", co: "B", sa: "A", am: "B", li: "abst" },
-    law: "Projet de loi n°654 d'orientation agricole (fictif)", amdt: "Amendement n°212 – calendrier de sortie", result: "Rejeté (230 pour / 270 contre)",
-    assos: [{ n: "Association de protection de la nature (fictive)", a: "A" }, { n: "Syndicat agricole (fictif)", a: "B" }, { n: "Union des consommateurs (fictive)", a: "A" }] },
-  { t: "eco", src: "prog", subject: "Réduire l'impact de l'avion",
-    A: "Taxer fortement les vols courts quand le train existe",
-    B: "Investir dans des carburants d'aviation moins polluants",
-    pos: { az: "A", co: "B", sa: "A", am: "B", li: "B" } },
+const SCALE = [
+  ["Tout à fait d'accord", 2, "#2f9e44"],
+  ["Plutôt d'accord", 1, "#8ce99a"],
+  ["Sans importance pour moi", 0, "#dee2e6"],
+  ["Plutôt pas d'accord", -1, "#ffa8a8"],
+  ["Pas du tout d'accord", -2, "#e03131"],
 ];
 
-// ---------- État ----------
-const weights = Object.fromEntries(Object.keys(THEMES).map(k => [k, 1]));
-const answers = []; // { duel, choice: "A"|"B"|null, star }
-let lifeIdx = 0, duelIdx = 0, star = false;
-const TOTAL = LIFE.length + DUELS.length;
+// Étape 2 : scrutins (fictifs). dir = +1 si voter POUR pousse vers le pôle "pos" de l'axe
+const SCRUTINS = [
+  { ax: "eco", dir: -1, title: "Contribution sur les très hauts patrimoines",
+    desc: "Amendement au budget créant une contribution annuelle de 2 % sur les patrimoines de plus de 100 millions d'euros.",
+    pour: ["Rapporterait plusieurs milliards par an", "Réduirait les inégalités"], contre: ["Risque de départ des contribuables concernés", "Pénaliserait l'investissement"],
+    assos: [["ONG pour la justice fiscale (fictive)", "pour"], ["Organisation patronale (fictive)", "contre"]], result: "Rejeté (230 pour, 285 contre)",
+    votes: { az: "pour", co: "contre", sa: "pour", am: "pour", li: "contre" } },
+  { ax: "eco", dir: 1, title: "Assouplir le travail du dimanche",
+    desc: "Article autorisant les commerces de plus de 400 m² à ouvrir tous les dimanches, sur la base du volontariat.",
+    pour: ["Plus de chiffre d'affaires et d'emplois", "Les salariés volontaires gagnent plus"], contre: ["Le volontariat est difficile à garantir", "Pénalise les petits commerces"],
+    assos: [["Fédération du commerce (fictive)", "pour"], ["Confédération syndicale (fictive)", "contre"]], result: "Adopté (290 pour, 220 contre)",
+    votes: { az: "contre", co: "pour", sa: "abst", am: "contre", li: "pour" } },
+  { ax: "eco", dir: -1, title: "Indexer les salaires sur l'inflation",
+    desc: "Proposition de loi augmentant automatiquement les salaires au même rythme que les prix.",
+    pour: ["Protège le pouvoir d'achat", "Évite les pertes de salaire réel"], contre: ["Peut alimenter l'inflation", "Coût élevé pour les petites entreprises"],
+    assos: [["Confédération syndicale (fictive)", "pour"], ["Confédération des PME (fictive)", "contre"]], result: "Rejeté (190 pour, 320 contre)",
+    votes: { az: "pour", co: "contre", sa: "contre", am: "pour", li: "contre" } },
+  { ax: "soc", dir: 1, title: "Vidéosurveillance algorithmique",
+    desc: "Article autorisant l'analyse automatique des images de vidéosurveillance dans l'espace public pour détecter des comportements suspects.",
+    pour: ["Aide à prévenir les attentats et les agressions", "Soulage les forces de l'ordre"], contre: ["Atteinte à la vie privée", "Risque d'erreurs et de dérives"],
+    assos: [["Association de défense des libertés numériques (fictive)", "contre"], ["Syndicat de policiers (fictif)", "pour"]], result: "Adopté (340 pour, 170 contre)",
+    votes: { az: "contre", co: "pour", sa: "pour", am: "pour", li: "pour" } },
+  { ax: "soc", dir: -1, title: "Légaliser le cannabis",
+    desc: "Proposition de loi autorisant la vente encadrée de cannabis aux majeurs, par un monopole d'État.",
+    pour: ["Assèche le trafic", "Permet la prévention et le contrôle sanitaire"], contre: ["Banalise un produit nocif", "Risque pour les jeunes"],
+    assos: [["Fédération d'addictologie (fictive)", "pour"], ["Association de parents (fictive)", "contre"]], result: "Rejeté (150 pour, 360 contre)",
+    votes: { az: "pour", co: "contre", sa: "abst", am: "contre", li: "contre" } },
+  { ax: "soc", dir: 1, title: "Durcir le regroupement familial",
+    desc: "Article allongeant de 18 à 24 mois le délai de séjour exigé avant de pouvoir faire venir sa famille.",
+    pour: ["Mieux maîtriser l'immigration", "Favoriser l'intégration préalable"], contre: ["Atteinte au droit de vivre en famille", "Effet limité sur les flux"],
+    assos: [["Association d'aide aux migrants (fictive)", "contre"], ["Collectif pour la maîtrise de l'immigration (fictif)", "pour"]], result: "Adopté (280 pour, 240 contre)",
+    votes: { az: "contre", co: "pour", sa: "contre", am: "pour", li: "pour" } },
+  { ax: "env", dir: -1, title: "Interdire un pesticide controversé",
+    desc: "Amendement interdisant d'ici 3 ans un herbicide suspecté d'effets sur la santé.",
+    pour: ["Protège la santé et la biodiversité", "Des alternatives existent déjà en partie"], contre: ["Pas d'alternative pour certaines cultures", "Concurrence déloyale avec les pays voisins"],
+    assos: [["Association de protection de la nature (fictive)", "pour"], ["Syndicat agricole (fictif)", "contre"], ["Union des consommateurs (fictive)", "pour"]], result: "Rejeté (200 pour, 300 contre)",
+    votes: { az: "pour", co: "contre", sa: "contre", am: "contre", li: "contre" } },
+  { ax: "env", dir: -1, title: "Moratoire sur les nouvelles autoroutes",
+    desc: "Amendement suspendant pendant 5 ans tout nouveau projet d'autoroute.",
+    pour: ["Limite l'artificialisation des sols", "Réoriente l'argent vers le train"], contre: ["Pénalise les territoires enclavés", "Bloque des projets attendus"],
+    assos: [["Association d'usagers du rail (fictive)", "pour"], ["Fédération des travaux publics (fictive)", "contre"]], result: "Rejeté (180 pour, 330 contre)",
+    votes: { az: "pour", co: "contre", sa: "pour", am: "contre", li: "contre" } },
+  { ax: "env", dir: 1, title: "Repousser l'objectif « zéro artificialisation »",
+    desc: "Article reportant de 10 ans l'objectif de ne plus bétonner de nouveaux sols naturels.",
+    pour: ["Laisse aux communes rurales le temps de se développer", "Facilite la construction de logements"], contre: ["Recul sur la protection des sols", "Aggrave les risques d'inondation"],
+    assos: [["Association des maires ruraux (fictive)", "pour"], ["Association de protection de la nature (fictive)", "contre"]], result: "Adopté (300 pour, 200 contre)",
+    votes: { az: "contre", co: "pour", sa: "abst", am: "pour", li: "pour" } },
+  { ax: "eur", dir: -1, title: "Accord de libre-échange UE – Océanie",
+    desc: "Projet de loi ratifiant un accord commercial entre l'Union européenne et un pays d'Océanie (fictif).",
+    pour: ["Nouveaux débouchés pour les exportateurs", "Renforce le poids de l'UE"], contre: ["Concurrence pour les éleveurs", "Normes environnementales moins exigeantes"],
+    assos: [["Fédération des exportateurs (fictive)", "pour"], ["Syndicat agricole (fictif)", "contre"], ["ONG environnementale (fictive)", "contre"]], result: "Adopté (270 pour, 230 contre)",
+    votes: { az: "contre", co: "pour", sa: "pour", am: "contre", li: "abst" } },
+  { ax: "eur", dir: 1, title: "Primauté du droit national",
+    desc: "Proposition de loi constitutionnelle permettant d'écarter une règle européenne contraire à « l'intérêt national ».",
+    pour: ["Rend la décision aux électeurs français", "Protège des règles inadaptées"], contre: ["Remet en cause les traités signés", "Risque de sanctions et d'isolement"],
+    assos: [["Collectif souverainiste (fictif)", "pour"], ["Mouvement européen (fictif)", "contre"]], result: "Rejeté (140 pour, 370 contre)",
+    votes: { az: "contre", co: "contre", sa: "contre", am: "pour", li: "pour" } },
+  { ax: "eur", dir: -1, title: "Défense européenne commune",
+    desc: "Résolution soutenant un budget européen commun pour l'achat d'armement.",
+    pour: ["Plus de poids face aux grandes puissances", "Économies d'échelle"], contre: ["Perte de contrôle national sur la défense", "Dépenses militaires en hausse"],
+    assos: [["Mouvement européen (fictif)", "pour"], ["Collectif pacifiste (fictif)", "contre"]], result: "Adopté (310 pour, 180 contre)",
+    votes: { az: "abst", co: "pour", sa: "pour", am: "contre", li: "contre" } },
+];
+const N_VOTES = 8;
+
+// ================= État =================
+const lifeAns = new Array(STATEMENTS.length).fill(undefined); // -2..2
+const votes = []; // { s, v: "pour"|"contre"|"abst"|null, why }
+let lifeIdx = 0, current = null, startProfile = null;
+const TOTAL = STATEMENTS.length + N_VOTES;
 
 const $ = id => document.getElementById(id);
-function show(id) { document.querySelectorAll(".screen").forEach(s => s.classList.toggle("on", s.id === id)); }
+const P = Object.keys(PARTIES);
+function show(id) { document.querySelectorAll(".screen").forEach(s => s.classList.toggle("on", s.id === id)); window.scrollTo(0, 0); }
 function setProg(n) { $("prog").style.width = (100 * n / TOTAL) + "%"; }
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
 
-// ---------- Étape 1 ----------
+// ================= Calculs =================
+// Profil de l'utilisateur sur chaque axe, à partir des affirmations et (optionnellement) des votes
+function profile(withVotes) {
+  const out = {};
+  for (const a in AXES) {
+    let s = 0, n = 0;
+    STATEMENTS.forEach((st, i) => { if (st.ax === a && lifeAns[i] !== undefined) { s += lifeAns[i] * st.dir; n++; } });
+    if (withVotes) votes.forEach(({ s: sc, v }) => {
+      if (sc.ax !== a || !v) return;
+      s += v === "pour" ? 2 * sc.dir : v === "contre" ? -2 * sc.dir : 0; n++;
+    });
+    out[a] = n ? clamp(s / (2 * n), -1, 1) : 0;
+  }
+  return out;
+}
+// Position d'un parti sur une affirmation, déduite de son programme (-2..2)
+const stance = (p, st) => clamp(Math.round(2 * PARTIES[p].ax[st.ax] * st.dir), -2, 2);
+
+function progScore(p) {
+  let num = 0, den = 0;
+  STATEMENTS.forEach((st, i) => {
+    const u = lifeAns[i]; if (!u) return;            // "sans importance" ou non répondu : ignoré
+    const w = Math.abs(u);                            // réponse forte = poids double
+    num += w * (1 - Math.abs(u - stance(p, st)) / 4); den += w;
+  });
+  return den ? num / den : null;
+}
+const match = (a, b) => a === b ? 1 : (a === "abst" || b === "abst") ? 0.5 : 0;
+function voteScore(p) {
+  const vs = votes.filter(x => x.v);
+  return vs.length ? vs.reduce((t, x) => t + match(x.v, x.s.votes[p]), 0) / vs.length : null;
+}
+function globalScore(p) {
+  const xs = [progScore(p), voteScore(p)].filter(x => x != null);
+  return xs.length ? xs.reduce((a, b) => a + b) / xs.length : null;
+}
+const ranked = () => [...P].sort((a, b) => (globalScore(b) ?? -1) - (globalScore(a) ?? -1));
+const pct = x => x == null ? "–" : Math.round(100 * x) + " %";
+
+function describe(prof) {
+  return Object.keys(AXES).map(a => {
+    const x = prof[a];
+    if (Math.abs(x) < 0.2) return `équilibré sur ${AXES[a].label.toLowerCase()}`;
+    return `${Math.abs(x) > 0.6 ? "nettement" : "plutôt"} « ${(x < 0 ? AXES[a].neg : AXES[a].pos).toLowerCase()} »`;
+  }).join(", ").replace(/^./, c => c.toUpperCase()) + ".";
+}
+function axesHTML(prof, start) {
+  const left = x => ((x + 1) / 2 * 100) + "%";
+  return Object.keys(AXES).map(a => `
+    <div class="axis"><div class="lbl">${AXES[a].label}</div>
+      <div class="track">
+        ${P.map(p => `<span class="pdot" title="${PARTIES[p].name}" style="left:${left(PARTIES[p].ax[a])};background:${PARTIES[p].color}"></span>`).join("")}
+        ${start ? `<span class="udot start" style="left:${left(start[a])}"></span>` : ""}
+        <span class="udot" style="left:${left(prof[a])}"></span>
+      </div>
+      <div class="ends"><span>${AXES[a].neg}</span><span>${AXES[a].pos}</span></div></div>`).join("");
+}
+const legendHTML = () => `<span><span class="dot" style="background:var(--ink)"></span>Vous</span>` +
+  P.map(p => `<span><span class="dot" style="background:${PARTIES[p].color}"></span>${PARTIES[p].name}</span>`).join("");
+
+// ================= Étape 1 =================
 function startLife() { show("s-life"); renderLife(); }
 function renderLife() {
-  const q = LIFE[lifeIdx];
-  $("life-count").textContent = `Votre quotidien · ${lifeIdx + 1}/${LIFE.length}`;
-  $("life-emoji").textContent = q.e;
-  $("life-q").textContent = q.q;
+  const st = STATEMENTS[lifeIdx];
+  $("life-count").textContent = `Vos convictions · ${lifeIdx + 1}/${STATEMENTS.length}`;
+  $("life-axis").textContent = AXES[st.ax].label;
+  $("life-q").textContent = st.q;
+  $("life-back").style.visibility = lifeIdx ? "visible" : "hidden";
   $("life-answers").innerHTML = "";
-  LIFE_ANSWERS.forEach(([label, w]) => {
+  SCALE.forEach(([label, v, color]) => {
     const b = document.createElement("button");
-    b.className = "btn ghost"; b.textContent = label;
-    b.onclick = () => { weights[q.t] = 1 + w; lifeIdx++; setProg(lifeIdx); lifeIdx < LIFE.length ? renderLife() : startSwipe(); };
+    b.className = "btn ghost" + (lifeAns[lifeIdx] === v ? " sel" : "");
+    b.innerHTML = `<i style="background:${color}"></i>${label}`;
+    b.onclick = () => {
+      lifeAns[lifeIdx] = v; lifeIdx++; setProg(lifeIdx);
+      lifeIdx < STATEMENTS.length ? renderLife() : showTrend();
+    };
     $("life-answers").appendChild(b);
   });
 }
+function lifeBack() { if (lifeIdx > 0) { lifeIdx--; setProg(lifeIdx); renderLife(); } }
 
-// ---------- Étape 2 : swipe ----------
-function startSwipe() {
-  // On présente d'abord les thèmes les plus importants pour l'utilisateur
-  DUELS.sort((a, b) => weights[b.t] - weights[a.t]);
-  show("s-swipe"); renderCard();
+function showTrend() {
+  startProfile = profile(false);
+  show("s-trend");
+  $("trend-text").textContent = describe(startProfile);
+  $("trend-axes").innerHTML = axesHTML(startProfile);
+  $("trend-legend").innerHTML = legendHTML();
+  $("trend-top").innerHTML = [...P].sort((a, b) => (progScore(b) ?? -1) - (progScore(a) ?? -1)).map(p => `
+    <div class="row"><span><span class="dot" style="background:${PARTIES[p].color}"></span>${PARTIES[p].name}</span><b>${pct(progScore(p))}</b></div>`).join("");
 }
-function renderCard() {
-  const d = DUELS[duelIdx];
-  star = false;
-  $("deck").innerHTML = `
-    <div class="card" id="card">
-      <div><span class="tag">${THEMES[d.t]}</span><span class="tag ${d.src === "vote" ? "vote" : ""}">${d.src === "vote" ? "🏛️ Voté à l'Assemblée" : "📄 Programmes"}</span></div>
-      <div class="subject">${d.subject}</div>
-      <div class="prop l" id="pl"><small>← Proposition 1</small>${d.A}</div>
-      <div class="prop r" id="pr"><small>Proposition 2 →</small>${d.B}</div>
-      <div class="foot">
-        ${d.src === "vote" ? `<button class="linkbtn" onclick="openSheet()">ⓘ La loi, le vote, les associations</button>` : `<span class="muted" style="font-size:12px">${duelIdx + 1}/${DUELS.length}</span>`}
-        <button class="star" id="star" onclick="toggleStar()">☆ Important</button>
-      </div>
-    </div>`;
-  bindDrag($("card"));
-}
-function toggleStar() { star = !star; const s = $("star"); s.classList.toggle("on", star); s.textContent = (star ? "★" : "☆") + " Important"; }
 
-function bindDrag(card) {
-  let x0 = null, dx = 0;
-  card.addEventListener("pointerdown", e => {
-    if (e.target.closest("button")) return;
-    x0 = e.clientX; card.setPointerCapture(e.pointerId); card.classList.add("dragging");
-  });
-  card.addEventListener("pointermove", e => {
-    if (x0 === null) return;
-    dx = e.clientX - x0;
-    card.style.transform = `translateX(${dx}px) rotate(${dx / 20}deg)`;
-    $("pl").classList.toggle("hot", dx < -40); $("pr").classList.toggle("hot", dx > 40);
-  });
-  const end = () => {
-    if (x0 === null) return;
-    x0 = null; card.classList.remove("dragging");
-    if (dx < -100) decide("A"); else if (dx > 100) decide("B");
-    else { card.style.transform = ""; $("pl").classList.remove("hot"); $("pr").classList.remove("hot"); }
-    dx = 0;
+// ================= Étape 2 =================
+// Choix du prochain scrutin : celui qui départage le mieux les partis en tête,
+// sur un axe où la position de l'utilisateur est encore incertaine ou qui compte pour lui.
+function pickNext() {
+  const used = new Set(votes.map(x => x.s));
+  const top = ranked().slice(0, 3);
+  const prof = profile(true);
+  const lastAx = votes.length ? votes[votes.length - 1].s.ax : null;
+  const importance = a => {
+    const xs = STATEMENTS.map((st, i) => st.ax === a ? Math.abs(lifeAns[i] ?? 0) : null).filter(x => x != null);
+    return xs.reduce((s, x) => s + x, 0) / xs.length / 2;
   };
-  card.addEventListener("pointerup", end); card.addEventListener("pointercancel", end);
+  let best = null;
+  for (const s of SCRUTINS) {
+    if (used.has(s)) continue;
+    let dis = 0;
+    for (let i = 0; i < top.length; i++) for (let j = i + 1; j < top.length; j++) dis += s.votes[top[i]] !== s.votes[top[j]];
+    const score = dis * 2 + (1 - Math.abs(prof[s.ax])) + importance(s.ax) * 0.5 - (s.ax === lastAx ? 1.5 : 0);
+    if (!best || score > best.score) best = { s, score, dis, top };
+  }
+  const { s, dis, top: t } = best;
+  let why = `Pour préciser votre position sur l'axe « ${AXES[s.ax].label} ».`;
+  outer: for (let i = 0; i < t.length; i++) for (let j = i + 1; j < t.length; j++) {
+    const a = s.votes[t[i]], b = s.votes[t[j]];
+    if (a !== b && a !== "abst" && b !== "abst") { why = `${PARTIES[t[i]].name} et ${PARTIES[t[j]].name}, proches de vous à ce stade, ont voté différemment sur ce texte.`; break outer; }
+  }
+  if (why.startsWith("Pour") && dis) why = "Les partis proches de vous ne se sont pas positionnés de la même façon sur ce texte.";
+  return { s, why };
 }
-
-function decide(choice) {
-  const card = $("card"); if (!card || card.dataset.gone) return;
-  card.dataset.gone = 1;
-  answers.push({ duel: DUELS[duelIdx], choice, star });
-  card.style.transform = choice === "A" ? "translateX(-140%) rotate(-20deg)" : choice === "B" ? "translateX(140%) rotate(20deg)" : "translateY(-120%)";
-  card.style.opacity = "0";
-  duelIdx++; setProg(LIFE.length + duelIdx);
-  setTimeout(() => duelIdx < DUELS.length ? renderCard() : showResults(), 250);
+function renderLive() {
+  $("live").innerHTML = `<span class="muted">Tendance actuelle :</span>` + ranked().slice(0, 3).map(p =>
+    `<span class="chip"><span class="dot" style="background:${PARTIES[p].color}"></span>${PARTIES[p].name.replace("Parti ", "")} ${pct(globalScore(p))}</span>`).join("");
 }
-document.addEventListener("keydown", e => {
-  if (!$("s-swipe").classList.contains("on") || $("sheet-bg").classList.contains("on")) return;
-  if (e.key === "ArrowLeft") decide("A"); else if (e.key === "ArrowRight") decide("B"); else if (e.key === "ArrowUp") decide(null);
-});
-
-// Détails d'un vote : loi, amendement, résultat, associations (les positions des partis restent masquées avant le résultat)
+function startVotes() { show("s-vote"); nextVote(); }
+function nextVote() {
+  if (votes.length >= N_VOTES) return showResults();
+  current = pickNext();
+  renderLive();
+  $("v-axis").textContent = AXES[current.s.ax].label;
+  $("v-title").textContent = current.s.title;
+  $("v-desc").textContent = current.s.desc;
+  $("v-why").textContent = "💡 " + current.why;
+}
+function vote(v) {
+  votes.push({ s: current.s, v, why: current.why });
+  setProg(STATEMENTS.length + votes.length);
+  nextVote();
+}
 function openSheet() {
-  const d = DUELS[duelIdx];
+  const s = current.s;
+  const col = v => v === "pour" ? "var(--pour)" : "var(--contre)";
   $("sheet").innerHTML = `
-    <h3>🏛️ ${d.law}</h3>
-    <p class="muted" style="margin:0">${d.amdt}</p>
-    <div class="sec"><b>Résultat du scrutin</b><p style="margin:4px 0">${d.result}</p>
-      <p class="muted" style="font-size:12px;margin:0">Le détail par parti s'affiche à la fin, pour ne pas orienter votre choix.</p></div>
+    <h3>🏛️ ${s.title}</h3><p class="muted" style="margin:0">${s.desc}</p>
+    <div class="sec"><b style="color:var(--pour)">Arguments pour</b><ul class="args">${s.pour.map(x => `<li>${x}</li>`).join("")}</ul>
+      <b style="color:var(--contre)">Arguments contre</b><ul class="args">${s.contre.map(x => `<li>${x}</li>`).join("")}</ul></div>
     <div class="sec"><b>Avis des associations</b>
-      ${d.assos.map(a => `<div class="row"><span>${a.n}</span><span style="color:${a.a === "A" ? "var(--left)" : "var(--right)"};font-weight:600">${a.a === "A" ? "← Prop. 1" : "Prop. 2 →"}</span></div>`).join("")}
-    </div>
+      ${s.assos.map(([n, v]) => `<div class="row"><span>${n}</span><b style="color:${col(v)}">${v}</b></div>`).join("")}</div>
+    <div class="sec"><b>Résultat</b><p style="margin:4px 0">${s.result}</p>
+      <p class="muted small" style="margin:0">Le vote de chaque parti s'affiche dans le bilan, pour ne pas orienter votre choix.</p></div>
     <button class="btn" style="width:100%;margin-top:16px" onclick="closeSheet()">Fermer</button>`;
   $("sheet-bg").classList.add("on");
 }
 function closeSheet() { $("sheet-bg").classList.remove("on"); }
 
-// ---------- Résultats ----------
-function agreement(stance, choice) {
-  if (stance === choice) return 1;
-  if (stance === "abst" || stance == null) return 0.5;
-  return 0;
-}
-function score(filter) {
-  const out = {};
-  for (const p in PARTIES) {
-    let num = 0, den = 0;
-    answers.filter(a => a.choice && filter(a)).forEach(a => {
-      const w = weights[a.duel.t] * (a.star ? 2 : 1);
-      num += w * agreement(a.duel.pos[p], a.choice); den += w;
-    });
-    out[p] = den ? Math.round(100 * num / den) : null;
-  }
-  return out;
-}
-const pct = v => v == null ? "–" : v + " %";
-
+// ================= Bilan =================
 function showResults() {
   show("s-result"); setProg(TOTAL);
-  const all = score(() => true), prog = score(a => a.duel.src === "prog"), vote = score(a => a.duel.src === "vote");
-  const ranked = Object.keys(PARTIES).sort((a, b) => (all[b] ?? -1) - (all[a] ?? -1));
+  const order = ranked(), best = order[0], prof = profile(true);
 
-  if (!answers.some(a => a.choice)) { $("res-global").innerHTML = "<p>Vous avez passé toutes les cartes 🙂</p>"; }
-  else $("res-global").innerHTML = ranked.map(p => {
-    const gap = prog[p] != null && vote[p] != null && Math.abs(prog[p] - vote[p]) >= 25;
+  $("res-best").innerHTML = `<p class="muted small" style="margin:0">Le parti le plus proche de vous</p>
+    <p style="font-size:22px;font-weight:700;margin:2px 0"><span class="dot" style="background:${PARTIES[best].color};width:14px;height:14px"></span>${PARTIES[best].name} · ${pct(globalScore(best))}</p>`;
+
+  $("res-text").textContent = describe(prof);
+  $("res-axes").innerHTML = axesHTML(prof, startProfile);
+  $("res-legend").innerHTML = legendHTML();
+
+  $("res-global").innerHTML = order.map(p => {
+    const pr = progScore(p), vo = voteScore(p);
+    const gap = pr != null && vo != null && Math.abs(pr - vo) >= 0.25;
     return `<div class="party">
-      <div class="top"><span><span class="dot" style="background:${PARTIES[p].color}"></span>${PARTIES[p].name}</span><span>${pct(all[p])}</span></div>
-      <div class="bar"><div style="background:${PARTIES[p].color}" data-w="${all[p] ?? 0}"></div></div>
-      <div class="split"><span>📄 Programme : ${pct(prog[p])}</span><span>🏛️ Votes : ${pct(vote[p])}</span></div>
-      ${gap ? `<div class="gap-warn">⚠️ Écart notable entre ce que ce parti promet et ce qu'il vote, sur vos réponses</div>` : ""}
+      <div class="top"><span><span class="dot" style="background:${PARTIES[p].color}"></span>${PARTIES[p].name}</span><span>${pct(globalScore(p))}</span></div>
+      <div class="bar"><div style="background:${PARTIES[p].color}" data-w="${Math.round(100 * (globalScore(p) ?? 0))}"></div></div>
+      <div class="split"><span>📋 Programme : ${pct(pr)}</span><span>🏛️ Votes : ${pct(vo)}</span></div>
+      ${gap ? `<div class="gap-warn">⚠️ Ce parti vous ressemble plus dans ${pr > vo ? "son programme que dans ses votes" : "ses votes que dans son programme"}</div>` : ""}
     </div>`;
   }).join("");
 
-  $("res-themes").innerHTML = Object.keys(THEMES).map(t => {
-    const s = score(a => a.duel.t === t);
-    const best = Object.keys(s).filter(p => s[p] != null).sort((a, b) => s[b] - s[a])[0];
-    return `<div class="row"><span>${THEMES[t]} ${"•".repeat(weights[t])}</span><span>${best ? `<span class="dot" style="background:${PARTIES[best].color}"></span>${PARTIES[best].name} (${s[best]} %)` : "<span class='muted'>passé</span>"}</span></div>`;
-  }).join("");
-
-  const pill = (st, choice) => {
-    if (st == null) return `<span class="pill" style="background:#ced4da">?</span>`;
-    if (st === "abst") return `<span class="pill" style="background:#adb5bd">abs</span>`;
-    return `<span class="pill" style="background:${st === choice ? "var(--right)" : "#fa5252"}">${st === "A" ? "←" : "→"}</span>`;
-  };
+  const lbl = { pour: "P", contre: "C", abst: "A" };
+  const pill = (pv, uv) => `<span class="pill" style="background:${!uv ? "#adb5bd" : pv === uv ? "var(--pour)" : (pv === "abst" || uv === "abst") ? "#fab005" : "var(--contre)"}">${lbl[pv]}</span>`;
   $("res-detail").innerHTML = `<table>
-    <tr><th>Sujet</th><th>Vous</th>${Object.keys(PARTIES).map(p => `<th><span class="dot" style="background:${PARTIES[p].color};margin:0"></span></th>`).join("")}</tr>
-    ${answers.map(a => `<tr><td>${a.duel.src === "vote" ? "🏛️" : "📄"} ${a.duel.subject}${a.star ? " ★" : ""}</td>
-      <td>${a.choice ? (a.choice === "A" ? "←" : "→") : "–"}</td>
-      ${Object.keys(PARTIES).map(p => `<td>${pill(a.duel.pos[p], a.choice)}</td>`).join("")}</tr>`).join("")}
-  </table><p class="muted" style="font-size:11px;margin:6px 0 0">Vert = même choix que vous · rouge = choix opposé · abs = abstention · ? = pas de position connue</p>`;
+    <tr><th>Texte</th><th>Vous</th>${P.map(p => `<th><span class="dot" style="background:${PARTIES[p].color};margin:0"></span></th>`).join("")}</tr>
+    ${votes.map(x => `<tr><td>${x.s.title}</td><td><b>${x.v ? lbl[x.v] : "–"}</b></td>${P.map(p => `<td>${pill(x.s.votes[p], x.v)}</td>`).join("")}</tr>`).join("")}
+  </table><p class="muted small" style="margin:6px 0 0">P pour · C contre · A abstention — vert : comme vous · jaune : à moitié · rouge : opposé</p>`;
 
   requestAnimationFrame(() => document.querySelectorAll(".bar > div").forEach(b => b.style.width = b.dataset.w + "%"));
 }
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeSheet(); });
 </script>
 </body>
 </html>
