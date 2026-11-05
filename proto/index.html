@@ -91,7 +91,7 @@
   <section class="screen on" id="s-intro">
     <h1>Pour qui voter&nbsp;?</h1>
     <div class="box"><b>1. Vos convictions</b><p class="muted" style="margin:4px 0 0">Une dizaine d'affirmations, pour dessiner votre tendance politique de départ.</p></div>
-    <div class="box"><b>2. Votez comme un député</b><p class="muted" style="margin:4px 0 0">Des textes réellement examinés à l'Assemblée, choisis selon votre profil. Vous votez pour, contre ou abstention, et votre tendance s'affine.</p></div>
+    <div class="box"><b>2. Votez comme un député</b><p class="muted" style="margin:4px 0 0">Des textes réellement examinés à l'Assemblée. Vous votez pour, contre ou abstention, et on compare avec ce que vous pensiez.</p></div>
     <div class="box"><b>3. Le bilan</b><p class="muted" style="margin:4px 0 0">Les partis les plus proches de vous, dans leurs programmes et dans leurs votes.</p></div>
     <p class="muted small">🔒 Tout reste sur votre téléphone. Rien n'est envoyé.</p>
     <button class="btn" style="margin-top:auto" onclick="startLife()">Commencer</button>
@@ -110,7 +110,7 @@
     <h2>Votre tendance de départ</h2>
     <div class="box"><p style="margin:0" id="trend-text"></p><div id="trend-axes"></div><div class="legend" id="trend-legend"></div></div>
     <div class="box"><b>Partis proches de vos convictions</b><div id="trend-top" style="margin-top:8px"></div></div>
-    <p class="muted small">Ce n'est qu'une hypothèse : on va maintenant la confronter à des textes votés à l'Assemblée, en priorité ceux qui départagent les partis proches de vous.</p>
+    <p class="muted small">Ce n'est qu'une hypothèse. On va la confronter à des textes votés à l'Assemblée : la moitié départage les partis ci-dessus en tête (🎯), l'autre moitié est choisie sans tenir compte de vos réponses (🧭), pour que tous les partis gardent leur chance.</p>
     <button class="btn" style="margin-top:auto" onclick="startVotes()">Voter comme un député →</button>
   </section>
 
@@ -136,10 +136,12 @@
   <section class="screen" id="s-result">
     <h2>Votre bilan</h2>
     <div class="box" id="res-best"></div>
-    <div class="box"><b>Votre tendance</b><p class="small muted" style="margin:2px 0 0">Pointillés : au départ · plein : après vos votes</p><p style="margin:8px 0 0" id="res-text"></p><div id="res-axes"></div><div class="legend" id="res-legend"></div></div>
+    <div class="box"><b>Vos convictions face à vos votes</b><p class="small muted" style="margin:2px 0 0">Pointillés : ce que vous pensez (étape 1) · plein : ce que disent vos votes (étape 2)</p>
+      <div id="res-axes"></div><div class="legend" id="res-legend"></div><div id="res-gaps" style="margin-top:10px"></div></div>
+    <div class="box"><b>Les partis : programme face aux votes</b><p class="small muted" style="margin:2px 0 8px">Sur les textes que vous avez votés</p><div id="res-pgaps"></div></div>
     <div class="box"><b>Affinités</b><p class="small muted" style="margin:2px 0 10px">📋 convictions vs programmes · 🏛️ vos votes vs leurs votes</p><div id="res-global"></div></div>
     <div class="box"><b>Vous auriez voté comme…</b><div id="res-detail" style="margin-top:8px"></div></div>
-    <p class="muted small">Méthode : 📋 compare vos réponses graduées aux positions des programmes (les réponses « sans importance » ne comptent pas, les réponses fortes comptent double). 🏛️ compte 1 point par vote identique, ½ si l'un des deux s'est abstenu, 0 si opposé. Le score global est la moyenne des deux.</p>
+    <p class="muted small">Méthode : 📋 compare vos réponses graduées aux positions des programmes (les réponses « sans importance » ne comptent pas, les réponses fortes comptent double). 🏛️ compte 1 point par vote identique, ½ si l'un des deux s'est abstenu, 0 si opposé. Le score global est la moyenne des deux. Textes : la moitié ciblés sur les 3 partis les plus proches de vos convictions, l'autre moitié de contrôle, choisis sans regarder vos réponses ; le tirage est fait une fois, avant le premier vote.</p>
     <button class="btn ghost" onclick="location.reload()">Recommencer</button>
   </section>
 </div>
@@ -248,12 +250,14 @@ const SCRUTINS = [
     assos: [["Mouvement européen (fictif)", "pour"], ["Collectif pacifiste (fictif)", "contre"]], result: "Adopté (310 pour, 180 contre)",
     votes: { az: "abst", co: "pour", sa: "pour", am: "contre", li: "contre" } },
 ];
-const N_VOTES = 8;
+// Étape 2 : X textes qui départagent les partis proches de vos convictions + Y textes de contrôle,
+// choisis sans tenir compte de vos réponses (pour éviter l'effet entonnoir)
+const N_TARGET = 4, N_OPEN = 4, N_VOTES = N_TARGET + N_OPEN;
 
 // ================= État =================
 const lifeAns = new Array(STATEMENTS.length).fill(undefined); // -2..2
 const votes = []; // { s, v: "pour"|"contre"|"abst"|null, why }
-let lifeIdx = 0, current = null, startProfile = null;
+let lifeIdx = 0, current = null, plan = [];
 const TOTAL = STATEMENTS.length + N_VOTES;
 
 const $ = id => document.getElementById(id);
@@ -263,17 +267,18 @@ function setProg(n) { $("prog").style.width = (100 * n / TOTAL) + "%"; }
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
 
 // ================= Calculs =================
-// Profil de l'utilisateur sur chaque axe, à partir des affirmations et (optionnellement) des votes
-function profile(withVotes) {
+// Profil de l'utilisateur sur chaque axe (-1..1, null si aucune donnée sur l'axe)
+// mode : "conv" = convictions seules, "votes" = votes seuls, "all" = les deux
+function profile(mode) {
   const out = {};
   for (const a in AXES) {
     let s = 0, n = 0;
-    STATEMENTS.forEach((st, i) => { if (st.ax === a && lifeAns[i] !== undefined) { s += lifeAns[i] * st.dir; n++; } });
-    if (withVotes) votes.forEach(({ s: sc, v }) => {
+    if (mode !== "votes") STATEMENTS.forEach((st, i) => { if (st.ax === a && lifeAns[i] !== undefined) { s += lifeAns[i] * st.dir; n++; } });
+    if (mode !== "conv") votes.forEach(({ s: sc, v }) => {
       if (sc.ax !== a || !v) return;
       s += v === "pour" ? 2 * sc.dir : v === "contre" ? -2 * sc.dir : 0; n++;
     });
-    out[a] = n ? clamp(s / (2 * n), -1, 1) : 0;
+    out[a] = n ? clamp(s / (2 * n), -1, 1) : null;
   }
   return out;
 }
@@ -301,12 +306,18 @@ function globalScore(p) {
 const ranked = () => [...P].sort((a, b) => (globalScore(b) ?? -1) - (globalScore(a) ?? -1));
 const pct = x => x == null ? "–" : Math.round(100 * x) + " %";
 
+// "plutôt « priorité au climat »", "au centre", etc.
+function side(a, x) {
+  if (cat(x) === 0) return "au centre";
+  return `${Math.abs(x) > 0.6 ? "nettement" : "plutôt"} « ${(x < 0 ? AXES[a].neg : AXES[a].pos).toLowerCase()} »`;
+}
+// Écart significatif : pas du même côté de l'axe (ou l'un au centre), et au moins 0,5 d'écart
+const cat = x => x < -0.2 ? -1 : x > 0.2 ? 1 : 0;
+const differs = (x, y) => cat(x) !== cat(y) && Math.abs(x - y) >= 0.5;
 function describe(prof) {
-  return Object.keys(AXES).map(a => {
-    const x = prof[a];
-    if (Math.abs(x) < 0.2) return `équilibré sur ${AXES[a].label.toLowerCase()}`;
-    return `${Math.abs(x) > 0.6 ? "nettement" : "plutôt"} « ${(x < 0 ? AXES[a].neg : AXES[a].pos).toLowerCase()} »`;
-  }).join(", ").replace(/^./, c => c.toUpperCase()) + ".";
+  return Object.keys(AXES).filter(a => prof[a] != null)
+    .map(a => cat(prof[a]) === 0 ?`équilibré sur ${AXES[a].label.toLowerCase()}` : side(a, prof[a]))
+    .join(", ").replace(/^./, c => c.toUpperCase()) + ".";
 }
 function axesHTML(prof, start) {
   const left = x => ((x + 1) / 2 * 100) + "%";
@@ -314,8 +325,8 @@ function axesHTML(prof, start) {
     <div class="axis"><div class="lbl">${AXES[a].label}</div>
       <div class="track">
         ${P.map(p => `<span class="pdot" title="${PARTIES[p].name}" style="left:${left(PARTIES[p].ax[a])};background:${PARTIES[p].color}"></span>`).join("")}
-        ${start ? `<span class="udot start" style="left:${left(start[a])}"></span>` : ""}
-        <span class="udot" style="left:${left(prof[a])}"></span>
+        ${start && start[a] != null ? `<span class="udot start" style="left:${left(start[a])}"></span>` : ""}
+        ${prof[a] != null ? `<span class="udot" style="left:${left(prof[a])}"></span>` : ""}
       </div>
       <div class="ends"><span>${AXES[a].neg}</span><span>${AXES[a].pos}</span></div></div>`).join("");
 }
@@ -345,60 +356,69 @@ function renderLife() {
 function lifeBack() { if (lifeIdx > 0) { lifeIdx--; setProg(lifeIdx); renderLife(); } }
 
 function showTrend() {
-  startProfile = profile(false);
+  const conv = profile("conv");
   show("s-trend");
-  $("trend-text").textContent = describe(startProfile);
-  $("trend-axes").innerHTML = axesHTML(startProfile);
+  $("trend-text").textContent = describe(conv);
+  $("trend-axes").innerHTML = axesHTML(conv);
   $("trend-legend").innerHTML = legendHTML();
   $("trend-top").innerHTML = [...P].sort((a, b) => (progScore(b) ?? -1) - (progScore(a) ?? -1)).map(p => `
     <div class="row"><span><span class="dot" style="background:${PARTIES[p].color}"></span>${PARTIES[p].name}</span><b>${pct(progScore(p))}</b></div>`).join("");
 }
 
 // ================= Étape 2 =================
-// Choix du prochain scrutin : celui qui départage le mieux les partis en tête,
-// sur un axe où la position de l'utilisateur est encore incertaine ou qui compte pour lui.
-function pickNext() {
-  const used = new Set(votes.map(x => x.s));
-  const top = ranked().slice(0, 3);
-  const prof = profile(true);
-  const lastAx = votes.length ? votes[votes.length - 1].s.ax : null;
-  const importance = a => {
-    const xs = STATEMENTS.map((st, i) => st.ax === a ? Math.abs(lifeAns[i] ?? 0) : null).filter(x => x != null);
-    return xs.reduce((s, x) => s + x, 0) / xs.length / 2;
+// Tirage des textes, fait une seule fois à la fin de l'étape 1 (il ne bouge plus ensuite) :
+//  - N_TARGET textes "ciblés" : ceux qui départagent le mieux les 3 partis les plus proches de vos convictions ;
+//  - N_OPEN textes "de contrôle" : choisis sans regarder vos réponses, parmi ceux qui divisent le plus
+//    l'ensemble des partis, en couvrant les axes le plus équitablement possible.
+// Les deux séries sont mélangées, pour qu'un parti mal classé au départ puisse remonter.
+const disagreement = (s, ps) => {
+  let d = 0;
+  for (let i = 0; i < ps.length; i++) for (let j = i + 1; j < ps.length; j++) d += s.votes[ps[i]] !== s.votes[ps[j]];
+  return d;
+};
+function pickBest(pool, scoreFn) {
+  const best = pool.reduce((b, s) => scoreFn(s) > scoreFn(b) ? s : b);
+  pool.splice(pool.indexOf(best), 1);
+  return best;
+}
+function planVotes() {
+  const base = [...P].sort((a, b) => (progScore(b) ?? -1) - (progScore(a) ?? -1)).slice(0, 3);
+  const pool = [...SCRUTINS], targeted = [], open = [];
+  const axCount = (list, a) => list.filter(s => s.ax === a).length;
+
+  for (let k = 0; k < N_TARGET; k++) targeted.push(pickBest(pool, s => disagreement(s, base) * 2 - axCount(targeted, s.ax) * 1.5));
+  for (let k = 0; k < N_OPEN; k++) open.push(pickBest(pool, s => disagreement(s, P) / 5 - axCount(open, s.ax) * 1.5));
+
+  const whyTarget = s => {
+    for (let i = 0; i < base.length; i++) for (let j = i + 1; j < base.length; j++) {
+      const a = s.votes[base[i]], b = s.votes[base[j]];
+      if (a !== b && a !== "abst" && b !== "abst") return `${PARTIES[base[i]].name} et ${PARTIES[base[j]].name}, proches de vos convictions, ont voté différemment sur ce texte.`;
+    }
+    return "Les partis proches de vos convictions ne se sont pas positionnés de la même façon sur ce texte.";
   };
-  let best = null;
-  for (const s of SCRUTINS) {
-    if (used.has(s)) continue;
-    let dis = 0;
-    for (let i = 0; i < top.length; i++) for (let j = i + 1; j < top.length; j++) dis += s.votes[top[i]] !== s.votes[top[j]];
-    const score = dis * 2 + (1 - Math.abs(prof[s.ax])) + importance(s.ax) * 0.5 - (s.ax === lastAx ? 1.5 : 0);
-    if (!best || score > best.score) best = { s, score, dis, top };
+  const out = [];
+  for (let k = 0; k < Math.max(N_TARGET, N_OPEN); k++) {
+    if (targeted[k]) out.push({ s: targeted[k], kind: "cible", why: "🎯 " + whyTarget(targeted[k]) });
+    if (open[k]) out.push({ s: open[k], kind: "controle", why: "🧭 Texte de contrôle : choisi sans tenir compte de vos réponses, pour comparer tous les partis." });
   }
-  const { s, dis, top: t } = best;
-  let why = `Pour préciser votre position sur l'axe « ${AXES[s.ax].label} ».`;
-  outer: for (let i = 0; i < t.length; i++) for (let j = i + 1; j < t.length; j++) {
-    const a = s.votes[t[i]], b = s.votes[t[j]];
-    if (a !== b && a !== "abst" && b !== "abst") { why = `${PARTIES[t[i]].name} et ${PARTIES[t[j]].name}, proches de vous à ce stade, ont voté différemment sur ce texte.`; break outer; }
-  }
-  if (why.startsWith("Pour") && dis) why = "Les partis proches de vous ne se sont pas positionnés de la même façon sur ce texte.";
-  return { s, why };
+  return out;
 }
 function renderLive() {
   $("live").innerHTML = `<span class="muted">Tendance actuelle :</span>` + ranked().slice(0, 3).map(p =>
     `<span class="chip"><span class="dot" style="background:${PARTIES[p].color}"></span>${PARTIES[p].name.replace("Parti ", "")} ${pct(globalScore(p))}</span>`).join("");
 }
-function startVotes() { show("s-vote"); nextVote(); }
+function startVotes() { plan = planVotes(); show("s-vote"); nextVote(); }
 function nextVote() {
-  if (votes.length >= N_VOTES) return showResults();
-  current = pickNext();
+  if (votes.length >= plan.length) return showResults();
+  current = plan[votes.length];
   renderLive();
   $("v-axis").textContent = AXES[current.s.ax].label;
   $("v-title").textContent = current.s.title;
   $("v-desc").textContent = current.s.desc;
-  $("v-why").textContent = "💡 " + current.why;
+  $("v-why").textContent = current.why;
 }
 function vote(v) {
-  votes.push({ s: current.s, v, why: current.why });
+  votes.push({ s: current.s, v, kind: current.kind });
   setProg(STATEMENTS.length + votes.length);
   nextVote();
 }
@@ -421,14 +441,32 @@ function closeSheet() { $("sheet-bg").classList.remove("on"); }
 // ================= Bilan =================
 function showResults() {
   show("s-result"); setProg(TOTAL);
-  const order = ranked(), best = order[0], prof = profile(true);
+  const order = ranked(), best = order[0];
 
   $("res-best").innerHTML = `<p class="muted small" style="margin:0">Le parti le plus proche de vous</p>
     <p style="font-size:22px;font-weight:700;margin:2px 0"><span class="dot" style="background:${PARTIES[best].color};width:14px;height:14px"></span>${PARTIES[best].name} · ${pct(globalScore(best))}</p>`;
 
-  $("res-text").textContent = describe(prof);
-  $("res-axes").innerHTML = axesHTML(prof, startProfile);
+  // Vous : convictions vs votes, axe par axe
+  const conv = profile("conv"), byVotes = profile("votes");
+  $("res-axes").innerHTML = axesHTML(byVotes, conv);
   $("res-legend").innerHTML = legendHTML();
+  $("res-gaps").innerHTML = Object.keys(AXES).map(a => {
+    if (byVotes[a] == null) return `<p class="small muted" style="margin:4px 0">${AXES[a].label} : aucun vote sur ce sujet.</p>`;
+    if (!differs(conv[a], byVotes[a])) return `<p class="small" style="margin:4px 0">✅ <b>${AXES[a].label}</b> : vos votes confirment vos convictions (${side(a, conv[a])}).</p>`;
+    return `<p class="small" style="margin:4px 0;color:#c92a2a">⚠️ <b>${AXES[a].label}</b> : vous vous situez ${side(a, conv[a])}, mais face aux textes concrets vous avez voté ${side(a, byVotes[a])}.</p>`;
+  }).join("");
+
+  // Les partis : programme vs votes réels, sur les textes votés par l'utilisateur
+  const pgaps = P.map(p => {
+    const res = Object.keys(AXES).map(a => {
+      const vs = votes.filter(x => x.s.ax === a);
+      if (!vs.length) return null;
+      const real = vs.reduce((t, x) => t + (x.s.votes[p] === "pour" ? x.s.dir : x.s.votes[p] === "contre" ? -x.s.dir : 0), 0) / vs.length;
+      return differs(PARTIES[p].ax[a], real) ?`${AXES[a].label.toLowerCase()} (programme ${side(a, PARTIES[p].ax[a])}, votes ${side(a, real)})` : null;
+    }).filter(Boolean);
+    return res.length ? `<p class="small" style="margin:4px 0"><span class="dot" style="background:${PARTIES[p].color}"></span><b>${PARTIES[p].name}</b> : écart sur ${res.join(" ; ")}.</p>` : null;
+  }).filter(Boolean);
+  $("res-pgaps").innerHTML = pgaps.length ? pgaps.join("") : `<p class="small muted" style="margin:0">Aucun écart notable sur ces textes.</p>`;
 
   $("res-global").innerHTML = order.map(p => {
     const pr = progScore(p), vo = voteScore(p);
@@ -445,8 +483,8 @@ function showResults() {
   const pill = (pv, uv) => `<span class="pill" style="background:${!uv ? "#adb5bd" : pv === uv ? "var(--pour)" : (pv === "abst" || uv === "abst") ? "#fab005" : "var(--contre)"}">${lbl[pv]}</span>`;
   $("res-detail").innerHTML = `<table>
     <tr><th>Texte</th><th>Vous</th>${P.map(p => `<th><span class="dot" style="background:${PARTIES[p].color};margin:0"></span></th>`).join("")}</tr>
-    ${votes.map(x => `<tr><td>${x.s.title}</td><td><b>${x.v ? lbl[x.v] : "–"}</b></td>${P.map(p => `<td>${pill(x.s.votes[p], x.v)}</td>`).join("")}</tr>`).join("")}
-  </table><p class="muted small" style="margin:6px 0 0">P pour · C contre · A abstention — vert : comme vous · jaune : à moitié · rouge : opposé</p>`;
+    ${votes.map(x => `<tr><td>${x.kind === "cible" ? "🎯" : "🧭"} ${x.s.title}</td><td><b>${x.v ? lbl[x.v] : "–"}</b></td>${P.map(p => `<td>${pill(x.s.votes[p], x.v)}</td>`).join("")}</tr>`).join("")}
+  </table><p class="muted small" style="margin:6px 0 0">🎯 texte ciblé · 🧭 texte de contrôle<br>P pour · C contre · A abstention — vert : comme vous · jaune : à moitié · rouge : opposé</p>`;
 
   requestAnimationFrame(() => document.querySelectorAll(".bar > div").forEach(b => b.style.width = b.dataset.w + "%"));
 }
